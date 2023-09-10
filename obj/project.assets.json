@@ -8,19 +8,19 @@
     "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Rusne Dziugelyte\\.nuget\\packages\\": {}
+    "C:\\Users\\arnas\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Rusne Dziugelyte\\Documents\\GitHub\\FirstLab\\FirstLab.csproj",
+      "projectUniqueName": "c:\\Users\\arnas\\Desktop\\PSi\\FirstLab.csproj",
       "projectName": "FirstLab",
-      "projectPath": "C:\\Users\\Rusne Dziugelyte\\Documents\\GitHub\\FirstLab\\FirstLab.csproj",
-      "packagesPath": "C:\\Users\\Rusne Dziugelyte\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Rusne Dziugelyte\\Documents\\GitHub\\FirstLab\\obj\\",
+      "projectPath": "c:\\Users\\arnas\\Desktop\\PSi\\FirstLab.csproj",
+      "packagesPath": "C:\\Users\\arnas\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\arnas\\Desktop\\PSi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Rusne Dziugelyte\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\arnas\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
