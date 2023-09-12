@@ -53,7 +53,7 @@ namespace FirstLab {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/FirstLab;component/menuwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/FirstLab;V1.0.0.0;component/menuwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\MenuWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

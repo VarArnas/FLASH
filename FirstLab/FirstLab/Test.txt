@@ -1,1 +1,0 @@
-﻿check if .gitignore ignores .vs folder
