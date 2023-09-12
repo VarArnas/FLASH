@@ -2,8 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/FirstLab/FirstLab/App.xaml
-
 .vs/
 
 .obj/
