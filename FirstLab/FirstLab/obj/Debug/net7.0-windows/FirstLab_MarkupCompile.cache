@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 C:\Users\arnas\Desktop\FirstLab\FirstLab\FirstLab\App.xaml
-11946461583
-
-3-1835796023
+4-1382246526
+4-859342291
+8-1269423725
 198947991364
-MenuWindow.xaml;
+FlashcardCustomization.xaml;FlashcardOptions.xaml;HomeView.xaml;MenuWindow.xaml;
 
 False
 
