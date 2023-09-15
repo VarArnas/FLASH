@@ -7,6 +7,26 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="FlashcardCustomization.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="FlashcardOptions.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="HomeView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="FlashcardCustomization.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="FlashcardOptions.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="HomeView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MenuWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -5,8 +5,122 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FirstLab"
         mc:Ignorable="d"
-        Title="MenuWindow" Height="450" Width="800">
-    <Grid>
+        Title="MenuWindow" Height="450" Width="800"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Loaded="MenuWindow_Loaded">
+    <Border Background="#FF5E4682"
+            CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-    </Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="164"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ^^Create the layout for the view^^-->
+
+            <Grid Grid.Row="1" Grid.Column="1">
+                <ContentControl x:Name="contentControl"/>
+                <!-- This is where we display the different views using contentControl
+                and assigning it the views. We assing it the views by giving the 
+                reference of the MenuWindow to every view, but maybe we can use set 
+                and get-->
+            </Grid>
+
+            <Border Background="#FF482F82"
+                    CornerRadius="20, 0, 0, 0"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    MouseDown="MovingWindow">
+                <TextBlock TextWrapping="Wrap" Text="AppName" Grid.Column="0" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Foreground="white"
+                        FontWeight="Medium"
+                        FontFamily="Fonts/#Dosis" Margin="44,0,0,0" FontSize="18"
+                        Padding="0, 3.5, 0, 0"
+                        />
+            </Border>
+
+            <Border Background="#FF5332A0"
+                    CornerRadius="0, 20, 0, 0"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    MouseDown="MovingWindow">
+                <TextBlock Name="ViewsName" TextWrapping="Wrap" Text="Menu"
+                        Grid.Column="1" VerticalAlignment="Center"
+                        HorizontalAlignment="Center" 
+                        Foreground="white"
+                        FontWeight="Medium"
+                        FontFamily="Fonts/#Dosis" FontSize="18"/>
+            </Border>
+
+            <StackPanel Grid.Row="1">
+                <Button  Name="HomeButton" Content="Home"
+                        Foreground="white"
+                        FontWeight="Light"
+                        FontFamily="Fonts/#Dosis"
+                        Height="40"
+                        Padding="0, 0, 85, 0" FontSize="15"
+                        Margin="0, 0, 0 ,0"
+                        Click="ReturnToHomeView">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="Border" Background="#FF5E4682" BorderThickness="1">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="{Binding Background.Color, ElementName=Border}" />
+                                </Border.BorderBrush>
+                                <Grid Margin="0, 0, 85, 0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                     <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF4A3B61" TargetName="Border"/>
+                                     </Trigger>
+                                     <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="white"/>
+                                    </Trigger>
+                                 </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="About" 
+                        Foreground="white"
+                        FontWeight="Light"
+                        FontFamily="Fonts/#Dosis"
+                        Height="40" Margin="0, 320, 0, 0" FontSize="15">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="Border" Background="#FF5E4682" BorderThickness="1">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="{Binding Background.Color, ElementName=Border}" />
+                                </Border.BorderBrush>
+                                <Border.CornerRadius>
+                                    <CornerRadius TopLeft="0" TopRight="0" BottomRight="0" BottomLeft="20" />
+                                </Border.CornerRadius>
+                                <Grid Margin="0, 0, 85, 0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF4A3B61" TargetName="Border" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+            <Ellipse Name="breathingEllipse" HorizontalAlignment="Left" Height="25" Margin="14,0,0,0" Stroke="#FF6AC720" VerticalAlignment="Center" Width="25" StrokeThickness="3"/>
+        </Grid>
+    </Border>
 </Window>

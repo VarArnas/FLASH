@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="FirstLab.FlashcardCustomization"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FirstLab"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="636"
+             Background="Transparent">
+    <Border Background="#FFC7891B"
+            CornerRadius="0, 0, 20, 0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="360"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="436"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ^^Create the layout for the view^^-->
+
+            <Border Grid.Row="0" Grid.Column="1"
+                    Background="#FF8160CC">
+                
+                
+            </Border>
+
+            <ListBox Name="ListBoxFlashcards" Grid.Row="0" Background="#FFD8D88E" Grid.Column="0" Margin="0,20,0,0"
+                     ItemsSource="{Binding Flashcards}" SelectionChanged="ListBoxFlashcards_SelectionChanged">
+                <!--We bind the ItemsSource property to the Flashcards property of the 
+                flashcard set, which got binded to the dataContext, you can find that in
+                flashcardcustomization constructor-->
+                
+                <!-- Here I use listBox instead of ItemControl because we dont add
+                anywhere the play button so we need to be able to select the
+                items just by clicking on them, it doesnt look that pretty tho :// -->
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FFAFAF77"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#FFB54BCE" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Height="30" Text="{Binding CardName}" FontFamily="Fonts/#Dosis"             
+                                   FontSize="13" VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" Padding="30, 6, 30, 0" FontWeight="Medium"/>
+                                    <!-- This is where the cardName of the flashcard is binded to a text
+                                         Block-->
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Button  Margin="0,0,50,340" Width="50" Height="20"
+                     Grid.Row="0" Grid.Column="0"
+                     Click="AddFlashcard_Click" Background="Transparent"
+                     BorderThickness="0">
+                <Image Source="Images/plusBtn.png" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Width="20" Height="20"/>
+            </Button>
+            <Button Margin="50,0,0,340" Width="50"  Height="20"
+                    Grid.Row="0" Grid.Column="0"
+                    Click="DeleteFlashcard_Click" Background="Transparent" 
+                    BorderThickness="0">
+                <Image Source="Images/deleteBtn2.png" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Width="15" Height="15"/>
+            </Button>
+
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Border Margin="30" Name="QuestionBorder" Visibility="Visible"
+                        Background="LightBlue" BorderBrush="DarkBlue" BorderThickness="1"
+                        PreviewMouseDown="QuestionBorder_PreviewMouseDown" CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
+                    </Border.Effect>
+                    <TextBox Name="QuestionTextBox" Background="Transparent" BorderThickness="0"
+                             VerticalContentAlignment="Center" HorizontalAlignment="center"
+                             FontFamily="Fonts/#Dosis" FontSize="12" FontWeight="Medium"
+                             IsEnabled="True" TextWrapping="Wrap" Margin="30, 30, 30, 30"
+                             AcceptsReturn="true" Foreground="#FF232323"
+                             Text="{Binding SelectedItem.Question, ElementName=ListBoxFlashcards}"/>
+                    <!-- Bind the selected items (which is a flashcard) question property to the textBox to 
+                    display it-->
+                </Border>
+                <Border Margin="30" Name="AnswerBorder" Visibility="Collapsed"
+                        Background="LightGreen" BorderBrush="DarkGreen" BorderThickness="1"
+                        PreviewMouseDown="QuestionBorder_PreviewMouseDown" CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
+                    </Border.Effect>
+                    <TextBox Name="AnswerTextBox" Background="Transparent" BorderThickness="0"
+                             Padding="5" VerticalContentAlignment="Center" HorizontalAlignment="center"
+                             FontFamily="Fonts/#Dosis" FontSize="12" FontWeight="Medium"
+                             IsEnabled="False"
+                             TextWrapping="Wrap" Margin="30, 30, 30, 30"
+                             AcceptsReturn="true" Foreground="#FF232323"
+                             Text="{Binding SelectedItem.Answer, ElementName=ListBoxFlashcards}"/>
+                    <!-- Bind the selected items (which is a flashcard) answer property to the textBox to 
+                         display it-->
+                </Border>
+            </Grid>
+
+
+            <RadioButton Name="QuestionRadioButton" Height="20" Margin="10,0,0,60"
+                         Grid.Row="0" Grid.Column="2" Content="Question"
+                         Click="RadioButton_Click" IsChecked="True" FontFamily="Fonts/#Dosis"
+                         FontWeight="DemiBold" FontSize="14"/>
+            <RadioButton Name="AnswerRadioButton" Height="20" Margin="10,50,0,0" Grid.Row="0"
+                         Grid.Column="2" Content="Answer" Click="RadioButton_Click" FontFamily="Fonts/#Dosis"
+                         FontWeight="DemiBold" FontSize="14"/>
+
+
+
+
+
+        </Grid>
+    </Border>
+</UserControl>
