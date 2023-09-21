@@ -88,7 +88,7 @@
                                                                 BorderThickness="2"                            
                                                                 CornerRadius="10">
                                                         <Grid>
-                                                            <Image Source="Images/playBtn6.png"
+                                                                <Image Source="../Images/playBtn6.png"
                                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                        Width="15" Height="15"/>
                                                         </Grid>
@@ -111,7 +111,7 @@
                                                                 BorderThickness="2"                            
                                                                 CornerRadius="10">
                                                         <Grid>
-                                                            <Image Source="Images/deleteBtn2.png"
+                                                            <Image Source="../Images/deleteBtn2.png"
                                                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                         Width="20" Height="20"/>
                                                         </Grid>
@@ -134,7 +134,7 @@
                                                                 BorderThickness="2"                            
                                                                 CornerRadius="10">
                                                         <Grid>
-                                                            <Image Source="Images/editBtn5.png"
+                                                                <Image Source="../Images/editBtn5.png"
                                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                        Width="18" Height="18"/>
                                                         </Grid>

@@ -77,14 +77,14 @@
                      Grid.Row="0" Grid.Column="0"
                      Click="AddFlashcard_Click" Background="Transparent"
                      BorderThickness="0">
-                <Image Source="Images/plusBtn.png" HorizontalAlignment="Center" VerticalAlignment="Center"
+                <Image Source="../Images/plusBtn.png" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Width="20" Height="20"/>
             </Button>
             <Button Margin="50,0,0,340" Width="50"  Height="20"
                     Grid.Row="0" Grid.Column="0"
                     Click="DeleteFlashcard_Click" Background="Transparent" 
                     BorderThickness="0">
-                <Image Source="Images/deleteBtn2.png" HorizontalAlignment="Center" VerticalAlignment="Center"
+                <Image Source="../Images/deleteBtn2.png" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Width="15" Height="15"/>
             </Button>
 
