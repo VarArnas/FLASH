@@ -25,6 +25,8 @@ namespace FirstLab
 
         private FlashcardCustomization flashcardCustomizationview;
 
+        private ObservableCollection<FlashcardSet> flashcardSets;
+
         public FlashcardOptions(ObservableCollection<FlashcardSet> flashcardSets, MenuWindow menuWindowReference)
         {
             InitializeComponent();
@@ -32,6 +34,8 @@ namespace FirstLab
             flashcardSetsControl.ItemsSource = flashcardSets; //initialize the Itemcontrol with flashcardsets Observable Collection
 
             this.menuWindowReference = menuWindowReference;
+
+            this.flashcardSets = flashcardSets;
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -49,18 +53,32 @@ namespace FirstLab
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // need to create a new window to play the flashcards
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            if (flashcardSetsControl.SelectedItem is FlashcardSet selectedSet)
+            {
+                if (menuWindowReference != null)
+                {
+                    flashcardSets.Remove(selectedSet);
+                }
+            }
 
+            flashcardSetsControl.Items.Refresh();
+            // add error window
+            // make it so u can delete by hovering instead of clicking on the set
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-
+            flashcardCustomizationview = new FlashcardCustomization(menuWindowReference);
+            menuWindowReference.UpdateHeaderText("Customization");
+            menuWindowReference.contentControl.Content = flashcardCustomizationview;
+            // add exit button
         }
+
 
         private void NewSet_Click(object sender, RoutedEventArgs e)
         {
