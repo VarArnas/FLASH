@@ -23,14 +23,22 @@ namespace FirstLab
         private FlashcardSet flashcardSet = new FlashcardSet();
 
         private MenuWindow menuWindowReference;
-        public FlashcardCustomization(MenuWindow menuWindowReference)
+        public FlashcardCustomization(MenuWindow menuWindowReference, FlashcardSet optionalFlashcardSet = null)
         {
             InitializeComponent();
 
-            DataContext = flashcardSet; //bind this views data to the flashcard set
-            
-            //still need to send the chosen flashcard set if the user decides to edit an existing one
+            this.menuWindowReference = menuWindowReference;
 
+            if (optionalFlashcardSet != null)
+            {
+                DataContext = optionalFlashcardSet;
+            }
+            else
+            {
+                DataContext = flashcardSet; 
+            }
+
+            
             QuestionTextBox.IsEnabled = false;
             AnswerTextBox.IsEnabled = false;
             QuestionBorder.Visibility = Visibility.Collapsed;
@@ -38,8 +46,6 @@ namespace FirstLab
 
             QuestionRadioButton.Visibility = Visibility.Collapsed;
             AnswerRadioButton.Visibility = Visibility.Collapsed;
-
-            this.menuWindowReference = menuWindowReference;
         }
 
         private void AddFlashcard_Click(object sender, RoutedEventArgs e)
