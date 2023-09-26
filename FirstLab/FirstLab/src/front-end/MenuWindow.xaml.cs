@@ -1,26 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Xml;
 
 namespace FirstLab
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MenuWindow : Window
     {
         private HomeView homeView;
@@ -31,20 +17,20 @@ namespace FirstLab
         {
             InitializeComponent();
 
-            flashcardSets = new ObservableCollection<FlashcardSet> //create a new set of flashcards for demonstration
+            flashcardSets = new ObservableCollection<FlashcardSet>
             {
-                new FlashcardSet { SetName = "Set 1" },
-                new FlashcardSet { SetName = "Set 2" },
-                new FlashcardSet { SetName = "Set 3" },
-                new FlashcardSet { SetName = "Set 4" },
-                new FlashcardSet { SetName = "Set 5" },
-                new FlashcardSet { SetName = "Set 6" },
-                new FlashcardSet { SetName = "Set 7" },
-                new FlashcardSet { SetName = "Set 8" },
-                new FlashcardSet { SetName = "Set 9" },
-                new FlashcardSet { SetName = "Set 10" },
-                new FlashcardSet { SetName = "Set 11" },
-                new FlashcardSet { SetName = "Set 12" }
+                new FlashcardSet { FlashcardSetName = "Set 1" },
+                new FlashcardSet { FlashcardSetName = "Set 2" },
+                new FlashcardSet { FlashcardSetName = "Set 3" },
+                new FlashcardSet { FlashcardSetName = "Set 4" },
+                new FlashcardSet { FlashcardSetName = "Set 5" },
+                new FlashcardSet { FlashcardSetName = "Set 6" },
+                new FlashcardSet { FlashcardSetName = "Set 7" },
+                new FlashcardSet { FlashcardSetName = "Set 8" },
+                new FlashcardSet { FlashcardSetName = "Set 9" },
+                new FlashcardSet { FlashcardSetName = "Set 10" },
+                new FlashcardSet { FlashcardSetName = "Set 11" },
+                new FlashcardSet { FlashcardSetName = "Set 12" }
             };
         }
 
@@ -57,8 +43,6 @@ namespace FirstLab
             opacityAnimation.AutoReverse = true;
             opacityAnimation.RepeatBehavior = RepeatBehavior.Forever;
             breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, opacityAnimation);
-
-            //ElipseAnimation^^^
 
             homeView = new HomeView(this);
 
@@ -75,7 +59,6 @@ namespace FirstLab
 
         private void ReturnToHomeView(object sender, RoutedEventArgs e)
         {
-            // Set the Content of the ContentControl to the existing HomeView
             UpdateHeaderText("Menu");
             contentControl.Content = homeView;
         }

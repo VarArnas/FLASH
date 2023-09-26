@@ -1,24 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FirstLab
 {
-    /// <summary>
-    /// Interaction logic for FlashcardOptions.xaml
-    /// </summary>
     public partial class FlashcardOptions : UserControl
     {
         private MenuWindow menuWindowReference;
@@ -31,7 +16,7 @@ namespace FirstLab
         {
             InitializeComponent();
 
-            flashcardSetsControl.ItemsSource = flashcardSets; //initialize the Itemcontrol with flashcardsets Observable Collection
+            flashcardSetsControl.ItemsSource = flashcardSets;
 
             this.menuWindowReference = menuWindowReference;
 
@@ -53,7 +38,7 @@ namespace FirstLab
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            // need to create a new window to play the flashcards
+
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -67,16 +52,16 @@ namespace FirstLab
             }
 
             flashcardSetsControl.Items.Refresh();
-            // add error window
-            // make it so u can delete by hovering instead of clicking on the set
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            flashcardCustomizationview = new FlashcardCustomization(menuWindowReference);
-            menuWindowReference.UpdateHeaderText("Customization");
-            menuWindowReference.contentControl.Content = flashcardCustomizationview;
-            // add exit button
+            if (flashcardSetsControl.SelectedItem is FlashcardSet selectedSet)
+            {
+                flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, selectedSet);
+                menuWindowReference.UpdateHeaderText("Customization");
+                menuWindowReference.contentControl.Content = flashcardCustomizationview;
+            }
         }
 
 
@@ -84,7 +69,6 @@ namespace FirstLab
         {
             flashcardCustomizationview = new FlashcardCustomization(menuWindowReference);
             menuWindowReference.UpdateHeaderText("Customization");
-            //For Now Gotta change later
             menuWindowReference.contentControl.Content = flashcardCustomizationview;
         }
     }
