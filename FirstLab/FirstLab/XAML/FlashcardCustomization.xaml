@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FirstLab"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="636"
              Background="Transparent">
@@ -64,7 +63,7 @@
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Height="30" Text="{Binding CardName}" FontFamily="Fonts/#Dosis"             
+                        <TextBlock Height="30" Text="{Binding FlashcardName}" FontFamily="Fonts/#Dosis"             
                                    FontSize="13" VerticalAlignment="Center"
                                    HorizontalAlignment="Center" Padding="30, 6, 30, 0" FontWeight="Medium"/>
                                     <!-- This is where the cardName of the flashcard is binded to a text
@@ -100,7 +99,7 @@
                              FontFamily="Fonts/#Dosis" FontSize="12" FontWeight="Medium"
                              IsEnabled="True" TextWrapping="Wrap" Margin="30, 30, 30, 30"
                              AcceptsReturn="true" Foreground="#FF232323"
-                             Text="{Binding SelectedItem.Question, ElementName=ListBoxFlashcards}"/>
+                             Text="{Binding SelectedItem.FlashcardQuestion, ElementName=ListBoxFlashcards}"/>
                     <!-- Bind the selected items (which is a flashcard) question property to the textBox to 
                     display it-->
                 </Border>
@@ -116,7 +115,7 @@
                              IsEnabled="False"
                              TextWrapping="Wrap" Margin="30, 30, 30, 30"
                              AcceptsReturn="true" Foreground="#FF232323"
-                             Text="{Binding SelectedItem.Answer, ElementName=ListBoxFlashcards}"/>
+                             Text="{Binding SelectedItem.FlashcardAnswer, ElementName=ListBoxFlashcards}"/>
                     <!-- Bind the selected items (which is a flashcard) answer property to the textBox to 
                          display it-->
                 </Border>
@@ -130,11 +129,6 @@
             <RadioButton Name="AnswerRadioButton" Height="20" Margin="10,50,0,0" Grid.Row="0"
                          Grid.Column="2" Content="Answer" Click="RadioButton_Click" FontFamily="Fonts/#Dosis"
                          FontWeight="DemiBold" FontSize="14"/>
-
-
-
-
-
         </Grid>
     </Border>
 </UserControl>

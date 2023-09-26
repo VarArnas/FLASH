@@ -1,44 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FirstLab
 {
-    /// <summary>
-    /// Interaction logic for FlashCardCustomization.xaml
-    /// </summary>
     public partial class FlashcardCustomization : UserControl
     {
-        private FlashcardSet flashcardSet = new FlashcardSet();
+        private FlashcardSet flashcardSet;
 
         private MenuWindow menuWindowReference;
-        public FlashcardCustomization(MenuWindow menuWindowReference, FlashcardSet optionalFlashcardSet = null)
+        public FlashcardCustomization(MenuWindow menuWindowReference, FlashcardSet flashcardSet = null)
         {
             InitializeComponent();
 
             this.menuWindowReference = menuWindowReference;
 
-            if (optionalFlashcardSet != null)
-            {
-                DataContext = optionalFlashcardSet;
-            }
-            else
-            {
-                DataContext = flashcardSet; 
-            }
+            this.flashcardSet = flashcardSet ?? new FlashcardSet();
 
-            
+            DataContext = this.flashcardSet;
+
+
             QuestionTextBox.IsEnabled = false;
             AnswerTextBox.IsEnabled = false;
             QuestionBorder.Visibility = Visibility.Collapsed;
@@ -53,7 +34,7 @@ namespace FirstLab
 
             var newFlashcard = new Flashcard();
             int newFlashcardNumber = flashcardSet.Flashcards.Count + 1;
-            newFlashcard.CardName = "#" + newFlashcardNumber.ToString();
+            newFlashcard.FlashcardName = "#" + newFlashcardNumber.ToString();
             flashcardSet.Flashcards.Add(newFlashcard);
             ListBoxFlashcards.Items.Refresh();
             ListBoxFlashcards.SelectedIndex = flashcardSet.Flashcards.IndexOf(newFlashcard);
@@ -89,7 +70,7 @@ namespace FirstLab
 
             for (int i = selectedIndex; i < flashcardSet.Flashcards.Count; i++)
             {
-                flashcardSet.Flashcards[i].CardName = "#" + (i + 1);
+                flashcardSet.Flashcards[i].FlashcardName = "#" + (i + 1);
             }
         }
 
@@ -113,7 +94,6 @@ namespace FirstLab
 
         private void QuestionBorder_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            // focus the TextBox when the user clicks anywhere inside the border
             if(QuestionRadioButton.IsChecked == true)
             {
                 QuestionTextBox.Focus();
