@@ -33,7 +33,7 @@ namespace FirstLab
 
             flashcardSets = new ObservableCollection<FlashcardSet> //create a new set of flashcards for demonstration
             {
-                new FlashcardSet { SetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+                new FlashcardSet { SetName = "Set 1" },
                 new FlashcardSet { SetName = "Set 2" },
                 new FlashcardSet { SetName = "Set 3" },
                 new FlashcardSet { SetName = "Set 4" },
@@ -44,7 +44,7 @@ namespace FirstLab
                 new FlashcardSet { SetName = "Set 9" },
                 new FlashcardSet { SetName = "Set 10" },
                 new FlashcardSet { SetName = "Set 11" },
-                new FlashcardSet { SetName = "set 12"}
+                new FlashcardSet { SetName = "Set 12" }
             };
         }
 
