@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using FirstLab.src.back_end.utilities;
 
 namespace FirstLab
 {
@@ -9,6 +12,8 @@ namespace FirstLab
         private FlashcardSet flashcardSet;
 
         private MenuWindow menuWindowReference;
+
+        private String NameOfSet = "Name...";
         public FlashcardCustomization(MenuWindow menuWindowReference, FlashcardSet flashcardSet = null)
         {
             InitializeComponent();
@@ -74,7 +79,7 @@ namespace FirstLab
             }
         }
 
-        private void RadioButton_Click(object sender, RoutedEventArgs e)
+        private void QuestionAnswerRadioButton_Click(object sender, RoutedEventArgs e)
         {
             if (QuestionRadioButton.IsChecked == true)
             {
@@ -103,5 +108,44 @@ namespace FirstLab
                 AnswerTextBox.Focus();
             }
         }
+
+        private void CapitalizedNormalNameButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (CapitalizeButton.IsChecked == true)
+            {
+                NameOfSet = FlashcardSetNameBox.Text;
+                FlashcardSetNameBox.Text = NameOfSet.Capitalize();
+            }
+            else
+            {
+                FlashcardSetNameBox.Text = NameOfSet;
+            }
+        }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            CapitalizeButton.IsChecked = false;
+            NormalizeButton.IsChecked = true;
+            CapitalizedNormalNameButton_Click(NormalizeButton, new RoutedEventArgs(ButtonBase.ClickEvent));
+
+            ControllerUtils.setEmptyText(FlashcardSetNameBox, "Name...");
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+            ControllerUtils.setDefaultText(FlashcardSetNameBox, "Name...");
+        }
+
+        private void DeleteFlashcardSet_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }

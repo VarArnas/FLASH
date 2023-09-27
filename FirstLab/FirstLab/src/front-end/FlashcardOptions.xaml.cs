@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using FirstLab.src.back_end.utilities;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -25,15 +26,12 @@ namespace FirstLab
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (searchBox.Text == "search...")
-            {
-                searchBox.Text = string.Empty;
-            }
+            ControllerUtils.setEmptyText(searchBox, "search...");
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            searchBox.Text = "search...";
+            ControllerUtils.setDefaultText(searchBox, "search...");
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -56,12 +54,9 @@ namespace FirstLab
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            if (flashcardSetsControl.SelectedItem is FlashcardSet selectedSet)
-            {
-                flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, selectedSet);
+                flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, (FlashcardSet)flashcardSetsControl.SelectedItem);
                 menuWindowReference.UpdateHeaderText("Customization");
                 menuWindowReference.contentControl.Content = flashcardCustomizationview;
-            }
         }
 
 

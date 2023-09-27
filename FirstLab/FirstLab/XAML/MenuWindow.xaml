@@ -39,12 +39,12 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     MouseDown="MovingWindow">
-                <TextBlock TextWrapping="Wrap" Text="AppName" Grid.Column="0" 
+                <TextBlock Name="NameOFApp" TextWrapping="Wrap" Grid.Column="0" 
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"
                         Foreground="white"
                         FontWeight="Medium"
-                        FontFamily="Fonts/#Dosis" Margin="44,0,0,0" FontSize="18"
+                        FontFamily="Fonts/#Dosis" Margin="48.5,0,0,0" FontSize="18"
                         Padding="0, 3.5, 0, 0"
                         />
             </Border>
