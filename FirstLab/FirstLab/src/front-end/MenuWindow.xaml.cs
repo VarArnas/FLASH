@@ -49,8 +49,13 @@ namespace FirstLab
             homeView = new HomeView(this);
             contentControl.Content = homeView;
 
-            string? appName = FileUtility.ReadAppNameFromFile("C:\\Users\\arnas\\Desktop\\FirstLab\\FirstLab\\FirstLab\\DataFiles\\AppName.txt");
-            NameOFApp.Text = appName.ExtractCapLetters();
+            string relativePath = "DataFiles\\AppName.txt";
+
+            string? appName = FileUtility.ReadAppNameFromFile(AppDomain.CurrentDomain.BaseDirectory + relativePath);
+            if (appName != null)
+            {
+                NameOFApp.Text = appName.ExtractCapLetters();
+            }
         }
 
         private void MovingWindow(object sender, MouseButtonEventArgs e)

@@ -24,8 +24,8 @@
 
             <Border Grid.Row="0" Grid.Column="1"
                     Background="#FF8160CC">
-                
-                
+
+
             </Border>
 
             <ListBox Name="ListBoxFlashcards" Grid.Row="0" Background="#FFD8D88E" Grid.Column="0" Margin="0,20,0,0"
@@ -33,7 +33,7 @@
                 <!--We bind the ItemsSource property to the Flashcards property of the 
                 flashcard set, which got binded to the dataContext, you can find that in
                 flashcardcustomization constructor-->
-                
+
                 <!-- Here I use listBox instead of ItemControl because we dont add
                 anywhere the play button so we need to be able to select the
                 items just by clicking on them, it doesnt look that pretty tho :// -->
@@ -66,7 +66,7 @@
                         <TextBlock Height="30" Text="{Binding FlashcardName}" FontFamily="Fonts/#Dosis"             
                                    FontSize="13" VerticalAlignment="Center"
                                    HorizontalAlignment="Center" Padding="30, 6, 30, 0" FontWeight="Medium"/>
-                                    <!-- This is where the cardName of the flashcard is binded to a text
+                        <!-- This is where the cardName of the flashcard is binded to a text
                                          Block-->
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -122,13 +122,105 @@
             </Grid>
 
 
-            <RadioButton Name="QuestionRadioButton" Height="20" Margin="10,0,0,60"
+            <RadioButton GroupName="Question/Answer" Name="QuestionRadioButton" Height="20" Margin="10,0,0,60"
                          Grid.Row="0" Grid.Column="2" Content="Question"
-                         Click="RadioButton_Click" IsChecked="True" FontFamily="Fonts/#Dosis"
+                         Click="QuestionAnswerRadioButton_Click" IsChecked="True" FontFamily="Fonts/#Dosis"
                          FontWeight="DemiBold" FontSize="14"/>
-            <RadioButton Name="AnswerRadioButton" Height="20" Margin="10,50,0,0" Grid.Row="0"
-                         Grid.Column="2" Content="Answer" Click="RadioButton_Click" FontFamily="Fonts/#Dosis"
+            <RadioButton GroupName="Question/Answer" Name="AnswerRadioButton" Height="20" Margin="10,50,0,0" Grid.Row="0"
+                         Grid.Column="2" Content="Answer" Click="QuestionAnswerRadioButton_Click" FontFamily="Fonts/#Dosis"
                          FontWeight="DemiBold" FontSize="14"/>
+
+
+            <Button Click="SaveFlashcardSet_Click"
+                    Background="green" Margin="50, 0,0,0"
+                    BorderThickness="0"
+                    Grid.Row="1" Grid.Column="2">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" Background="{TemplateBinding Background}"                   
+                                CornerRadius="0,0,20,0">
+                            <Grid>
+                                <Image Source="../Images/SaveSet_Button.png"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" Width="20"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF143714" TargetName="Border"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Click="DeleteFlashcardSet_Click"
+                    Background="red" Margin="0, 0,50,0"
+                    BorderThickness="0"
+                    Grid.Row="1" Grid.Column="2">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" Background="{TemplateBinding Background}"                   
+                                CornerRadius="0,0,0,0">
+                            <Grid>
+                                <Image Source="../Images/DeleteSet_Button.png" HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" Width="20"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF640B0B" TargetName="Border"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBox Name="FlashcardSetNameBox" Grid.Row="1" Grid.Column="1"
+                     TextAlignment="Left" Margin="5,5,7,5"
+                     Padding="10,5,0,0" Text="Name..."
+                     FontFamily="Fonts/#Dosis" TextWrapping="Wrap"
+                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" FontSize="13">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Border Name="Border" Background="{TemplateBinding Background}"
+                        BorderBrush="#FFC7891B"
+                        BorderThickness="2"
+                        CornerRadius="10, 10, 10, 10">
+                                        <Grid>
+                                            <ScrollViewer x:Name="PART_ContentHost" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsFocused" Value="True">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                            <Setter Property="FontWeight" Value="DemiBold"/>
+                                        </Trigger>
+                                        <Trigger Property="IsFocused" Value="False">
+                                            <Setter Property="Foreground" Value="Gray"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <RadioButton GroupName="Capitalized/Normal" Grid.Row="1" Grid.Column="0"
+                         Content="Capitalize" FontFamily="Fonts/#Dosis"
+                         FontSize="10" Margin="15,4,0,0" Click="CapitalizedNormalNameButton_Click"
+                         FontWeight="Medium" Padding="4,2.3,0,0"
+                         Name="CapitalizeButton"/>
+            <RadioButton GroupName="Capitalized/Normal" Grid.Row="1" Grid.Column="0"
+                         Content="Normalize" IsChecked="True" Click="CapitalizedNormalNameButton_Click"
+                         FontFamily="Fonts/#Dosis" FontSize="10"
+                         FontWeight="Medium" Padding="4,2,0,0"
+                         Margin="15, 20 0, 0"
+                         Name="NormalizeButton"/>
         </Grid>
     </Border>
+
+
 </UserControl>

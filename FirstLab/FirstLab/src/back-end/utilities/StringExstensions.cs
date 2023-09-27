@@ -27,7 +27,7 @@ namespace FirstLab.src.back_end.utilities
         public static string Capitalize(this string input)
         {
             if (string.IsNullOrEmpty(input))
-            { 
+            {
                 return string.Empty;
             }
 
@@ -35,8 +35,7 @@ namespace FirstLab.src.back_end.utilities
 
             foreach (char c in input)
             {
-                char.ToUpper(c);
-                result.Append(c);
+                result.Append(char.ToUpper(c));
             }
 
             return result.ToString();
