@@ -23,5 +23,41 @@ namespace FirstLab.src.back_end.utilities
 
             return result.ToString();
         }
+
+        public static string Capitalize(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            { 
+                return string.Empty;
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            foreach (char c in input)
+            {
+                char.ToUpper(c);
+                result.Append(c);
+            }
+
+            return result.ToString();
+        }
+
+        public static bool ContainsSymbols(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return false;
+            }
+
+            foreach (char c in input)
+            {
+                if (!char.IsLetterOrDigit(c))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
