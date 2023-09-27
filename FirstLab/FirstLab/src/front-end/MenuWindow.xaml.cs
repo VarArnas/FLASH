@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirstLab.src.back_end.utilities;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -32,6 +33,7 @@ namespace FirstLab
                 new FlashcardSet { FlashcardSetName = "Set 11" },
                 new FlashcardSet { FlashcardSetName = "Set 12" }
             };
+
         }
 
         private void MenuWindow_Loaded(object sender, RoutedEventArgs e)
@@ -45,8 +47,10 @@ namespace FirstLab
             breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, opacityAnimation);
 
             homeView = new HomeView(this);
-
             contentControl.Content = homeView;
+
+            string? appName = FileUtility.ReadAppNameFromFile("C:\\Users\\arnas\\Desktop\\FirstLab\\FirstLab\\FirstLab\\DataFiles\\AppName.txt");
+            NameOFApp.Text = appName.ExtractCapLetters();
         }
 
         private void MovingWindow(object sender, MouseButtonEventArgs e)

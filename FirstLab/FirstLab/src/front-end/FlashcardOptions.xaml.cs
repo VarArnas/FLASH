@@ -56,12 +56,9 @@ namespace FirstLab
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            if (flashcardSetsControl.SelectedItem is FlashcardSet selectedSet)
-            {
-                flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, selectedSet);
+                flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, (FlashcardSet)flashcardSetsControl.SelectedItem);
                 menuWindowReference.UpdateHeaderText("Customization");
                 menuWindowReference.contentControl.Content = flashcardCustomizationview;
-            }
         }
 
 
