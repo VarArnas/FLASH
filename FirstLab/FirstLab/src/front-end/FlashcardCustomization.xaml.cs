@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -9,7 +12,15 @@ namespace FirstLab
 {
     public partial class FlashcardCustomization : UserControl
     {
+        private FlashcardOptions flashcardOptionsView;
+
         private FlashcardSet flashcardSet;
+
+        public Flashcard flashcard;
+
+        private List<Flashcard> flashcards = new List<Flashcard>();
+
+        private ObservableCollection<FlashcardSet> flashcardSets;
 
         private MenuWindow menuWindowReference;
 
@@ -21,6 +32,8 @@ namespace FirstLab
             this.menuWindowReference = menuWindowReference;
 
             this.flashcardSet = flashcardSet ?? new FlashcardSet();
+
+            this.flashcard = flashcard ?? new Flashcard();
 
             DataContext = this.flashcardSet;
 
@@ -139,12 +152,25 @@ namespace FirstLab
 
         private void DeleteFlashcardSet_Click(object sender, RoutedEventArgs e)
         {
+            flashcardOptionsView = new FlashcardOptions(menuWindowReference.flashcardSets, menuWindowReference);
 
+            menuWindowReference.UpdateHeaderText("Flashcards");
+
+            if (menuWindowReference != null)
+            {
+                menuWindowReference.contentControl.Content = flashcardOptionsView;
+            }
         }
 
         private void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
         {
-
+            flashcard.FlashcardQuestion = QuestionTextBox.Text;
+            flashcard.FlashcardAnswer = AnswerTextBox.Text;
+            //MessageBox.Show(flashcard.FlashcardQuestion);
+            //MessageBox.Show(flashcard.FlashcardAnswer);
+            // ideda po 1 flashcard
+            Flashcard tempFlashcard = new Flashcard { FlashcardQuestion = flashcard.FlashcardQuestion, FlashcardAnswer = flashcard.FlashcardAnswer };
+            flashcardSet.Flashcards.Add(tempFlashcard);
         }
 
     }

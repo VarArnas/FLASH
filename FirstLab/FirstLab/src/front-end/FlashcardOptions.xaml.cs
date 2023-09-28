@@ -1,4 +1,5 @@
 ﻿using FirstLab.src.back_end.utilities;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ namespace FirstLab
         private FlashcardCustomization flashcardCustomizationview;
 
         private ObservableCollection<FlashcardSet> flashcardSets;
+
 
         public FlashcardOptions(ObservableCollection<FlashcardSet> flashcardSets, MenuWindow menuWindowReference)
         {
@@ -54,9 +56,9 @@ namespace FirstLab
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-                flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, (FlashcardSet)flashcardSetsControl.SelectedItem);
-                menuWindowReference.UpdateHeaderText("Customization");
-                menuWindowReference.contentControl.Content = flashcardCustomizationview;
+            flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, (FlashcardSet)flashcardSetsControl.SelectedItem);
+            menuWindowReference.UpdateHeaderText("Customization");
+            menuWindowReference.contentControl.Content = flashcardCustomizationview;
         }
 
 
