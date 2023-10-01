@@ -18,12 +18,12 @@ namespace FirstLab.src.back_end.errorHandling
 
         private enum ErrorCode
         {
-            NoError = 0,
-            NameIsEmpty = 1,
-            NotAllowedSymbolsInName = 2,
-            ExistingName = 3,
-            NoFlashcardsExist = 4,
-            NotAllFlashcardsFull = 5
+            NoError,
+            NameIsEmpty,
+            NotAllowedSymbolsInName,
+            ExistingName,
+            NoFlashcardsExist,
+            NotAllFlashcardsFull
         }
 
         private List<ErrorCode> errorCodes;

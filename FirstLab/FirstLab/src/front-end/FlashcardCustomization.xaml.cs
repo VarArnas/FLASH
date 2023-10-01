@@ -113,7 +113,6 @@ namespace FirstLab
 
         private void CapitalizedNormalNameButton_Click(object sender, RoutedEventArgs e)
         {
-
             if (CapitalizeButton.IsChecked == true)
             {
                 NameOfSet = FlashcardSetNameBox.Text;
