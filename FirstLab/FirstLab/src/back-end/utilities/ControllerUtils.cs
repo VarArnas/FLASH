@@ -6,7 +6,7 @@ namespace FirstLab.src.back_end.utilities
     {
         public static void setDefaultText(TextBox textBox, string defaultText)
         {
-            if (textBox.Text == "")
+            if (string.IsNullOrWhiteSpace(textBox.Text))
             {
                 textBox.Text = defaultText;
             }

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using FirstLab.src.back_end.errorHandling;
 using FirstLab.src.back_end.utilities;
 
 namespace FirstLab
@@ -13,8 +13,10 @@ namespace FirstLab
 
         private MenuWindow menuWindowReference;
 
-        private String NameOfSet = "Name...";
-        public FlashcardCustomization(MenuWindow menuWindowReference, FlashcardSet flashcardSet = null)
+        private string NameOfSet;
+
+        private CustomizationErrors errors;
+        public FlashcardCustomization(MenuWindow menuWindowReference, FlashcardSet? flashcardSet = null)
         {
             InitializeComponent();
 
@@ -111,6 +113,7 @@ namespace FirstLab
 
         private void CapitalizedNormalNameButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (CapitalizeButton.IsChecked == true)
             {
                 NameOfSet = FlashcardSetNameBox.Text;
@@ -127,14 +130,11 @@ namespace FirstLab
             CapitalizeButton.IsChecked = false;
             NormalizeButton.IsChecked = true;
             CapitalizedNormalNameButton_Click(NormalizeButton, new RoutedEventArgs(ButtonBase.ClickEvent));
-
-            ControllerUtils.setEmptyText(FlashcardSetNameBox, "Name...");
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-
-            ControllerUtils.setDefaultText(FlashcardSetNameBox, "Name...");
+            NameOfSet = FlashcardSetNameBox.Text;
         }
 
         private void DeleteFlashcardSet_Click(object sender, RoutedEventArgs e)
@@ -144,6 +144,8 @@ namespace FirstLab
 
         private void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
         {
+            errors = new CustomizationErrors(flashcardSet: flashcardSet, NameOfFlashcardSet: FlashcardSetNameBox.Text, errorTextBox: errorText, SetsOfFlashcards: menuWindowReference.flashcardSets);
+            errors.CheckAndDisplayErrors();
 
         }
 
