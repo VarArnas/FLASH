@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using FirstLab.src.back_end.utilities;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace FirstLab
@@ -8,6 +9,7 @@ namespace FirstLab
         private MenuWindow menuWindowReference;
 
         private FlashcardOptions flashcardOptionsView;
+
         public HomeView(MenuWindow menuWindowReference)
         {
             InitializeComponent();
@@ -16,14 +18,8 @@ namespace FirstLab
 
         private void Flashcards_Clicked(object sender, RoutedEventArgs e)
         {
-            flashcardOptionsView = new FlashcardOptions(menuWindowReference.flashcardSets, menuWindowReference);
-
-            menuWindowReference.UpdateHeaderText("Flashcards");
-          
-            if (menuWindowReference != null)
-            {
-                menuWindowReference.contentControl.Content = flashcardOptionsView;
-            }
+            flashcardOptionsView = new FlashcardOptions(menuWindowReference);
+            ControllerUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsView);
         }
     }
 }

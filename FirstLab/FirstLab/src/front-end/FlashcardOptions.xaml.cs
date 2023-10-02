@@ -13,15 +13,13 @@ namespace FirstLab
 
         private ObservableCollection<FlashcardSet> flashcardSets;
 
-        public FlashcardOptions(ObservableCollection<FlashcardSet> flashcardSets, MenuWindow menuWindowReference)
+        public FlashcardOptions(MenuWindow menuWindowReference)
         {
             InitializeComponent();
 
-            flashcardSetsControl.ItemsSource = flashcardSets;
-
             this.menuWindowReference = menuWindowReference;
-
-            this.flashcardSets = flashcardSets;
+            flashcardSets = this.menuWindowReference.flashcardSets;
+            flashcardSetsControl.ItemsSource = flashcardSets;
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -54,17 +52,14 @@ namespace FirstLab
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-                flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, (FlashcardSet)flashcardSetsControl.SelectedItem);
-                menuWindowReference.UpdateHeaderText("Customization");
-                menuWindowReference.contentControl.Content = flashcardCustomizationview;
+            flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, this, (FlashcardSet)flashcardSetsControl.SelectedItem);
+            ControllerUtils.ChangeWindow(menuWindowReference, "Customization", flashcardCustomizationView: flashcardCustomizationview);
         }
-
 
         private void NewSet_Click(object sender, RoutedEventArgs e)
         {
-            flashcardCustomizationview = new FlashcardCustomization(menuWindowReference);
-            menuWindowReference.UpdateHeaderText("Customization");
-            menuWindowReference.contentControl.Content = flashcardCustomizationview;
+            flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, this);
+            ControllerUtils.ChangeWindow(menuWindowReference, "Customization", flashcardCustomizationView: flashcardCustomizationview);
         }
     }
 }

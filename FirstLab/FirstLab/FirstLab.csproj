@@ -45,8 +45,4 @@
     <Page Include="App.xaml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="src\back-end\errorHandling\" />
-  </ItemGroup>
-
 </Project>

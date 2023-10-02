@@ -29,7 +29,8 @@
             </Border>
 
             <ListBox Name="ListBoxFlashcards" Grid.Row="0" Background="#FFD8D88E" Grid.Column="0" Margin="0,20,0,0"
-                     ItemsSource="{Binding Flashcards}" SelectionChanged="ListBoxFlashcards_SelectionChanged">
+                     ItemsSource="{Binding Flashcards}" SelectionChanged="ListBoxFlashcards_SelectionChanged"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden">
                 <!--We bind the ItemsSource property to the Flashcards property of the 
                 flashcard set, which got binded to the dataContext, you can find that in
                 flashcardcustomization constructor-->
@@ -176,18 +177,19 @@
             </Button>
             <TextBox Name="FlashcardSetNameBox" Grid.Row="1" Grid.Column="1"
                      TextAlignment="Left" Margin="5,5,7,5"
-                     Padding="10,5,0,0" Text="Name..."
+                     Padding="10,5,0,0"
                      FontFamily="Fonts/#Dosis" TextWrapping="Wrap"
-                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" FontSize="13">
+                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" FontSize="13"
+                     Text="{Binding FlashcardSetName, Mode=TwoWay}">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="TextBox">
                                     <Border Name="Border" Background="{TemplateBinding Background}"
-                        BorderBrush="#FFC7891B"
-                        BorderThickness="2"
-                        CornerRadius="10, 10, 10, 10">
+                                            BorderBrush="#FFC7891B"
+                                            BorderThickness="2"
+                                            CornerRadius="10, 10, 10, 10">
                                         <Grid>
                                             <ScrollViewer x:Name="PART_ContentHost" />
                                         </Grid>
@@ -219,6 +221,16 @@
                          FontWeight="Medium" Padding="4,2,0,0"
                          Margin="15, 20 0, 0"
                          Name="NormalizeButton"/>
+
+            <ScrollViewer Name="ErrorScrollViewer" Grid.Row="0" Grid.Column="2"
+                          Margin="5, 250, 0, 20" FontFamily="Fonts/#Dosis"
+                          IsEnabled="true" BorderThickness="0" VerticalScrollBarVisibility="Disabled" Cursor="Arrow">
+                     <TextBox Background="#FFC7891B" Foreground="Red"  Name="errorText"
+                              FontWeight="Bold" FontSize="12"
+                              TextAlignment="Left"
+                              TextWrapping="Wrap" IsReadOnly="True"
+                              BorderThickness="0" Cursor="Arrow"/>
+            </ScrollViewer>
         </Grid>
     </Border>
 
