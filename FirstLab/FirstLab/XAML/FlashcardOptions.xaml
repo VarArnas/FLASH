@@ -54,102 +54,105 @@
                     </TextBox>
             </Grid>
 
-            <ListBox Grid.Row="1" Background="White" x:Name="flashcardSetsControl" ItemsSource="{Binding flashcardSets}">
-                <!-- This is where we put the flashcardSets to be displayed, using ItemsControl because it
+            <Grid Grid.Row="1"
+                  Background="white">
+                <ListBox x:Name="flashcardSetsControl" ItemsSource="{Binding flashcardSets}" Margin="2,0,-2,0">
+                        <!-- This is where we put the flashcardSets to be displayed, using ItemsControl because it
                     doesnt have any hovering effects and lets the item fill out the entire space it is given-->
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Name="Border" Background="White" BorderBrush="#FFC7891B">
-                            <Border.BorderThickness>
-                                <Thickness Top="1" Bottom="1" Left="0" Right="0" />
-                            </Border.BorderThickness>
-                            <StackPanel Orientation="Horizontal" Height="50">
-                                <TextBlock Padding="10, 0, 0, 0" VerticalAlignment="center"
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Name="Border" Background="White" Margin="0" BorderBrush="#FFC7891B">
+                                    <Border.BorderThickness>
+                                        <Thickness Top="1" Bottom="1" Left="0" Right="0" />
+                                    </Border.BorderThickness>
+                                    <StackPanel Orientation="Horizontal" Height="50">
+                                        <TextBlock Padding="10, 0, 0, 0" VerticalAlignment="center"
                                                    HorizontalAlignment="Left" Text="{Binding FlashcardSetName}"
                                                    FontSize="12" FontWeight="Medium" FontFamily="Fonts/#Dosis"
                                                    Width="470" TextWrapping="Wrap"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Button  Grid.Column="0"
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button  Grid.Column="0"
                                                      Click="PlayButton_Click" Width="35" Height="35"
                                                      Margin="5" Background="#FFCEC81C">
-                                        <Button.Template>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Name="Border" Background="{TemplateBinding Background}"
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Name="Border" Background="{TemplateBinding Background}"
                                                                 BorderBrush="White"
                                                                 BorderThickness="2"                            
                                                                 CornerRadius="10">
-                                                    <Grid>
-                                                        <Image Source="../Images/playBtn6.png"
+                                                            <Grid>
+                                                                <Image Source="../Images/playBtn6.png"
                                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                        Width="15" Height="15"/>
-                                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="#FF4E8A34" TargetName="Border"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Button.Template>
-                                    </Button>
-                                    <Button Grid.Column="1"
+                                                            </Grid>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="#FF4E8A34" TargetName="Border"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button Grid.Column="1"
                                                     Click="DeleteButton_Click" Width="35" Height="35"
                                                     Margin="5" Background="#FFCEC81C">
-                                        <Button.Template>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Name="Border" Background="{TemplateBinding Background}"
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Name="Border" Background="{TemplateBinding Background}"
                                                                 BorderBrush="White"
                                                                 BorderThickness="2"                            
                                                                 CornerRadius="10">
-                                                    <Grid>
-                                                        <Image Source="../Images/deleteBtn2.png"
+                                                            <Grid>
+                                                                <Image Source="../Images/deleteBtn2.png"
                                                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                         Width="20" Height="20"/>
-                                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="#FFA73232" TargetName="Border"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Button.Template>
-                                    </Button>
-                                    <Button Grid.Column="2" Content="Edit"
+                                                            </Grid>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="#FFA73232" TargetName="Border"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button Grid.Column="2" Content="Edit"
                                                     Click="EditButton_Click" Width="35" Height="35"
                                                     Margin="5" Background="#FFCEC81C">
-                                        <Button.Template>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Name="Border" Background="{TemplateBinding Background}"
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Name="Border" Background="{TemplateBinding Background}"
                                                                 BorderBrush="White"
                                                                 BorderThickness="2"                            
                                                                 CornerRadius="10">
-                                                    <Grid>
-                                                        <Image Source="../Images/editBtn5.png"
+                                                            <Grid>
+                                                                <Image Source="../Images/editBtn5.png"
                                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                        Width="18" Height="18"/>
-                                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="#FFC89B4B" TargetName="Border"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Button.Template>
-                                    </Button>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-
+                                                            </Grid>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="#FFC89B4B" TargetName="Border"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+            </Grid>
+            
             <Border Background="#FFC7891B"
                     Grid.Row="2"
                     CornerRadius="0, 0, 20, 0" Margin="0,0,0,0">

@@ -6,7 +6,7 @@ namespace FirstLab.src.back_end.utilities
     {
         public static void setDefaultText(TextBox textBox, string defaultText)
         {
-            if (string.IsNullOrWhiteSpace(textBox.Text))
+            if (textBox.Text == "")
             {
                 textBox.Text = defaultText;
             }
@@ -18,24 +18,6 @@ namespace FirstLab.src.back_end.utilities
             if(textBox.Text == defaultText)
             {
                 textBox.Text = string.Empty;
-            }
-        }
-
-        public static void ChangeWindow(MenuWindow menuWindowReference, string headerText, FlashcardOptions? flashcardOptionsView = null, FlashcardCustomization? flashcardCustomizationView = null, HomeView? homeView = null)
-        {
-            menuWindowReference.ViewsName.Text = headerText;
-
-            if (flashcardOptionsView != null)
-            {
-                menuWindowReference.contentControl.Content = flashcardOptionsView;
-            }
-            else if (flashcardCustomizationView != null)
-            {
-                menuWindowReference.contentControl.Content = flashcardCustomizationView;
-            }
-            else if (homeView != null)
-            {
-                menuWindowReference.contentControl.Content = homeView;
             }
         }
     }
