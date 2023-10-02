@@ -16,7 +16,7 @@ namespace FirstLab.src.back_end.errorHandling
 
         private ObservableCollection<FlashcardSet> SetsOfFlashcards;
 
-        private enum ErrorCode
+        public enum ErrorCode
         {
             NoError,
             NameIsEmpty,
@@ -26,7 +26,7 @@ namespace FirstLab.src.back_end.errorHandling
             NotAllFlashcardsFull
         }
 
-        private List<ErrorCode> errorCodes;
+        public List<ErrorCode> ErrorCodes { get; private set; }
 
         public CustomizationErrors(TextBox errorTextBox, string? NameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards) 
         {
@@ -34,36 +34,36 @@ namespace FirstLab.src.back_end.errorHandling
             this.NameOfFlashcardSet = NameOfFlashcardSet;
             this.flashcardSet = flashcardSet;
             this.SetsOfFlashcards = SetsOfFlashcards;
-            errorCodes = new List<ErrorCode>();
+            ErrorCodes = new List<ErrorCode>();
         }
 
         private void CheckForErrors()
         {
-            errorCodes.Clear();
+            ErrorCodes.Clear();
 
             if (string.IsNullOrWhiteSpace(NameOfFlashcardSet))
             {
-                errorCodes.Add(ErrorCode.NameIsEmpty);
+                ErrorCodes.Add(ErrorCode.NameIsEmpty);
             }
 
             if (NameOfFlashcardSet.ContainsSymbols())
             {
-                errorCodes.Add(ErrorCode.NotAllowedSymbolsInName);
+                ErrorCodes.Add(ErrorCode.NotAllowedSymbolsInName);
             }
 
             if (ErrorUtils.NameExists(NameOfFlashcardSet, SetsOfFlashcards))
             {
-                errorCodes.Add(ErrorCode.ExistingName);
+                ErrorCodes.Add(ErrorCode.ExistingName);
             }
 
             if (!flashcardSet.Flashcards.Any())
             {
-                errorCodes.Add(ErrorCode.NoFlashcardsExist);
+                ErrorCodes.Add(ErrorCode.NoFlashcardsExist);
             }
 
             if (ErrorUtils.AreThereEmptyFlashcards(flashcardSet.Flashcards))
             {
-                errorCodes.Add(ErrorCode.NotAllFlashcardsFull);
+                ErrorCodes.Add(ErrorCode.NotAllFlashcardsFull);
             }
         }
 
@@ -71,7 +71,7 @@ namespace FirstLab.src.back_end.errorHandling
         {
             errorTextBox.Clear();
 
-            foreach (ErrorCode errorCode in errorCodes)
+            foreach (ErrorCode errorCode in ErrorCodes)
             {
                 switch (errorCode)
                 {
