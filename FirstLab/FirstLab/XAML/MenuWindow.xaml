@@ -10,7 +10,8 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Loaded="MenuWindow_Loaded">
+        Loaded="MenuWindow_Loaded"
+        Closing="WindowClosing">
     <Border Background="#FF5E4682"
             CornerRadius="20">
         <Grid>
