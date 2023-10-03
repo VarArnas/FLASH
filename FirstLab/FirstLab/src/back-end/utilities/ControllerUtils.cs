@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using FirstLab.XAML;
+using System.Windows.Controls;
 
 namespace FirstLab.src.back_end.utilities
 {
@@ -21,7 +22,7 @@ namespace FirstLab.src.back_end.utilities
             }
         }
 
-        public static void ChangeWindow(MenuWindow menuWindowReference, string headerText, FlashcardOptions? flashcardOptionsView = null, FlashcardCustomization? flashcardCustomizationView = null, HomeView? homeView = null)
+        public static void ChangeWindow(MenuWindow menuWindowReference, string headerText, FlashcardOptions? flashcardOptionsView = null, FlashcardCustomization? flashcardCustomizationView = null, HomeView? homeView = null, PlayWindow? playWindowReference = null)
         {
             menuWindowReference.ViewsName.Text = headerText;
 
@@ -36,6 +37,10 @@ namespace FirstLab.src.back_end.utilities
             else if (homeView != null)
             {
                 menuWindowReference.contentControl.Content = homeView;
+            }
+            else if(playWindowReference != null)
+            {
+                menuWindowReference.contentControl.Content = playWindowReference;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using FirstLab.src.back_end.utilities;
+using FirstLab.XAML;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,8 @@ namespace FirstLab
         private MenuWindow menuWindowReference;
 
         private FlashcardCustomization flashcardCustomizationview;
+
+        private PlayWindow playWindowReference;
 
         private ObservableCollection<FlashcardSet> flashcardSets;
 
@@ -34,7 +37,8 @@ namespace FirstLab
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-
+            playWindowReference = new PlayWindow(menuWindowReference, this, (FlashcardSet)flashcardSetsControl.SelectedItem);
+            ControllerUtils.ChangeWindow(menuWindowReference, "Play", playWindowReference: playWindowReference);
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
