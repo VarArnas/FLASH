@@ -1,6 +1,8 @@
-﻿using FirstLab.src.back_end.utilities;
+﻿using FirstLab.src.back_end;
+using FirstLab.src.back_end.utilities;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
@@ -17,23 +19,7 @@ namespace FirstLab
         public MenuWindow()
         {
             InitializeComponent();
-
-            flashcardSets = new ObservableCollection<FlashcardSet>
-            {
-                new FlashcardSet { FlashcardSetName = "Set 1" },
-                new FlashcardSet { FlashcardSetName = "Set 2" },
-                new FlashcardSet { FlashcardSetName = "Set 3" },
-                new FlashcardSet { FlashcardSetName = "Set 4" },
-                new FlashcardSet { FlashcardSetName = "Set 5" },
-                new FlashcardSet { FlashcardSetName = "Set 6" },
-                new FlashcardSet { FlashcardSetName = "Set 7" },
-                new FlashcardSet { FlashcardSetName = "Set 8" },
-                new FlashcardSet { FlashcardSetName = "Set 9" },
-                new FlashcardSet { FlashcardSetName = "Set 10" },
-                new FlashcardSet { FlashcardSetName = "Set 11" },
-                new FlashcardSet { FlashcardSetName = "Set 12" }
-            };
-
+            flashcardSets = new ObservableCollection<FlashcardSet>(DataManager.LoadAllFlashcardSets());
         }
 
         private void MenuWindow_Loaded(object sender, RoutedEventArgs e)
@@ -68,6 +54,19 @@ namespace FirstLab
         private void ReturnToHomeView(object sender, RoutedEventArgs e)
         {
            ControllerUtils.ChangeWindow(this, "Menu", homeView: homeView);
+        }
+
+        private void ExitProgram(object sender, CancelEventArgs e)
+        {
+            if (MessageBox.Show("Do you want to save changes?", "save changes", MessageBoxButton.YesNo) == MessageBoxResult.Yes) 
+            {
+                DataManager.SaveAllFlashcardSets(flashcardSets);
+            }
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
