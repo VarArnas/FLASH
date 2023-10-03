@@ -50,7 +50,6 @@ namespace FirstLab
             contentControl.Content = homeView;
 
             string relativePath = "DataFiles\\AppName.txt";
-
             string? appName = FileUtility.ReadAppNameFromFile(AppDomain.CurrentDomain.BaseDirectory + relativePath);
             if (appName != null)
             {
@@ -68,13 +67,7 @@ namespace FirstLab
 
         private void ReturnToHomeView(object sender, RoutedEventArgs e)
         {
-            UpdateHeaderText("Menu");
-            contentControl.Content = homeView;
-        }
-
-        public void UpdateHeaderText(string newText)
-        {
-            ViewsName.Text = newText;
+           ControllerUtils.ChangeWindow(this, "Menu", homeView: homeView);
         }
     }
 }

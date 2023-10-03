@@ -1,4 +1,4 @@
-﻿using System.Text;
+﻿using System.Linq;
 
 namespace FirstLab.src.back_end.utilities
 {
@@ -11,17 +11,7 @@ namespace FirstLab.src.back_end.utilities
                 return string.Empty;
             }
 
-            StringBuilder result = new StringBuilder();
-
-            foreach (char c in input)
-            {
-                if (char.IsUpper(c))
-                {
-                    result.Append(c);
-                }
-            }
-
-            return result.ToString();
+            return new string(input.Where(char.IsUpper).ToArray());
         }
 
         public static string Capitalize(this string input)
@@ -31,14 +21,7 @@ namespace FirstLab.src.back_end.utilities
                 return string.Empty;
             }
 
-            StringBuilder result = new StringBuilder();
-
-            foreach (char c in input)
-            {
-                result.Append(char.ToUpper(c));
-            }
-
-            return result.ToString();
+            return new string(input.Select(char.ToUpper).ToArray());
         }
 
         public static bool ContainsSymbols(this string input)
@@ -48,15 +31,7 @@ namespace FirstLab.src.back_end.utilities
                 return false;
             }
 
-            foreach (char c in input)
-            {
-                if (!char.IsLetterOrDigit(c))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return input.Any(c => char.IsSymbol(c));
         }
     }
 }

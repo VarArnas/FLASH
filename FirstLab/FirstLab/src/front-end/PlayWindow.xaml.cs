@@ -22,23 +22,57 @@ namespace FirstLab.XAML
     {
         private MenuWindow menuWindowReference;
 
-        public FlashcardSet flashcardSet;
+        private FlashcardSet flashcardSet;
 
-        public Flashcard flashcard;
+        private FlashcardOptions flashcardOptionsReference;
 
-        public PlayWindow(MenuWindow menuWindowReference, FlashcardSet flashcardSet)
+        private int currentFlashcardIndex = 0; 
+
+        public PlayWindow(MenuWindow menuWindowReference, FlashcardOptions flashcardOptionsReference, FlashcardSet flashcardSet)
         {
             InitializeComponent();
 
             this.menuWindowReference = menuWindowReference;
-
+            this.flashcardOptionsReference = flashcardOptionsReference;
             this.flashcardSet = flashcardSet;
+
+            DataContext = this.flashcardSet;
+            nameTextBox.Text = flashcardSet.FlashcardSetName;
+
+            if (ListBoxFlashcards.Items.Count > 0)
+            {
+                DisplayFlashcard(currentFlashcardIndex);
+            }
+        }
+
+
+        private void DisplayFlashcard(int index)
+        {
+            if (index >= 0 && index < ListBoxFlashcards.Items.Count)
+            {
+                questionTextBox.Text = flashcardSet.Flashcards[index].FlashcardQuestion;
+                answerTextBox.Clear();
+            }
+        }
+
+        private void DisplayAnswer(int index)
+        {
+            if (index >= 0 && index < ListBoxFlashcards.Items.Count)
+            {
+                answerTextBox.Text = flashcardSet.Flashcards[index].FlashcardAnswer;
+            }
         }
 
         private void displayFlashcard(object sender, RoutedEventArgs e)
         {
-                questionTextBox.Text = flashcardSet.Flashcards[1].FlashcardQuestion;
-                answerTextBox.Text = flashcardSet.Flashcards[1].FlashcardAnswer;          
+            DisplayFlashcard(currentFlashcardIndex);
+            currentFlashcardIndex++;
+        }
+
+        private void displayAnswer(object sender, RoutedEventArgs e)
+        {
+            DisplayAnswer(currentFlashcardIndex-1);
         }
     }
+
 }

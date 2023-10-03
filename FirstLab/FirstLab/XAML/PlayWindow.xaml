@@ -7,10 +7,89 @@
     mc:Ignorable="d"
     Height="450" Width="800">
     <Grid>
-        <Button Click ="displayFlashcard" Content="Play
-                " HorizontalAlignment="Left" Margin="326,327,0,0" VerticalAlignment="Top" Width="26" RenderTransformOrigin="-3.693,10.116"/>
-        <TextBox Name ="questionTextBox" HorizontalAlignment="Left" Height="90" Margin="236,86,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="232"/>
-        <TextBox Name ="answerTextBox" TextWrapping="Wrap" Text="TextBox" Margin="236,235,332,151"/>
+        <ListBox Name="ListBoxFlashcards" ItemsSource="{Binding Flashcards}" Margin="-12,472,650,-103"/>
+        <Button Click="displayFlashcard"
+        Content="Next flashcard"
+        HorizontalAlignment="Left"
+        Margin="257,325,0,0"
+        VerticalAlignment="Top"
+        Width="81"
+        Background="Green"
+            Foreground="Red">
+        </Button>
+
+        <TextBox Name="questionTextBox"
+         HorizontalAlignment="Left"
+         VerticalAlignment="Top"  
+         Height="90"
+         Margin="236,86,0,0"
+         TextWrapping="Wrap"
+         Text="{Binding SelectedItem.FlashcardQuestion, ElementName=ListBoxFlashcards}"
+         Width="232"
+                 TextAlignment="Center"
+                 IsReadOnly="True">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="LightBlue" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="5" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <TextBox Name="answerTextBox"
+         VerticalAlignment="Top"
+         Margin="236,225,0,0"
+         TextWrapping="Wrap"
+         Text="{Binding SelectedItem.FlashcardAnswer, ElementName=ListBoxFlashcards}" Width="232" HorizontalAlignment="Left" Height="59"
+                 TextAlignment="Center"
+                 IsReadOnly="True">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="LightBlue" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="5" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <Button Click="displayAnswer"
+        Content="Show answer"
+        HorizontalAlignment="Center"
+        Margin="0,325,0,0"
+        VerticalAlignment="Top"
+        Width="80"
+        Background="Green"
+            Foreground="Red">
+        </Button>
+
+        <TextBox Name="nameTextBox"
+         HorizontalAlignment="Left"
+         Margin="292,35,0,0"
+         TextWrapping="Wrap"
+         Text=""
+         VerticalAlignment="Top"
+         Width="120"
+                 TextAlignment="Center"
+                 IsReadOnly="True">
+            
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="Purple" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="VerticalAlignment" Value="Top" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="SelectionBrush" Value="Red" />
+                    <!-- Highlight color -->
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
         <!-- Your content goes here -->
     </Grid>
 </UserControl>
