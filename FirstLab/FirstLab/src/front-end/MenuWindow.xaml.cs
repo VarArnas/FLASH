@@ -63,12 +63,17 @@ namespace FirstLab
             ViewsName.Text = newText;
         }
 
-        private void WindowClosing(object sender, CancelEventArgs e)
+        private void ExitProgram(object sender, CancelEventArgs e)
         {
             if (MessageBox.Show("Do you want to save changes?", "save changes", MessageBoxButton.YesNo) == MessageBoxResult.Yes) 
             {
                 DataManager.SaveAllFlashcardSets(flashcardSets);
             }
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

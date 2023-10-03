@@ -11,7 +11,7 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Loaded="MenuWindow_Loaded"
-        Closing="WindowClosing">
+        Closing="ExitProgram">
     <Border Background="#FF5E4682"
             CornerRadius="20">
         <Grid>
@@ -65,60 +65,89 @@
 
             <StackPanel Grid.Row="1">
                 <Button  Name="HomeButton" Content="Home"
-                        Foreground="white"
-                        FontWeight="Light"
-                        FontFamily="Fonts/#Dosis"
-                        Height="40"
-                        Padding="0, 0, 85, 0" FontSize="15"
-                        Margin="0, 0, 0 ,0"
-                        Click="ReturnToHomeView">
+             Foreground="white"
+             FontWeight="Light"
+             FontFamily="Fonts/#Dosis"
+             Height="40" FontSize="15"
+             Margin="0, 0, 0 ,0"
+             Click="ReturnToHomeView">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Name="Border" Background="#FF5E4682" BorderThickness="1">
                                 <Border.BorderBrush>
                                     <SolidColorBrush Color="{Binding Background.Color, ElementName=Border}" />
                                 </Border.BorderBrush>
-                                <Grid Margin="0, 0, 85, 0">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Grid>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                     <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#FF4A3B61" TargetName="Border"/>
-                                     </Trigger>
-                                     <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Background" Value="white"/>
-                                    </Trigger>
-                                 </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                <Button Content="About" 
-                        Foreground="white"
-                        FontWeight="Light"
-                        FontFamily="Fonts/#Dosis"
-                        Height="40" Margin="0, 320, 0, 0" FontSize="15">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border Name="Border" Background="#FF5E4682" BorderThickness="1">
-                                <Border.BorderBrush>
-                                    <SolidColorBrush Color="{Binding Background.Color, ElementName=Border}" />
-                                </Border.BorderBrush>
-                                <Border.CornerRadius>
-                                    <CornerRadius TopLeft="0" TopRight="0" BottomRight="0" BottomLeft="20" />
-                                </Border.CornerRadius>
                                 <Grid Margin="0, 0, 85, 0">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#FF4A3B61" TargetName="Border" />
+                                    <Setter Property="Background" Value="#FF4A3B61" TargetName="Border"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="white"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+                <StackPanel Height="280" />
+                <StackPanel VerticalAlignment="Bottom">
+                    <Button Content="About" 
+                 Foreground="white"
+                 FontWeight="Light"
+                 FontFamily="Fonts/#Dosis"
+                 Height="40" FontSize="15">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Name="Border" Background="#FF5E4682" BorderThickness="1">
+                                    <Border.BorderBrush>
+                                        <SolidColorBrush Color="{Binding Background.Color, ElementName=Border}" />
+                                    </Border.BorderBrush>
+                                    <Border.CornerRadius>
+                                        <CornerRadius TopLeft="0" TopRight="0" BottomRight="0" BottomLeft="0" />
+                                    </Border.CornerRadius>
+                                    <Grid Margin="0, 0, 85, 0">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF4A3B61" TargetName="Border" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button Content="Exit" 
+                 Foreground="white"
+                 FontWeight="Light"
+                 FontFamily="Fonts/#Dosis"
+                 Height="40" FontSize="15"
+                 Click="CloseWindow">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Name="Border" Background="#FF5E4682" BorderThickness="1">
+                                    <Border.BorderBrush>
+                                        <SolidColorBrush Color="{Binding Background.Color, ElementName=Border}" />
+                                    </Border.BorderBrush>
+                                    <Border.CornerRadius>
+                                        <CornerRadius TopLeft="0" TopRight="0" BottomRight="0" BottomLeft="20" />
+                                    </Border.CornerRadius>
+                                    <Grid Margin="0, 0, 98,0">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF4A3B61" TargetName="Border" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
             </StackPanel>
             <Ellipse Name="breathingEllipse" HorizontalAlignment="Left" Height="25" Margin="14,0,0,0" Stroke="#FF6AC720" VerticalAlignment="Center" Width="25" StrokeThickness="3"/>
         </Grid>
