@@ -1,40 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace FirstLab.XAML
 {
-    /// <summary>
-    /// Interaction logic for PlayWindow.xaml
-    /// </summary>
-    /// 
     public partial class PlayWindow : UserControl
     {
-        private MenuWindow menuWindowReference;
-
         private FlashcardSet flashcardSet;
 
-        private FlashcardOptions flashcardOptionsReference;
-
-        private int currentFlashcardIndex = 0; 
+        private int currentFlashcardIndex = 0;
 
         public PlayWindow(MenuWindow menuWindowReference, FlashcardOptions flashcardOptionsReference, FlashcardSet flashcardSet)
         {
             InitializeComponent();
+            this.flashcardSet = CloneFlashcardSet(flashcardSet);
 
-            this.menuWindowReference = menuWindowReference;
-            this.flashcardOptionsReference = flashcardOptionsReference;
-            this.flashcardSet = flashcardSet;
+            shuffle(this.flashcardSet.Flashcards);
 
             DataContext = this.flashcardSet;
             nameTextBox.Text = flashcardSet.FlashcardSetName;
@@ -45,6 +27,34 @@ namespace FirstLab.XAML
             }
         }
 
+        private void shuffle(ObservableCollection<Flashcard> flashcards)
+        {
+            Random random = new Random();
+
+            for (int i = flashcards.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(0, i + 1);
+
+                Flashcard temp = flashcards[i];
+                flashcards[i] = flashcards[j];
+                flashcards[j] = temp;
+            }
+        }
+
+        private FlashcardSet CloneFlashcardSet(FlashcardSet originalSet)
+        {
+            FlashcardSet clonedSet = new FlashcardSet();
+            foreach (var flashcard in originalSet.Flashcards)
+            {
+                clonedSet.Flashcards.Add(new Flashcard
+                {
+                    FlashcardQuestion = flashcard.FlashcardQuestion,
+                    FlashcardAnswer = flashcard.FlashcardAnswer
+                });
+            }
+            clonedSet.FlashcardSetName = originalSet.FlashcardSetName;
+            return clonedSet;
+        }
 
         private void DisplayFlashcard(int index)
         {
@@ -71,7 +81,7 @@ namespace FirstLab.XAML
 
         private void displayAnswer(object sender, RoutedEventArgs e)
         {
-            DisplayAnswer(currentFlashcardIndex-1);
+            DisplayAnswer(currentFlashcardIndex - 1);
         }
     }
 
