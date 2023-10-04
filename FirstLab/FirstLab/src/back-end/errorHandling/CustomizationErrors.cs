@@ -51,7 +51,7 @@ namespace FirstLab.src.back_end.errorHandling
                 ErrorCodes.Add(ErrorCode.NotAllowedSymbolsInName);
             }
 
-            if (ErrorUtils.NameExists(NameOfFlashcardSet, SetsOfFlashcards))
+            if (SetsOfFlashcards.Contains(flashcardSet))
             {
                 ErrorCodes.Add(ErrorCode.ExistingName);
             }
