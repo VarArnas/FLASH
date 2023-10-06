@@ -12,6 +12,9 @@
     <Compile Update="src\front-end\HomeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="src\front-end\LogsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="XAML\FlashcardCustomization.xaml">
@@ -21,6 +24,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="XAML\HomeView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="XAML\LogsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="XAML\MenuWindow.xaml">

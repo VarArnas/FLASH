@@ -16,7 +16,7 @@ namespace FirstLab.XAML
             InitializeComponent();
             this.flashcardSet = CloneFlashcardSet(flashcardSet);
 
-            shuffle(this.flashcardSet.Flashcards);
+            Shuffle(this.flashcardSet.Flashcards);
 
             DataContext = this.flashcardSet;
             nameTextBox.Text = flashcardSet.FlashcardSetName;
@@ -27,7 +27,7 @@ namespace FirstLab.XAML
             }
         }
 
-        private void shuffle(ObservableCollection<Flashcard> flashcards)
+        private void Shuffle(ObservableCollection<Flashcard> flashcards)
         {
             Random random = new Random();
 
@@ -73,7 +73,7 @@ namespace FirstLab.XAML
             }
         }
 
-        private void displayFlashcard(object sender, RoutedEventArgs e)
+        private void DisplayFlashcard(object sender, RoutedEventArgs e)
         {
             DisplayFlashcard(currentFlashcardIndex);
             currentFlashcardIndex++;

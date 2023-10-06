@@ -54,14 +54,15 @@
                     </TextBox>
             </Grid>
 
-            <ListBox Grid.Row="1" Background="White" x:Name="flashcardSetsControl" ItemsSource="{Binding flashcardSets}">
+            <ListBox Grid.Row="1" Background="White" x:Name="flashcardSetsControl" ItemsSource="{Binding flashcardSets}"
+                      ScrollViewer.VerticalScrollBarVisibility="Hidden">
                 <!-- This is where we put the flashcardSets to be displayed, using ItemsControl because it
                     doesnt have any hovering effects and lets the item fill out the entire space it is given-->
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border Name="Border" Background="White" BorderBrush="#FFC7891B">
                             <Border.BorderThickness>
-                                <Thickness Top="1" Bottom="1" Left="0" Right="0" />
+                                <Thickness Top="0" Bottom="2" Left="0" Right="0" />
                             </Border.BorderThickness>
                             <StackPanel Orientation="Horizontal" Height="50">
                                 <TextBlock Padding="10, 0, 0, 0" VerticalAlignment="center"
@@ -148,6 +149,22 @@
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <ContentPresenter/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="IsSelected" Value="True"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
 
             <Border Background="#FFC7891B"

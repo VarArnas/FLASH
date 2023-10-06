@@ -8,7 +8,7 @@
     Height="450" Width="800">
     <Grid>
         <ListBox Name="ListBoxFlashcards" ItemsSource="{Binding Flashcards}" Margin="-12,472,650,-103"/>
-        <Button Click="displayFlashcard"
+        <Button Click="DisplayFlashcard"
         Content="Next flashcard"
         HorizontalAlignment="Left"
         Margin="257,325,0,0"

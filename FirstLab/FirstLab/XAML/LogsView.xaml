@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="FirstLab.XAML.LogsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FirstLab.XAML"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="636"
+             Opacity="1"
+             Background="Transparent">
+    <Border Background="white"
+        CornerRadius="0, 0, 20, 0"
+            BorderThickness="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="360"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Hidden">
+                <ItemsControl Name="LogsItemsControl" IsEnabled="True" Grid.Row="0" ItemsSource="{Binding flashcardSetsLogs}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Name="Border" Background="White" BorderBrush="Black">
+                            <Border.BorderThickness>
+                                <Thickness Top="0" Bottom="1" Left="0" Right="0" />
+                            </Border.BorderThickness>
+                            <StackPanel Orientation="Horizontal" Height="50">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="212"/>
+                                        <ColumnDefinition Width="212"/>
+                                        <ColumnDefinition Width="212"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="{Binding PlayedSetsName}" VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               FontFamily="fonts/#Dosis"
+                                               FontWeight="Medium"
+                                               FontSize="12"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Date}" VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               FontFamily="fonts/#Dosis"
+                                               FontWeight="Medium"
+                                               FontSize="12"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding Duration, StringFormat={}{0}s}" VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               FontFamily="fonts/#Dosis"
+                                               FontWeight="Medium"
+                                               FontSize="12"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            </ScrollViewer>
+
+            <Border Margin="0, 0, -0.5, -0.5" Grid.Row="1" Background="#FF5E4682" CornerRadius="0, 0, 20, 0"
+                    BorderThickness="0" BorderBrush="#FF5E4682"/>
+
+            <Button Grid.Row="1" Content="Clear" FontFamily="Fonts/#Dosis" FontWeight="Medium"
+                    Foreground="White" Width="101" Margin="536,0,0,0" FontSize="13"
+                    Height="42" Click="ClearLogs_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" Background="#FFEA2727" BorderThickness="1">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{Binding Background.Color, ElementName=Border}" />
+                            </Border.BorderBrush>
+                            <Border.CornerRadius>
+                                <CornerRadius TopLeft="0" TopRight="0" BottomRight="20" BottomLeft="0"/>
+                            </Border.CornerRadius>
+                            <Grid Margin="0, 0, 0, 0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF882929" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+
+        </Grid>
+    </Border>
+</UserControl>

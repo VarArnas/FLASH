@@ -8,7 +8,7 @@ namespace FirstLab
     {
         private MenuWindow menuWindowReference;
 
-        private FlashcardOptions flashcardOptionsView;
+        public FlashcardOptions flashcardOptionsView;
 
         public HomeView(MenuWindow menuWindowReference)
         {
@@ -19,7 +19,7 @@ namespace FirstLab
         private void Flashcards_Clicked(object sender, RoutedEventArgs e)
         {
             flashcardOptionsView = new FlashcardOptions(menuWindowReference);
-            ControllerUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsView);
+            ViewsUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsView);
         }
     }
 }
