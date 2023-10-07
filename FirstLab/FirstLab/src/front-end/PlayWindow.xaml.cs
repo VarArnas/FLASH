@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,6 +10,8 @@ namespace FirstLab.XAML
     public partial class PlayWindow : UserControl
     {
         private FlashcardSet flashcardSet;
+
+        private ArrayList numbersOfFlashcards;
 
         private int currentFlashcardIndex = 0;
 
@@ -18,6 +22,8 @@ namespace FirstLab.XAML
 
             Shuffle(this.flashcardSet.Flashcards);
 
+            numbersOfFlashcards = CreateArray(this.flashcardSet.Flashcards);
+
             DataContext = this.flashcardSet;
             nameTextBox.Text = flashcardSet.FlashcardSetName;
 
@@ -25,6 +31,12 @@ namespace FirstLab.XAML
             {
                 DisplayFlashcard(currentFlashcardIndex);
             }
+        }
+
+        private ArrayList CreateArray(ObservableCollection<Flashcard> flashcards)
+        {
+            ArrayList array = new ArrayList(Enumerable.Range(1, flashcards.Count).ToList());
+            return array;
         }
 
         private void Shuffle(ObservableCollection<Flashcard> flashcards)
@@ -60,6 +72,7 @@ namespace FirstLab.XAML
         {
             if (index >= 0 && index < ListBoxFlashcards.Items.Count)
             {
+                flashcardNumberTextBlock.Text = ((int)numbersOfFlashcards[index]).ToString() + "/" + ListBoxFlashcards.Items.Count.ToString();
                 questionTextBox.Text = flashcardSet.Flashcards[index].FlashcardQuestion;
                 answerTextBox.Clear();
             }

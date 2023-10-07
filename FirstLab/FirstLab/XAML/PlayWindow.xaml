@@ -89,6 +89,14 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
+        <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Center" Margin="-100,300,0,0"
+                   TextWrapping="Wrap"
+                   VerticalAlignment="Center"
+                   TextAlignment="Center" Foreground="White"
+                   FontFamily="Fonts/#Dosis"
+                   FontWeight="Medium"
+                   FontSize="20"
+                   Text=""/>
 
         <!-- Your content goes here -->
     </Grid>
