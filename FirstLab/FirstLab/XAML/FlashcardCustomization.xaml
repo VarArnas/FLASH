@@ -73,6 +73,16 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
+            <ListBox Name="ColorBox" Grid.Column="2" Margin="0,0,0,246" 
+SelectedValue="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards}"
+SelectionChanged="ColorBox_SelectionChanged">
+                <ListBoxItem>Red</ListBoxItem>
+                <ListBoxItem>Green</ListBoxItem>
+                <ListBoxItem>Yellow</ListBoxItem>
+                <ListBoxItem>Blue</ListBoxItem>
+                <ListBoxItem>Orange</ListBoxItem>
+            </ListBox>
+
             <Button  Margin="0,0,50,340" Width="50" Height="20"
                      Grid.Row="0" Grid.Column="0"
                      Click="AddFlashcard_Click" Background="Transparent"
@@ -89,6 +99,7 @@
             </Button>
 
             <Grid Grid.Row="0" Grid.Column="1">
+                
                 <Border Margin="30" Name="QuestionBorder" Visibility="Visible"
                         Background="LightBlue" BorderBrush="DarkBlue" BorderThickness="1"
                         PreviewMouseDown="QuestionBorder_PreviewMouseDown" CornerRadius="10">
@@ -233,6 +244,8 @@
             </ScrollViewer>
         </Grid>
     </Border>
+    
+    
 
 
 </UserControl>

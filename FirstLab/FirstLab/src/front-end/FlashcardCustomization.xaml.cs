@@ -165,5 +165,12 @@ namespace FirstLab
             }
         }
 
+        private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ColorBox.SelectedItem != null)
+            {
+                ListBoxItem selectedColorItem = (ListBoxItem)ColorBox.SelectedItem;
+            }
+        }
     }
 }
