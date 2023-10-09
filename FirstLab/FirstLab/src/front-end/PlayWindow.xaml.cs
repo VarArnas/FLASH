@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections;
+﻿using FirstLab.src.back_end;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace FirstLab.XAML
 {
@@ -12,13 +15,20 @@ namespace FirstLab.XAML
         private FlashcardSet flashcardSet;
 
         private ArrayList numbersOfFlashcards;
+        
+        private FlashcardDesign flashcardDesign;
 
         private int currentFlashcardIndex = 0;
+
+        private int incrementTextSize = 5;
+
+        private int decreaseTextSize = 5;
 
         public PlayWindow(MenuWindow menuWindowReference, FlashcardOptions flashcardOptionsReference, FlashcardSet flashcardSet)
         {
             InitializeComponent();
             this.flashcardSet = CloneFlashcardSet(flashcardSet);
+            flashcardDesign = new FlashcardDesign(false, false, incrementTextSize, decreaseTextSize);
 
             Shuffle(this.flashcardSet.Flashcards);
 
@@ -61,7 +71,8 @@ namespace FirstLab.XAML
                 clonedSet.Flashcards.Add(new Flashcard
                 {
                     FlashcardQuestion = flashcard.FlashcardQuestion,
-                    FlashcardAnswer = flashcard.FlashcardAnswer
+                    FlashcardAnswer = flashcard.FlashcardAnswer,
+                    FlashcardColor = flashcard.FlashcardColor
                 });
             }
             clonedSet.FlashcardSetName = originalSet.FlashcardSetName;
@@ -74,6 +85,21 @@ namespace FirstLab.XAML
             {
                 flashcardNumberTextBlock.Text = ((int)numbersOfFlashcards[index]).ToString() + "/" + ListBoxFlashcards.Items.Count.ToString();
                 questionTextBox.Text = flashcardSet.Flashcards[index].FlashcardQuestion;
+                string flashcardColorT = flashcardSet.Flashcards[index].FlashcardColor.ToString();
+                int indexOfColon = flashcardColorT.IndexOf(":");
+
+                if (indexOfColon != -1)
+                {
+                    flashcardColorT = flashcardColorT.Substring(indexOfColon + 2);
+                }
+
+                if (!string.IsNullOrEmpty(flashcardSet.Flashcards[index].FlashcardColor))
+                {
+                    SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
+
+                    questionTextBox.Background = colorBrush;
+                }
+
                 answerTextBox.Clear();
             }
         }
@@ -95,6 +121,58 @@ namespace FirstLab.XAML
         private void displayAnswer(object sender, RoutedEventArgs e)
         {
             DisplayAnswer(currentFlashcardIndex - 1);
+        }
+
+        private void HighlightText(object sender, RoutedEventArgs e)
+        {
+            flashcardDesign.IsHighlighted = !flashcardDesign.IsHighlighted;
+
+            if (flashcardDesign.IsHighlighted == true)
+            {
+                questionTextBox.FontWeight = FontWeights.Bold;
+                answerTextBox.FontWeight = FontWeights.Bold;
+                HighlightButton.IsChecked = true;
+            }
+            else
+            {
+                questionTextBox.FontWeight = FontWeights.Normal;
+                answerTextBox.FontWeight = FontWeights.Normal;
+                HighlightButton.IsChecked = false;
+            }
+        }
+
+        private void ItalicText(object sender, RoutedEventArgs e)
+        {
+            flashcardDesign.IsItalic = !flashcardDesign.IsItalic;
+
+            if (flashcardDesign.IsItalic == true)
+            {
+                questionTextBox.FontStyle = FontStyles.Italic;
+                answerTextBox.FontStyle = FontStyles.Italic;
+                ItalicButton.IsChecked = true;
+            }
+            else
+            {
+                questionTextBox.FontStyle = FontStyles.Normal;
+                answerTextBox.FontStyle = FontStyles.Normal;
+                ItalicButton.IsChecked = false;
+            }
+        }
+
+        private void UpTextSize(object sender, RoutedEventArgs e)
+        {
+            questionTextBox.FontSize += flashcardDesign.IncreaseTextSize;
+            answerTextBox.FontSize += flashcardDesign.IncreaseTextSize;
+            UpTextButton.IsChecked = true;
+            DecTextButton.IsChecked = false;
+        }
+
+        private void DecTextSize(object sender, RoutedEventArgs e)
+        {
+            questionTextBox.FontSize -= flashcardDesign.DecreaseTextSize;
+            answerTextBox.FontSize -= flashcardDesign.DecreaseTextSize;
+            DecTextButton.IsChecked = true;
+            UpTextButton.IsChecked = false;
         }
     }
 
