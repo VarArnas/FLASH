@@ -88,7 +88,21 @@
                        Width="15" Height="15"/>
             </Button>
 
+<<<<<<< Updated upstream
             <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+=======
+            <ListBox Name="ColorBox" Grid.Column="2" Margin="0,0,0,246" 
+            SelectedValue="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards}"
+            SelectionChanged="ColorBox_SelectionChanged">
+                <ListBoxItem>Red</ListBoxItem>
+                <ListBoxItem>Green</ListBoxItem>
+                <ListBoxItem>Yellow</ListBoxItem>
+                <ListBoxItem>Blue</ListBoxItem>
+                <ListBoxItem>Orange</ListBoxItem>
+            </ListBox>
+
+            <Grid Grid.Row="0" Grid.Column="1">
+>>>>>>> Stashed changes
                 <Border Margin="30" Name="QuestionBorder" Visibility="Visible"
                         Background="LightBlue" BorderBrush="DarkBlue" BorderThickness="1"
                         PreviewMouseDown="QuestionBorder_PreviewMouseDown" CornerRadius="10">
@@ -220,6 +234,20 @@
                          FontWeight="Medium" Padding="4,2,0,0"
                          Margin="15, 20 0, 0"
                          Name="NormalizeButton"/>
+<<<<<<< Updated upstream
+=======
+
+            <ScrollViewer Name="ErrorScrollViewer" Grid.Row="0" Grid.Column="2"
+                          Margin="5, 250, 0, 20" FontFamily="Fonts/#Dosis"
+                          IsEnabled="true" BorderThickness="0" VerticalScrollBarVisibility="Disabled" Cursor="Arrow">
+                     <TextBox Background="#FFC7891B" Foreground="Red"  Name="errorText"
+                              FontWeight="Bold" FontSize="12"
+                              TextAlignment="Left"
+                              TextWrapping="Wrap" IsReadOnly="True"
+                              BorderThickness="0" Cursor="Arrow"/>
+            </ScrollViewer>
+           
+>>>>>>> Stashed changes
         </Grid>
     </Border>
 

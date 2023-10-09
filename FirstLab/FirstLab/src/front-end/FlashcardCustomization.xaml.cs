@@ -24,8 +24,18 @@ namespace FirstLab
 
         private MenuWindow menuWindowReference;
 
+<<<<<<< Updated upstream
         private String NameOfSet = "Name...";
         public FlashcardCustomization(MenuWindow menuWindowReference, FlashcardSet flashcardSet = null)
+=======
+        private FlashcardOptions flashcardOptionsReference;
+
+        private string? NameOfSet;
+
+        private CustomizationErrors errors;
+
+        public FlashcardCustomization(MenuWindow menuWindowReference, FlashcardOptions flashcardOptionsReference, FlashcardSet? flashcardSet = null)
+>>>>>>> Stashed changes
         {
             InitializeComponent();
 
@@ -173,5 +183,12 @@ namespace FirstLab
             flashcardSet.Flashcards.Add(tempFlashcard);
         }
 
+        private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ColorBox.SelectedItem != null)
+            {
+                ListBoxItem selectedColorItem = (ListBoxItem)ColorBox.SelectedItem;
+            }
+        }
     }
 }
