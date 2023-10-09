@@ -16,16 +16,6 @@ namespace FirstLab.src.back_end.errorHandling
 
         private ObservableCollection<FlashcardSet> SetsOfFlashcards;
 
-        public enum ErrorCode
-        {
-            NoError,
-            NameIsEmpty,
-            NotAllowedSymbolsInName,
-            ExistingName,
-            NoFlashcardsExist,
-            NotAllFlashcardsFull
-        }
-
         public List<ErrorCode> ErrorCodes { get; private set; }
 
         public CustomizationErrors(TextBox errorTextBox, string? NameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards) 
@@ -51,7 +41,7 @@ namespace FirstLab.src.back_end.errorHandling
                 ErrorCodes.Add(ErrorCode.NotAllowedSymbolsInName);
             }
 
-            if (SetsOfFlashcards.Contains(flashcardSet))
+            if (ErrorUtils.NameExists(NameOfFlashcardSet, SetsOfFlashcards))
             {
                 ErrorCodes.Add(ErrorCode.ExistingName);
             }

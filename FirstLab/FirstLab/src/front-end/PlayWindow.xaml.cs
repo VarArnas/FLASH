@@ -1,6 +1,9 @@
+﻿using System;
+using System.Collections;
 ﻿using FirstLab.src.back_end;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,6 +13,8 @@ namespace FirstLab.XAML
     public partial class PlayWindow : UserControl
     {
         private FlashcardSet flashcardSet;
+
+        private ArrayList numbersOfFlashcards;
 
         private FlashcardDesign flashcardDesign;
 
@@ -25,7 +30,9 @@ namespace FirstLab.XAML
             this.flashcardSet = CloneFlashcardSet(flashcardSet);
             flashcardDesign = new FlashcardDesign(false, false, incrementTextSize, decreaseTextSize);
 
-            shuffle(this.flashcardSet.Flashcards);
+            Shuffle(this.flashcardSet.Flashcards);
+
+            numbersOfFlashcards = CreateArray(this.flashcardSet.Flashcards);
 
             DataContext = this.flashcardSet;
             nameTextBox.Text = flashcardSet.FlashcardSetName;
@@ -36,7 +43,13 @@ namespace FirstLab.XAML
             }
         }
 
-        private void shuffle(ObservableCollection<Flashcard> flashcards)
+        private ArrayList CreateArray(ObservableCollection<Flashcard> flashcards)
+        {
+            ArrayList array = new ArrayList(Enumerable.Range(1, flashcards.Count).ToList());
+            return array;
+        }
+
+        private void Shuffle(ObservableCollection<Flashcard> flashcards)
         {
             Random random = new Random();
 
@@ -70,6 +83,7 @@ namespace FirstLab.XAML
         {
             if (index >= 0 && index < ListBoxFlashcards.Items.Count)
             {
+                flashcardNumberTextBlock.Text = ((int)numbersOfFlashcards[index]).ToString() + "/" + ListBoxFlashcards.Items.Count.ToString();
                 questionTextBox.Text = flashcardSet.Flashcards[index].FlashcardQuestion;
                 string flashcardColorT = flashcardSet.Flashcards[index].FlashcardColor.ToString();
                 int indexOfColon = flashcardColorT.IndexOf(":");
@@ -98,7 +112,7 @@ namespace FirstLab.XAML
             }
         }
 
-        private void displayFlashcard(object sender, RoutedEventArgs e)
+        private void DisplayFlashcard(object sender, RoutedEventArgs e)
         {
             DisplayFlashcard(currentFlashcardIndex);
             currentFlashcardIndex++;

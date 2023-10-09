@@ -21,5 +21,22 @@ namespace FirstLab.src.back_end.errorHandling
             }
             return false;
         }
+
+        public static bool NameExists(string Name, ObservableCollection<FlashcardSet> SetsOfFlashcards)
+        {
+            if (!SetsOfFlashcards.Any())
+            {
+                return false;
+            }
+
+            foreach (FlashcardSet flashcardSet in SetsOfFlashcards)
+            {
+                if (flashcardSet.FlashcardSetName == Name)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

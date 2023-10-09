@@ -151,7 +151,7 @@ namespace FirstLab
 
         private void DeleteFlashcardSet_Click(object sender, RoutedEventArgs e)
         {
-            ControllerUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);
+            ViewsUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);
         }
 
         private void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
@@ -161,7 +161,7 @@ namespace FirstLab
             if (!errors.ErrorCodes.Any())
             {
                 menuWindowReference.flashcardSets.Add(flashcardSet);
-                ControllerUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);     
+                ViewsUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);     
             }
         }
 

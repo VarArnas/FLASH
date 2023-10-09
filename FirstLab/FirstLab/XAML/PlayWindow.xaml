@@ -8,7 +8,7 @@
     Height="450" Width="800">
     <Grid>
         <ListBox Name="ListBoxFlashcards" ItemsSource="{Binding Flashcards}" Margin="-12,472,650,-103"/>
-        <Button Click="displayFlashcard"
+        <Button Click="DisplayFlashcard"
         Content="Next flashcard"
         HorizontalAlignment="Left"
         Margin="257,325,0,0"
@@ -94,7 +94,20 @@
         <ToggleButton Click="UpTextSize" Name="UpTextButton" Content="Increase text size" HorizontalAlignment="Left" Margin="114,250,0,0" VerticalAlignment="Top" Width="98"/>
         <ToggleButton Click="DecTextSize" Name="DecTextButton" Content="Decrease text size" HorizontalAlignment="Left" Margin="114,275,0,0" VerticalAlignment="Top"/>
 
-        <!-- Your content goes here -->
+        <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Center" Margin="-100,300,0,0"
+                   TextWrapping="Wrap"
+                   VerticalAlignment="Center"
+                   TextAlignment="Center" Foreground="White"
+                   FontFamily="Fonts/#Dosis"
+                   FontWeight="Medium"
+                   FontSize="20"
+                   Text=""/>
+      
+        <ToggleButton Click="HighlightText" Name="HighlightButton" Content="Highlight" HorizontalAlignment="Left" Margin="114,325,0,0" VerticalAlignment="Top" Width="98"/>
+        <ToggleButton Click="ItalicText" Name="ItalicButton" Content="Italic" HorizontalAlignment="Left" Margin="114,300,0,0" VerticalAlignment="Top" Width="98"/>
+        <ToggleButton Click="UpTextSize" Name="UpTextButton" Content="Increase text size" HorizontalAlignment="Left" Margin="114,250,0,0" VerticalAlignment="Top" Width="98"/>
+        <ToggleButton Click="DecTextSize" Name="DecTextButton" Content="Decrease text size" HorizontalAlignment="Left" Margin="114,275,0,0" VerticalAlignment="Top"/>
+
     </Grid>
 </UserControl>
 

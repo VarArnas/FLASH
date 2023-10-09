@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace FirstLab.src.back_end
 {
@@ -13,6 +10,7 @@ namespace FirstLab.src.back_end
     {
         private static string PATH = AppDomain.CurrentDomain.BaseDirectory + "../../../DataFiles/";
         private static string FILE_NAME = "Set";
+        private static string LOG_FILE_NAME = "Logs";
 
         private static void SaveFlashcardSet(FlashcardSet flashcardSet, int fileNumber)
         {
@@ -56,10 +54,30 @@ namespace FirstLab.src.back_end
         private static void DeleteFiles()
         {
             string[] files = Directory.GetFiles(PATH, "Set*.json");
-            foreach(string file in files) 
+            foreach (string file in files)
             {
                 File.Delete(file);
             }
+        }
+
+        public static void SaveLogs(ObservableCollection<FlashcardSetLog> logs)
+        {
+            string json = JsonSerializer.Serialize(logs);
+            File.WriteAllText(PATH + LOG_FILE_NAME + ".json", json);
+        }
+
+        public static ObservableCollection<FlashcardSetLog> LoadLogs()
+        {
+            ObservableCollection<FlashcardSetLog> logs = new ObservableCollection<FlashcardSetLog>();
+            string filePath = PATH + LOG_FILE_NAME + ".json";
+
+            if (File.Exists(filePath))
+            {
+                string jsonContent = File.ReadAllText(filePath);
+                logs = JsonSerializer.Deserialize<ObservableCollection<FlashcardSetLog>>(jsonContent);
+            }
+
+            return logs;
         }
     }
 }

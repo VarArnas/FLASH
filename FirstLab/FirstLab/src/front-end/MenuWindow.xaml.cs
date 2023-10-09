@@ -1,5 +1,6 @@
 ﻿using FirstLab.src.back_end;
 using FirstLab.src.back_end.utilities;
+using FirstLab.XAML;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,10 +17,17 @@ namespace FirstLab
 
         public ObservableCollection<FlashcardSet> flashcardSets;
 
+        private LogsView logsView;
+
+        private DateTime playWindowEndTime;
+
         public MenuWindow()
         {
             InitializeComponent();
             flashcardSets = new ObservableCollection<FlashcardSet>(DataManager.LoadAllFlashcardSets());
+            homeView = new HomeView(this);
+            contentControl.Content = homeView;
+            logsView = new LogsView();
         }
 
         private void MenuWindow_Loaded(object sender, RoutedEventArgs e)
@@ -31,9 +39,6 @@ namespace FirstLab
             opacityAnimation.AutoReverse = true;
             opacityAnimation.RepeatBehavior = RepeatBehavior.Forever;
             breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, opacityAnimation);
-
-            homeView = new HomeView(this);
-            contentControl.Content = homeView;
 
             string relativePath = "DataFiles\\AppName.txt";
             string? appName = FileUtility.ReadAppNameFromFile(AppDomain.CurrentDomain.BaseDirectory + relativePath);
@@ -53,7 +58,13 @@ namespace FirstLab
 
         private void ReturnToHomeView(object sender, RoutedEventArgs e)
         {
-           ControllerUtils.ChangeWindow(this, "Menu", homeView: homeView);
+           if(contentControl.Content is PlayWindow)
+           {
+                playWindowEndTime = DateTime.Now;
+                logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
+           }
+
+           ViewsUtils.ChangeWindow(this, "Menu", homeView: homeView);
         }
 
         private void ExitProgram(object sender, CancelEventArgs e)
@@ -61,12 +72,24 @@ namespace FirstLab
             if (MessageBox.Show("Do you want to save changes?", "save changes", MessageBoxButton.YesNo) == MessageBoxResult.Yes) 
             {
                 DataManager.SaveAllFlashcardSets(flashcardSets);
+                DataManager.SaveLogs(logsView.flashcardSetsLogs);
             }
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void AccessLogs_Click(object sender, RoutedEventArgs e)
+        {
+            if (contentControl.Content is PlayWindow)
+            {
+                playWindowEndTime = DateTime.Now;
+                logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
+            }
+
+            ViewsUtils.ChangeWindow(this, "Logs", logsView: logsView);
         }
     }
 }
