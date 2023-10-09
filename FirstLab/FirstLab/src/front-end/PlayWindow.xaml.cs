@@ -15,7 +15,7 @@ namespace FirstLab.XAML
         private FlashcardSet flashcardSet;
 
         private ArrayList numbersOfFlashcards;
-        
+
         private FlashcardDesign flashcardDesign;
 
         private int currentFlashcardIndex = 0;
