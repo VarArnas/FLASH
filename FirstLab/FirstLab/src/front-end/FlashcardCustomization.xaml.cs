@@ -161,7 +161,7 @@ namespace FirstLab
             if (!errors.ErrorCodes.Any())
             {
                 menuWindowReference.flashcardSets.Add(flashcardSet);
-                ControllerUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);    
+                ControllerUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);     
             }
         }
 
