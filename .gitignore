@@ -393,4 +393,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 /FirstLab/FirstLab/DataFiles/
-Logs.json
+/FirstLab/FirstLab/DataFiles/Logs.json
