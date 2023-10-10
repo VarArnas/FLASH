@@ -64,7 +64,7 @@ namespace FirstLab
                 logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
            }
 
-           ViewsUtils.ChangeWindow(this, "Menu", homeView: homeView);
+           ViewsUtils.ChangeWindow(this, "Menu", homeView);
         }
 
         private void ExitProgram(object sender, CancelEventArgs e)
@@ -89,7 +89,7 @@ namespace FirstLab
                 logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
             }
 
-            ViewsUtils.ChangeWindow(this, "Logs", logsView: logsView);
+            ViewsUtils.ChangeWindow(this, "Logs", logsView);
         }
     }
 }
