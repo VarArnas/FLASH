@@ -4,6 +4,7 @@ using FirstLab.XAML;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
@@ -14,11 +15,8 @@ namespace FirstLab
     public partial class MenuWindow : Window
     {
         private HomeView homeView;
-
         public ObservableCollection<FlashcardSet> flashcardSets;
-
         private LogsView logsView;
-
         private DateTime playWindowEndTime;
 
         public MenuWindow()
@@ -50,29 +48,58 @@ namespace FirstLab
 
         private void MovingWindow(object sender, MouseButtonEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                DragMove();
+                Thread moveWindowThread = new Thread(() =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        DragMove();
+                    });
+                });
+
+                moveWindowThread.Start();
             }
         }
 
         private void ReturnToHomeView(object sender, RoutedEventArgs e)
         {
-           if(contentControl.Content is PlayWindow)
-           {
-                playWindowEndTime = DateTime.Now;
-                logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
-           }
+            if (contentControl.Content is PlayWindow)
+            {
+                DateTime playWindowEndTime = DateTime.Now;
+                PlayWindow playWindow = contentControl.Content as PlayWindow;
 
-           ViewsUtils.ChangeWindow(this, "Menu", homeView);
+                Thread returnToHomeViewThread = new Thread(() =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
+                        ViewsUtils.ChangeWindow(this, "Menu", homeView);
+                    });
+                });
+
+                returnToHomeViewThread.Start();
+            }
+            else
+            {
+                ViewsUtils.ChangeWindow(this, "Menu", homeView);
+            }
         }
 
         private void ExitProgram(object sender, CancelEventArgs e)
         {
-            if (MessageBox.Show("Do you want to save changes?", "save changes", MessageBoxButton.YesNo) == MessageBoxResult.Yes) 
+            if (MessageBox.Show("Do you want to save changes?", "Save Changes", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                DataManager.SaveAllFlashcardSets(flashcardSets);
-                DataManager.SaveLogs(logsView.flashcardSetsLogs);
+                Thread exitProgramThread = new Thread(() =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        DataManager.SaveAllFlashcardSets(flashcardSets);
+                        DataManager.SaveLogs(logsView.flashcardSetsLogs);
+                    });
+                });
+
+                exitProgramThread.Start();
             }
         }
 
@@ -85,11 +112,23 @@ namespace FirstLab
         {
             if (contentControl.Content is PlayWindow)
             {
-                playWindowEndTime = DateTime.Now;
-                logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
-            }
+                DateTime playWindowEndTime = DateTime.Now;
 
-            ViewsUtils.ChangeWindow(this, "Logs", logsView);
+                Thread accessLogsThread = new Thread(() =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
+                        ViewsUtils.ChangeWindow(this, "Logs", logsView);
+                    });
+                });
+
+                accessLogsThread.Start();
+            }
+            else
+            {
+                ViewsUtils.ChangeWindow(this, "Logs", logsView);
+            }
         }
     }
 }
