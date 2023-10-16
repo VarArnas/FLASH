@@ -391,3 +391,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+/FirstLab/FirstLab/DataFiles/
+/FirstLab/FirstLab/DataFiles/Logs.json

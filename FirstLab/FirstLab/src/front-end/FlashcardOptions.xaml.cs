@@ -43,7 +43,7 @@ namespace FirstLab
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             playWindowReference = new PlayWindow(menuWindowReference, this, (FlashcardSet)flashcardSetsControl.SelectedItem);
-            ViewsUtils.ChangeWindow(menuWindowReference, "Play", playWindowReference: playWindowReference);
+            ViewsUtils.ChangeWindow(menuWindowReference, "Play", playWindowReference);
             playWindowStartTime = DateTime.Now;
             flashcardSet = (FlashcardSet)flashcardSetsControl.SelectedItem;
         }
@@ -64,13 +64,13 @@ namespace FirstLab
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, this, (FlashcardSet)flashcardSetsControl.SelectedItem);
-            ViewsUtils.ChangeWindow(menuWindowReference, "Customization", flashcardCustomizationView: flashcardCustomizationview);
+            ViewsUtils.ChangeWindow(menuWindowReference, "Customization", flashcardCustomizationview);
         }
 
         private void NewSet_Click(object sender, RoutedEventArgs e)
         {
             flashcardCustomizationview = new FlashcardCustomization(menuWindowReference, this);
-            ViewsUtils.ChangeWindow(menuWindowReference, "Customization", flashcardCustomizationView: flashcardCustomizationview);
+            ViewsUtils.ChangeWindow(menuWindowReference, "Customization", flashcardCustomizationview);
         }
     }
 }
