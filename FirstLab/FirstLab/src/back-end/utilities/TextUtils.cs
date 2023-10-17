@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.IO;
+using System.Windows.Controls;
 
 namespace FirstLab.src.back_end.utilities
 {
@@ -19,6 +21,20 @@ namespace FirstLab.src.back_end.utilities
             {
                 textBox.Text = string.Empty;
             }
+        }
+
+        public static string ReturnDatabaseString()
+        {
+            string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Navigate up the directory tree to reach the desired directory
+            while (!Directory.Exists(Path.Combine(currentDirectory, "src\\back-end\\database")))
+            {
+                // Go up one directory
+                currentDirectory = Directory.GetParent(currentDirectory).FullName;
+            }
+
+            return Path.Combine(currentDirectory, "src\\back-end\\database\\myDatabase.db");
         }
     }
 }
