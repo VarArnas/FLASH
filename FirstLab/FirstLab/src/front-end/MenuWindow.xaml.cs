@@ -54,6 +54,11 @@ namespace FirstLab
            {
                 playWindowEndTime = DateTime.Now;
                 logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
+           } 
+           else if (contentControl.Content is FlashcardCustomization) 
+           {
+                MessageBox.Show("There are unsaved changes!!");
+                return;
            }
            ViewsUtils.ChangeWindow(this, "Menu", homeView);
         }

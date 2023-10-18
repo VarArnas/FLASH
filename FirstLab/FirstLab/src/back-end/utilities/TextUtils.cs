@@ -20,21 +20,15 @@ namespace FirstLab.src.back_end.utilities
             if (textBox.Text == defaultText)
             {
                 textBox.Text = string.Empty;
-            }
+            }   
         }
 
         public static string ReturnDatabaseString()
         {
-            string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
-            // Navigate up the directory tree to reach the desired directory
-            while (!Directory.Exists(Path.Combine(currentDirectory, "src\\back-end\\database")))
-            {
-                // Go up one directory
-                currentDirectory = Directory.GetParent(currentDirectory).FullName;
-            }
-
-            return Path.Combine(currentDirectory, "src\\back-end\\database\\myDatabase.db");
+            string baseDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string projectDirectory = baseDirectory.Substring(0, baseDirectory.LastIndexOf("\\bin"));
+            string databasePath = Path.Combine(projectDirectory, "src\\back-end\\data\\myDatabase.db");
+            return databasePath;
         }
     }
 }

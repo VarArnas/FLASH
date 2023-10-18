@@ -31,7 +31,7 @@ namespace FirstLab
         private async void InitializeOptionsFields(MenuWindow menuWindowReference)
         {
             this.menuWindowReference = menuWindowReference;
-            flashcardSets = await DatabaseLibrary.GetAllFlashcardSetsAsync();
+            flashcardSets = await DatabaseRepository.GetAllFlashcardSetsAsync();
             flashcardSetsControl.ItemsSource = flashcardSets;
         }
 
@@ -59,7 +59,7 @@ namespace FirstLab
             {
                 if (menuWindowReference != null)
                 {
-                    await DatabaseLibrary.RemoveFlashcardSetAsync(selectedSet.FlashcardSetName);
+                    await DatabaseRepository.RemoveAsync(selectedSet);
                     flashcardSets.Remove(selectedSet);
                 }
             }

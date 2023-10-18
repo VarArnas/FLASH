@@ -22,7 +22,7 @@ namespace FirstLab.XAML
 
         private async void InitializeLogsFields()
         {
-            flashcardSetsLogs = await DatabaseLibrary.GetAllFlashcardSetLogsAsync();
+            flashcardSetsLogs = await DatabaseRepository.GetAllAsync<FlashcardSetLog>();
             LogsItemsControl.ItemsSource = flashcardSetsLogs;
         }
 
@@ -31,13 +31,13 @@ namespace FirstLab.XAML
             duration = playWindowEndTime - playWindowStartTime;
             var log = new FlashcardSetLog(flashcardSet.FlashcardSetName, playWindowStartTime, (int)duration.TotalSeconds);
             flashcardSetsLogs.Insert(0, log);
-            await DatabaseLibrary.AddFlashcardSetLogAsync(log);
+            await DatabaseRepository.AddAsync(log);
         }
 
         private async void ClearLogs_Click(object sender, RoutedEventArgs e)
         {
             flashcardSetsLogs.Clear();
-            await DatabaseLibrary.RemoveAllFlashcardSetLogsAsync();
+            await DatabaseRepository.RemoveAllAsync<FlashcardSetLog>();
         }
     }
 }

@@ -48,7 +48,7 @@ namespace FirstLab
             }
             else
             {
-                await DatabaseLibrary.RemoveFlashcardSetAsync(flashcardSet.FlashcardSetName);
+                await DatabaseRepository.RemoveAsync(flashcardSet);
                 flashcardOptionsReference.flashcardSets.Remove(flashcardSet);
                 ListBoxFlashcards.SelectedIndex = flashcardSet.Flashcards.Count - 1;
                 NameOfSet = flashcardSet.FlashcardSetName;
@@ -59,7 +59,7 @@ namespace FirstLab
         {
             var newFlashcard = new Flashcard();
             int newFlashcardNumber = flashcardSet.Flashcards.Count + 1;
-            newFlashcard.FlashcardName = "#" + newFlashcardNumber.ToString();
+            newFlashcard.FlashcardName = newFlashcardNumber.ToString("D2");
             flashcardSet.Flashcards.Add(newFlashcard);
             ListBoxFlashcards.Items.Refresh();
             ListBoxFlashcards.SelectedIndex = flashcardSet.Flashcards.IndexOf(newFlashcard);
@@ -96,7 +96,7 @@ namespace FirstLab
 
                 for (int i = selectedIndex; i < flashcardSet.Flashcards.Count; i++)
                 {
-                    flashcardSet.Flashcards[i].FlashcardName = "#" + (i + 1);
+                    flashcardSet.Flashcards[i].FlashcardName = (i + 1).ToString("D2");
                 }
             }
         }
@@ -174,7 +174,7 @@ namespace FirstLab
                 {
                     flashcard.FlashcardSetName = flashcardSet.FlashcardSetName;
                 }
-                await DatabaseLibrary.AddFlashcardSetAsync(flashcardSet);
+                await DatabaseRepository.AddAsync(flashcardSet);
                 flashcardOptionsReference.flashcardSets.Add(flashcardSet);
                 ViewsUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);     
             }
