@@ -67,16 +67,14 @@
             Foreground="Red">
         </Button>
 
-        <TextBox Name="nameTextBox"
-         HorizontalAlignment="Left"
-         Margin="292,35,0,0"
+        <TextBox Name="timerTextBox"
+         Margin="532,184,0,0"
          TextWrapping="Wrap"
          Text=""
-         VerticalAlignment="Top"
-         Width="120"
+         Width="53"
                  TextAlignment="Center"
                  IsReadOnly="True">
-            
+
             <TextBox.Style>
                 <Style TargetType="TextBox">
                     <Setter Property="Background" Value="Purple" />
@@ -101,6 +99,35 @@
                    FontWeight="Medium"
                    FontSize="20"
                    Text=""/>
+        <TextBox Name="nameTextBox"
+ HorizontalAlignment="Left"
+ Margin="292,35,0,0"
+ TextWrapping="Wrap"
+ Text=""
+ VerticalAlignment="Top"
+ Width="120"
+         TextAlignment="Center"
+         IsReadOnly="True">
+
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="Purple" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="VerticalAlignment" Value="Top" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="SelectionBrush" Value="Red" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <ListBox Name="timerListBox" Margin="114,112,593,225"
+                 SelectionChanged="timerListBox_SelectionChanged">
+            <ListBoxItem Content="3 seconds"/>
+            <ListBoxItem Content="5 seconds"/>
+            <ListBoxItem Content="10 seconds"/>
+            <ListBoxItem Content="15 seconds"/>
+            <ListBoxItem Content="30 seconds"/>
+        </ListBox>
     </Grid>
 </UserControl>
 

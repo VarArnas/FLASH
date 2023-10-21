@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Threading;
 
 namespace FirstLab.XAML
 {
@@ -23,6 +24,14 @@ namespace FirstLab.XAML
         private int incrementTextSize = 5;
 
         private int decreaseTextSize = 5;
+
+        private int timerCounter;
+
+        private int counter;
+
+        private Thread timerThread;
+
+        private readonly object lockObject = new object();
 
         public PlayWindow(MenuWindow menuWindowReference, FlashcardOptions flashcardOptionsReference, FlashcardSet flashcardSet)
         {
@@ -114,8 +123,13 @@ namespace FirstLab.XAML
 
         private void DisplayFlashcard(object sender, RoutedEventArgs e)
         {
+            counter = timerCounter;
             DisplayFlashcard(currentFlashcardIndex);
             currentFlashcardIndex++;
+            if(currentFlashcardIndex <= flashcardSet.Flashcards.Count)
+            {
+                InitTimer();
+            }
         }
 
         private void displayAnswer(object sender, RoutedEventArgs e)
@@ -174,6 +188,58 @@ namespace FirstLab.XAML
             DecTextButton.IsChecked = true;
             UpTextButton.IsChecked = false;
         }
-    }
 
+        private void InitTimer()
+        {
+            timerThread = new Thread(Countdown);
+            timerThread.Start();
+        }
+
+        private void Countdown()
+        {
+            while(counter > 0)
+            {
+                lock(lockObject)
+                {
+                    counter--;
+
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        timerTextBox.Text = counter.ToString();
+                    }));
+                }
+
+                Thread.Sleep(1000);
+            }
+
+            if(counter == 0)
+            {
+                Dispatcher.Invoke((Action)(() =>
+                {
+                    DisplayAnswer(currentFlashcardIndex - 1);
+                }));
+            }
+        }
+
+        private void timerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedTime = timerListBox.SelectedItem.ToString();
+
+            if(!string.IsNullOrEmpty(selectedTime))
+            {
+                timerCounter = ExtractNumber(selectedTime);
+            }
+        }
+
+        private int ExtractNumber(string input)
+        {
+            string numericPart = new string(input.Where(char.IsDigit).ToArray());
+        
+            if(int.TryParse(numericPart, out int timerCounter))
+            {
+                return timerCounter;
+            }
+            return 0;
+        }
+    }
 }
