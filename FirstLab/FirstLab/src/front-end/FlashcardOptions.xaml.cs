@@ -1,4 +1,5 @@
-﻿using FirstLab.src.back_end.utilities;
+﻿using FirstLab.src.back_end.data;
+using FirstLab.src.back_end.utilities;
 using FirstLab.XAML;
 using System;
 using System.Collections.ObjectModel;
@@ -15,7 +16,7 @@ namespace FirstLab
 
         private PlayWindow playWindowReference;
 
-        private ObservableCollection<FlashcardSet> flashcardSets;
+        public ObservableCollection<FlashcardSet> flashcardSets;
 
         public DateTime playWindowStartTime;
 
@@ -24,9 +25,13 @@ namespace FirstLab
         public FlashcardOptions(MenuWindow menuWindowReference)
         {
             InitializeComponent();
+            InitializeOptionsFields(menuWindowReference);
+        }
 
+        private async void InitializeOptionsFields(MenuWindow menuWindowReference)
+        {
             this.menuWindowReference = menuWindowReference;
-            flashcardSets = this.menuWindowReference.flashcardSets;
+            flashcardSets = await DatabaseRepository.GetAllFlashcardSetsAsync();
             flashcardSetsControl.ItemsSource = flashcardSets;
         }
 
@@ -48,12 +53,13 @@ namespace FirstLab
             flashcardSet = (FlashcardSet)flashcardSetsControl.SelectedItem;
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (flashcardSetsControl.SelectedItem is FlashcardSet selectedSet)
             {
                 if (menuWindowReference != null)
                 {
+                    await DatabaseRepository.RemoveAsync(selectedSet);
                     flashcardSets.Remove(selectedSet);
                 }
             }
