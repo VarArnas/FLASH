@@ -2,29 +2,20 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FirstLab
+namespace FirstLab;
+
+public partial class HomeView : UserControl
 {
-    public partial class HomeView : UserControl
+    public FlashcardOptions flashcardOptionsView;
+
+    public HomeView(FlashcardOptions flashcardOptionsView)
     {
-        private MenuWindow menuWindowReference;
+        InitializeComponent();
+        this.flashcardOptionsView = flashcardOptionsView;
+    }
 
-        public FlashcardOptions flashcardOptionsView;
-
-        public HomeView(MenuWindow menuWindowReference)
-        {
-            InitializeComponent();
-            InitializeHomeFields(menuWindowReference);
-        }
-
-        private void InitializeHomeFields(MenuWindow menuWindowReference)
-        {
-            this.menuWindowReference = menuWindowReference;
-        }
-
-        private void Flashcards_Clicked(object sender, RoutedEventArgs e)
-        {
-            flashcardOptionsView = new FlashcardOptions(menuWindowReference);
-            ViewsUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsView);
-        }
+    private void Flashcards_Clicked(object sender, RoutedEventArgs e)
+    {
+        ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsView);
     }
 }

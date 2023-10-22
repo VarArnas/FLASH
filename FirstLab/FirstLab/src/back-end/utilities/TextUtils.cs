@@ -1,34 +1,31 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Controls;
 
-namespace FirstLab.src.back_end.utilities
+namespace FirstLab.src.back_end.utilities;
+
+internal class TextUtils
 {
-    internal class TextUtils
+    public static void SetDefaultText(TextBox textBox, string defaultText)
     {
-        public static void SetDefaultText(TextBox textBox, string defaultText)
+        if (string.IsNullOrWhiteSpace(textBox.Text))
         {
-            if (string.IsNullOrWhiteSpace(textBox.Text))
-            {
-                textBox.Text = defaultText;
-            }
-
+            textBox.Text = defaultText;
         }
+    }
 
-        public static void SetEmptyText(TextBox textBox, string defaultText)
+    public static void SetEmptyText(TextBox textBox, string defaultText)
+    {
+        if (textBox.Text == defaultText)
         {
-            if (textBox.Text == defaultText)
-            {
-                textBox.Text = string.Empty;
-            }   
-        }
+            textBox.Text = string.Empty;
+        }   
+    }
 
-        public static string ReturnDatabaseString()
-        {
-            string baseDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            string projectDirectory = baseDirectory.Substring(0, baseDirectory.LastIndexOf("\\bin"));
-            string databasePath = Path.Combine(projectDirectory, "src\\back-end\\data\\myDatabase.db");
-            return databasePath;
-        }
+    public static string ReturnDatabaseString()
+    {
+        string baseDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+        string projectDirectory = baseDirectory.Substring(0, baseDirectory.LastIndexOf("\\bin"));
+        string databasePath = Path.Combine(projectDirectory, "src\\back-end\\data\\myDatabase.db");
+        return databasePath;
     }
 }

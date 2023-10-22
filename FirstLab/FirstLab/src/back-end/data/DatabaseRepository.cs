@@ -1,57 +1,69 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FirstLab.src.back_end.factories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace FirstLab.src.back_end.data
+namespace FirstLab.src.back_end.data;
+
+public static class DatabaseRepository
 {
-    public static class DatabaseRepository
+
+    public static IServiceProvider? serviceProvider;
+    public static IMainFactories? mainFactories;
+
+    public static async Task AddAsync<T>(T entity) where T : class
     {
-        public static async Task AddAsync<T>(T entity) where T : class
-        {
-            using (var context = new DataContext())
-            {
-                context.Set<T>().Add(entity);
-                await context.SaveChangesAsync();
-            }
-        }
+       var db = serviceProvider!.GetRequiredService<DataContext>();
+       db.Set<T>().Add(entity);
+       await db.SaveChangesAsync();
+    }
 
-        public static async Task RemoveAsync<T>(T entity) where T : class
-        {
-            using (var context = new DataContext())
-            {
-                context.Set<T>().Remove(entity);
-                await context.SaveChangesAsync();
-            }
-        }
+    public static async Task RemoveAsync<T>(T entity) where T : class
+    {
+       var db = serviceProvider!.GetRequiredService<DataContext>();
+       db.Set<T>().Remove(entity);
+       await db.SaveChangesAsync();
+    }
 
-        public static async Task<ObservableCollection<T>> GetAllAsync<T>() where T : class
-        {
-            using (var context = new DataContext())
-            {
-                var entities = await context.Set<T>().ToListAsync();
-                return new ObservableCollection<T>(entities);
-            }
-        }
+    public static async Task<ObservableCollection<T>> GetAllAsync<T>() where T : class
+    {
+        var db = serviceProvider!.GetRequiredService<DataContext>();
+        var entities = await db.Set<T>().ToListAsync();
+        var collection = mainFactories!.CreateCollection(entities);
+        return collection;
+    }
 
-        public static async Task RemoveAllAsync<T>() where T : class
-        {
-            using (var context = new DataContext())
-            {
-                var dbSet = context.Set<T>();
-                dbSet.RemoveRange(dbSet);
-                await context.SaveChangesAsync();
-            }
-        }
+    public static async Task RemoveAllAsync<T>() where T : class
+    {
+        var db = serviceProvider!.GetRequiredService<DataContext>();
+        var dbSet = db.Set<T>();
+        dbSet.RemoveRange(dbSet);
+        await db.SaveChangesAsync();
+    }
 
-        public static async Task<ObservableCollection<FlashcardSet>> GetAllFlashcardSetsAsync()
+    public static async Task RemoveFlashcardSetAsync(FlashcardSet flashcardSet)
+    {
+        var db = serviceProvider!.GetRequiredService<DataContext>();
+        var flashcardSetWithFlashcards = await db.FlashcardSets
+            .Include(fs => fs.Flashcards)
+            .FirstOrDefaultAsync(fs => fs.FlashcardSetName == flashcardSet.FlashcardSetName);
+        if (flashcardSetWithFlashcards != null)
         {
-            using (var context = new DataContext())
-            {
-                var flashcardSets = await context.FlashcardSets
-                    .Include(fs => fs.Flashcards)
-                    .ToListAsync();
-                return new ObservableCollection<FlashcardSet>(flashcardSets);
-            }
+            db.Flashcards.RemoveRange(flashcardSetWithFlashcards.Flashcards);
+            db.FlashcardSets.Remove(flashcardSetWithFlashcards);
+            await db.SaveChangesAsync();
         }
+    }
+
+    public static async Task<ObservableCollection<FlashcardSet>> GetAllFlashcardSetsAsync()
+    {
+        var db = serviceProvider!.GetRequiredService<DataContext>();
+        var flashcardSets = await db.FlashcardSets
+                .Include(fs => fs.Flashcards)
+                .ToListAsync();
+        var collection = mainFactories!.CreateCollection(flashcardSets);
+        return collection; 
     }
 }

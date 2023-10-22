@@ -1,37 +1,38 @@
-﻿using System.Linq;
+﻿using FirstLab.src.back_end.factories;
+using System.Linq;
 
-namespace FirstLab.src.back_end.utilities
+namespace FirstLab.src.back_end.utilities;
+
+public static class StringExtensions
 {
-    public static class StringExtensions
+    public static IMainFactories mainFactories;
+    public static string ExtractCapLetters(this string input)
     {
-        public static string ExtractCapLetters(this string input)
+        if (string.IsNullOrEmpty(input))
         {
-            if (string.IsNullOrEmpty(input))
-            {
-                return string.Empty;
-            }
-
-            return new string(input.Where(char.IsUpper).ToArray());
+            return string.Empty;
         }
 
-        public static string Capitalize(this string input)
-        {
-            if (string.IsNullOrEmpty(input))
-            {
-                return string.Empty;
-            }
+        return mainFactories.CreateString(input.Where(char.IsUpper).ToArray());
+    }
 
-            return new string(input.Select(char.ToUpper).ToArray());
+    public static string Capitalize(this string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return string.Empty;
         }
 
-        public static bool ContainsSymbols(this string input)
-        {
-            if (string.IsNullOrEmpty(input))
-            {
-                return false;
-            }
+        return mainFactories.CreateString(input.Select(char.ToUpper).ToArray());
+    }
 
-            return input.Any(c => char.IsSymbol(c));
+    public static bool ContainsSymbols(this string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return false;
         }
+
+        return input.Any(c => char.IsSymbol(c));
     }
 }

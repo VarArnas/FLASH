@@ -1,22 +1,15 @@
 ﻿using FirstLab.src.back_end.utilities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FirstLab.src.back_end.data
+namespace FirstLab.src.back_end.data;
+
+public class DataContext : DbContext
 {
-    class DataContext : DbContext
-    {
-        public DbSet<FlashcardSet> FlashcardSets { get; set; }
+    public DbSet<FlashcardSet> FlashcardSets { get; set; }
 
-        public DbSet<Flashcard> Flashcards { get; set; }
+    public DbSet<Flashcard> Flashcards { get; set; }
 
-        public DbSet<FlashcardSetLog> FlashcardsLog { get; set; }
+    public DbSet<FlashcardSetLog> FlashcardsLog { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {   
-            modelBuilder.Entity<Flashcard>()
-                .HasKey(f => new { f.FlashcardName, f.FlashcardSetName });
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={TextUtils.ReturnDatabaseString()}");
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={TextUtils.ReturnDatabaseString()}");
 }

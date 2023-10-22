@@ -67,20 +67,18 @@
                         <TextBlock Height="30" Text="{Binding FlashcardName}" FontFamily="Fonts/#Dosis"             
                                    FontSize="13" VerticalAlignment="Center"
                                    HorizontalAlignment="Center" Padding="30, 6, 30, 0" FontWeight="Medium"/>
-                        <!-- This is where the cardName of the flashcard is binded to a text
-                                         Block-->
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
 
             <ListBox Name="ColorBox" Grid.Column="2" Margin="0,0,0,246" 
-SelectedValue="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards}"
-SelectionChanged="ColorBox_SelectionChanged">
-                <ListBoxItem>Red</ListBoxItem>
-                <ListBoxItem>Green</ListBoxItem>
-                <ListBoxItem>Yellow</ListBoxItem>
-                <ListBoxItem>Blue</ListBoxItem>
-                <ListBoxItem>Orange</ListBoxItem>
+                     SelectedValue="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards}"
+                     SelectionChanged="ColorBox_SelectionChanged">
+                     <ListBoxItem>Red</ListBoxItem>
+                     <ListBoxItem>Green</ListBoxItem>
+                     <ListBoxItem>Yellow</ListBoxItem>
+                     <ListBoxItem>Blue</ListBoxItem>
+                     <ListBoxItem>Orange</ListBoxItem>
             </ListBox>
 
             <Button  Margin="0,0,50,340" Width="50" Height="20"
