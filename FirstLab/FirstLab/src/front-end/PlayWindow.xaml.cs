@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-﻿using FirstLab.src.back_end;
+using FirstLab.src.back_end;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using FirstLab.src.back_end.factories;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
 
 namespace FirstLab.XAML;
 
@@ -26,6 +27,14 @@ public partial class PlayWindow : UserControl
     private int currentFlashcardIndex = 0;
 
     private int incrementTextSize = 5;
+    
+    private int timerCounter;
+
+    private int counter;
+
+    private Thread timerThread;
+
+    private readonly object lockObject = new object();
 
     private int decreaseTextSize = 5;
 
@@ -73,6 +82,14 @@ public partial class PlayWindow : UserControl
             Flashcard temp = flashcards[i];
             flashcards[i] = flashcards[j];
             flashcards[j] = temp;
+            
+            counter = timerCounter;
+            DisplayFlashcard(currentFlashcardIndex);
+            currentFlashcardIndex++;
+            if (currentFlashcardIndex <= flashcardSet.Flashcards.Count)
+            {
+                InitTimer();
+            }
         }
     }
 
@@ -167,7 +184,7 @@ public partial class PlayWindow : UserControl
             ItalicButton.IsChecked = false;
         }
     }
-
+    
     private void UpTextSize(object sender, RoutedEventArgs e)
     {
         questionTextBox.FontSize += flashcardDesign.IncreaseTextSize;
@@ -182,5 +199,59 @@ public partial class PlayWindow : UserControl
         answerTextBox.FontSize -= flashcardDesign.DecreaseTextSize;
         DecTextButton.IsChecked = true;
         UpTextButton.IsChecked = false;
-    }
+     }
+     
+     private void InitTimer()
+     {
+         timerThread = new Thread(Countdown);
+         timerThread.Start();
+     }
+
+     private void Countdown()
+     {
+        while (counter > 0)
+        {
+            lock (lockObject)
+            {
+                counter--;
+
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    timerTextBox.Text = counter.ToString();
+                }));
+            }
+
+            Thread.Sleep(1000);
+        }
+
+        if (counter == 0)
+        {
+            Dispatcher.Invoke((Action)(() =>
+            {
+               DisplayAnswer(currentFlashcardIndex - 1);
+            }));
+        }
+     }
+
+     private void timerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+     {
+        string selectedTime = timerListBox.SelectedItem.ToString();
+
+        if (!string.IsNullOrEmpty(selectedTime))
+        {
+           timerCounter = ExtractNumber(selectedTime);
+        }
+     }
+
+     private int ExtractNumber(string input)
+     {
+        string numericPart = new string(input.Where(char.IsDigit).ToArray());
+
+        if (int.TryParse(numericPart, out int timerCounter))
+        {
+           return timerCounter;
+        }
+        return 0;
+     }
+   }
 }
