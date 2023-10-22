@@ -13,6 +13,11 @@ namespace FirstLab
         public HomeView(MenuWindow menuWindowReference)
         {
             InitializeComponent();
+            InitializeHomeFields(menuWindowReference);
+        }
+
+        private void InitializeHomeFields(MenuWindow menuWindowReference)
+        {
             this.menuWindowReference = menuWindowReference;
         }
 

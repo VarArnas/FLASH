@@ -57,7 +57,7 @@
             </TextBox.Style>
         </TextBox>
 
-        <Button Click="displayAnswer"
+        <Button Click="DisplayAnswer"
         Content="Show answer"
         HorizontalAlignment="Center"
         Margin="0,325,0,0"

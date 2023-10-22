@@ -10,8 +10,7 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Loaded="MenuWindow_Loaded"
-        Closing="ExitProgram">
+        Loaded="MenuWindow_Loaded">
     <Border Background="#FF5E4682"
             CornerRadius="20">
         <Grid>
@@ -44,6 +43,7 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"
                         Foreground="white"
+                        Text="FLASH"
                         FontWeight="Medium"
                         FontFamily="Fonts/#Dosis" Margin="48.5,0,0,0" FontSize="18"
                         Padding="0, 3.5, 0, 0"

@@ -132,7 +132,7 @@ namespace FirstLab.XAML
             }
         }
 
-        private void displayAnswer(object sender, RoutedEventArgs e)
+        private void DisplayAnswer(object sender, RoutedEventArgs e)
         {
             DisplayAnswer(currentFlashcardIndex - 1);
         }

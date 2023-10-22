@@ -1,4 +1,5 @@
 ﻿using FirstLab.src.back_end;
+using FirstLab.src.back_end.data;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -16,20 +17,27 @@ namespace FirstLab.XAML
         public LogsView()
         {
             InitializeComponent();
-            flashcardSetsLogs = DataManager.LoadLogs();
+            InitializeLogsFields();
+        }
+
+        private async void InitializeLogsFields()
+        {
+            flashcardSetsLogs = await DatabaseRepository.GetAllAsync<FlashcardSetLog>();
             LogsItemsControl.ItemsSource = flashcardSetsLogs;
         }
 
-        public void CalculateAndCreateLog(DateTime playWindowStartTime, DateTime playWindowEndTime, FlashcardSet flashcardSet)
+        public async void CalculateAndCreateLog(DateTime playWindowStartTime, DateTime playWindowEndTime, FlashcardSet flashcardSet)
         {
             duration = playWindowEndTime - playWindowStartTime;
             var log = new FlashcardSetLog(flashcardSet.FlashcardSetName, playWindowStartTime, (int)duration.TotalSeconds);
             flashcardSetsLogs.Insert(0, log);
+            await DatabaseRepository.AddAsync(log);
         }
 
-        private void ClearLogs_Click(object sender, RoutedEventArgs e)
+        private async void ClearLogs_Click(object sender, RoutedEventArgs e)
         {
             flashcardSetsLogs.Clear();
+            await DatabaseRepository.RemoveAllAsync<FlashcardSetLog>();
         }
     }
 }

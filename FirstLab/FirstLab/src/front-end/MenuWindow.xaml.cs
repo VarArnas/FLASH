@@ -1,9 +1,6 @@
-﻿using FirstLab.src.back_end;
-using FirstLab.src.back_end.utilities;
+﻿using FirstLab.src.back_end.utilities;
 using FirstLab.XAML;
 using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
@@ -15,8 +12,6 @@ namespace FirstLab
     {
         private HomeView homeView;
 
-        public ObservableCollection<FlashcardSet> flashcardSets;
-
         private LogsView logsView;
 
         private DateTime playWindowEndTime;
@@ -24,7 +19,11 @@ namespace FirstLab
         public MenuWindow()
         {
             InitializeComponent();
-            flashcardSets = new ObservableCollection<FlashcardSet>(DataManager.LoadAllFlashcardSets());
+            InitializeMenuFields();
+        }
+
+        private void InitializeMenuFields()
+        {
             homeView = new HomeView(this);
             contentControl.Content = homeView;
             logsView = new LogsView();
@@ -39,13 +38,6 @@ namespace FirstLab
             opacityAnimation.AutoReverse = true;
             opacityAnimation.RepeatBehavior = RepeatBehavior.Forever;
             breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, opacityAnimation);
-
-            string relativePath = "DataFiles\\AppName.txt";
-            string? appName = FileUtility.ReadAppNameFromFile(AppDomain.CurrentDomain.BaseDirectory + relativePath);
-            if (appName != null)
-            {
-                NameOFApp.Text = appName.ExtractCapLetters();
-            }
         }
 
         private void MovingWindow(object sender, MouseButtonEventArgs e)
@@ -62,18 +54,13 @@ namespace FirstLab
            {
                 playWindowEndTime = DateTime.Now;
                 logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
+           } 
+           else if (contentControl.Content is FlashcardCustomization) 
+           {
+                MessageBox.Show("There are unsaved changes!!");
+                return;
            }
-
            ViewsUtils.ChangeWindow(this, "Menu", homeView);
-        }
-
-        private void ExitProgram(object sender, CancelEventArgs e)
-        {
-            if (MessageBox.Show("Do you want to save changes?", "save changes", MessageBoxButton.YesNo) == MessageBoxResult.Yes) 
-            {
-                DataManager.SaveAllFlashcardSets(flashcardSets);
-                DataManager.SaveLogs(logsView.flashcardSetsLogs);
-            }
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)
@@ -88,7 +75,6 @@ namespace FirstLab
                 playWindowEndTime = DateTime.Now;
                 logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
             }
-
             ViewsUtils.ChangeWindow(this, "Logs", logsView);
         }
     }

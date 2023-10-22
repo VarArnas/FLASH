@@ -1,11 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace FirstLab.src.back_end
 {
     public record FlashcardSetLog
     {
-        public string PlayedSetsName { get; init; }
+        [Key]
         public DateTime Date { get; init; }
+        public string PlayedSetsName { get; init; }
         public int Duration { get; init; }
         public FlashcardSetLog(string playedSetsName, DateTime date, int duration)
         {
