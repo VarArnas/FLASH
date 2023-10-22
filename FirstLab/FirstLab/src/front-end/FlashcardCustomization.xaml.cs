@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using FirstLab.src.back_end.data;
 using FirstLab.src.back_end.errorHandling;
 using FirstLab.src.back_end.utilities;
@@ -185,6 +186,22 @@ namespace FirstLab
             if (ColorBox.SelectedItem != null)
             {
                 ListBoxItem selectedColorItem = (ListBoxItem)ColorBox.SelectedItem;
+
+                string flashcardColorT = selectedColorItem.ToString();
+                int indexOfColon = flashcardColorT.IndexOf(":");
+
+                if (indexOfColon != -1)
+                {
+                    flashcardColorT = flashcardColorT.Substring(indexOfColon + 2);
+                }
+
+                if (!string.IsNullOrEmpty(selectedColorItem.ToString()))
+                {
+                    SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
+
+                    QuestionBorder.Background = colorBrush;
+                    AnswerBorder.Background = colorBrush;
+                }
             }
         }
     }
