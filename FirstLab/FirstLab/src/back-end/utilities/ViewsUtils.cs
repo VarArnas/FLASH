@@ -1,11 +1,12 @@
-﻿namespace FirstLab.src.back_end.utilities
+﻿namespace FirstLab.src.back_end.utilities;
+
+public class ViewsUtils
 {
-    internal class ViewsUtils
+    public static MenuWindow? menuWindowReference;
+
+    public static void ChangeWindow<T>(string headerText, T view) where T : class
     {
-        public static void ChangeWindow<T>(MenuWindow menuWindowReference, string headerText, T view) where T : class
-        {
-            menuWindowReference.ViewsName.Text = headerText;
-            menuWindowReference.contentControl.Content = view;
-        }
+        menuWindowReference.ViewsName.Text = headerText;
+        menuWindowReference.contentControl.Content = view;
     }
 }

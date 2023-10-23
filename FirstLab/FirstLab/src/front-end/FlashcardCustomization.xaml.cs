@@ -173,7 +173,7 @@ namespace FirstLab
             {
                 foreach (var flashcard in flashcardSet.Flashcards)
                 {
-                    flashcard.FlashcardSetName = flashcardSet.FlashcardSetName;
+                    flashcard.FlashcardId = flashcardSet.FlashcardSetName + flashcard.FlashcardName;
                 }
                 await DatabaseRepository.AddAsync(flashcardSet);
                 flashcardOptionsReference.flashcardSets.Add(flashcardSet);

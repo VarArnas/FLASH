@@ -1,5 +1,6 @@
 ﻿using FirstLab.src.back_end.utilities;
 using FirstLab.XAML;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -16,22 +17,25 @@ namespace FirstLab
 
         private DateTime playWindowEndTime;
 
-        public MenuWindow()
+        private IServiceProvider serviceProvider;
+
+        public MenuWindow(HomeView homeView, LogsView logsView, IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            InitializeMenuFields();
+            InitializeMenuFields(homeView,logsView, serviceProvider);
         }
 
-        private void InitializeMenuFields()
+        private void InitializeMenuFields(HomeView homeView, LogsView logsView, IServiceProvider serviceProvider)
         {
-            homeView = new HomeView(this);
+            this.homeView = homeView;
             contentControl.Content = homeView;
-            logsView = new LogsView();
+            this.logsView = logsView;
+
         }
 
         private void MenuWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            DoubleAnimation opacityAnimation = new DoubleAnimation();
+            DoubleAnimation opacityAnimation = serviceProvider.GetRequiredService<DoubleAnimation>();
             opacityAnimation.From = 1.0;
             opacityAnimation.To = 0.1;
             opacityAnimation.Duration = TimeSpan.FromSeconds(2);
@@ -60,7 +64,7 @@ namespace FirstLab
                 MessageBox.Show("There are unsaved changes!!");
                 return;
            }
-           ViewsUtils.ChangeWindow(this, "Menu", homeView);
+           ViewsUtils.ChangeWindow("Menu", homeView);
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)
@@ -75,7 +79,12 @@ namespace FirstLab
                 playWindowEndTime = DateTime.Now;
                 logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
             }
-            ViewsUtils.ChangeWindow(this, "Logs", logsView);
+            else if (contentControl.Content is FlashcardCustomization)
+            {
+                MessageBox.Show("There are unsaved changes!!");
+                return;
+            }
+            ViewsUtils.ChangeWindow("Logs", logsView);
         }
     }
 }
