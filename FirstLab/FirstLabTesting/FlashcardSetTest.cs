@@ -9,7 +9,7 @@ namespace FirstLabTesting
 {
     public class FlashcardSetTest
     {
-        FlashcardSet flashcardSet;
+        private readonly FlashcardSet flashcardSet;
 
         public FlashcardSetTest()
         {

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -6,6 +7,7 @@ using System.Windows.Input;
 using FirstLab.src.back_end.data;
 using FirstLab.src.back_end.errorHandling;
 using FirstLab.src.back_end.utilities;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace FirstLab
 {
@@ -166,18 +168,48 @@ namespace FirstLab
 
         private async void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
         {
-            errors = new CustomizationErrors(flashcardSet: flashcardSet, NameOfFlashcardSet: FlashcardSetNameBox.Text, errorTextBox: errorText, SetsOfFlashcards: flashcardOptionsReference.flashcardSets);
-            errors.CheckAndDisplayErrors();
+            errors = InitializeErrors();
+            CheckAndDisplayErrors(errors);
+
             if (!errors.ErrorCodes.Any())
             {
-                foreach (var flashcard in flashcardSet.Flashcards)
-                {
-                    flashcard.FlashcardSetName = flashcardSet.FlashcardSetName;
-                }
-                await DatabaseRepository.AddAsync(flashcardSet);
-                flashcardOptionsReference.flashcardSets.Add(flashcardSet);
-                ViewsUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);     
+                UpdateFlashcardNames(flashcardSet);
+                await SaveToDatabase(flashcardSet);
+                AddToFlashcardSetsList(flashcardSet);
+                ViewsUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);
             }
+        }
+
+        private CustomizationErrors InitializeErrors()
+        {
+            return new CustomizationErrors(
+                flashcardSet: flashcardSet,
+                NameOfFlashcardSet: FlashcardSetNameBox.Text,
+                errorTextBox: errorText,
+                SetsOfFlashcards: flashcardOptionsReference.flashcardSets
+            );
+        }
+        private void CheckAndDisplayErrors(CustomizationErrors errors)
+        {
+            errors.CheckAndDisplayErrors();
+        }
+
+        private void UpdateFlashcardNames(FlashcardSet flashcardSet)
+        {
+            foreach (var flashcard in flashcardSet.Flashcards)
+            {
+                flashcard.FlashcardSetName = flashcardSet.FlashcardSetName;
+            }
+        }
+
+        private async Task SaveToDatabase(FlashcardSet flashcardSet)
+        {
+            await DatabaseRepository.AddAsync(flashcardSet);
+        }
+
+        private void AddToFlashcardSetsList(FlashcardSet flashcardSet)
+        {
+            flashcardOptionsReference.flashcardSets.Add(flashcardSet);
         }
 
         private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

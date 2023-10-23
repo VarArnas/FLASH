@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace FirstLab.src.back_end.utilities
 {
-    internal class TextUtils
+    public class TextUtils
     {
         public static void SetDefaultText(TextBox textBox, string defaultText)
         {
