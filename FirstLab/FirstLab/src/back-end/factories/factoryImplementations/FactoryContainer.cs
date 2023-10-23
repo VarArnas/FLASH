@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows.Controls;
 
 namespace FirstLab.src.back_end.factories.factoryImplementations;
@@ -58,5 +59,15 @@ public class FactoryContainer : IFactoryContainer
     public string CreateString(Array arr)
     {
         return ActivatorUtilities.CreateInstance<string>(serviceProvider, arr);
+    }
+
+    public Thread CreateThread(ThreadStart start)
+    {
+        return ActivatorUtilities.CreateInstance<Thread>(serviceProvider, start);
+    }
+
+    public Action CreateAction(Action action)
+    {
+        return ActivatorUtilities.CreateInstance<Action>(serviceProvider, action);
     }
 }

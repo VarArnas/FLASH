@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System;
+using System.Threading;
 
 namespace FirstLab.src.back_end.factories.factoryInterfaces;
 
@@ -23,4 +24,8 @@ public interface IFactoryContainer
     ObservableCollection<T> CreateCollection<T>(List<T>? entities = null);
 
     string CreateString(Array arr);
+
+    Thread CreateThread(ThreadStart start);
+
+    Action CreateAction(Action action);
 }

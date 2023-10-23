@@ -198,7 +198,7 @@ namespace FirstLab.XAML
 
         private void InitTimer()
         {
-            timerThread = new Thread(Countdown);
+            timerThread = factoryContainer.CreateThread(Countdown);
             timerThread.Start();
         }
 
@@ -210,21 +210,20 @@ namespace FirstLab.XAML
                 {
                     counter--;
 
-                    Dispatcher.Invoke(new Action(() =>
+                    Dispatcher.Invoke(() =>
                     {
                         timerTextBox.Text = counter.ToString();
-                    }));
+                    });
                 }
-
                 Thread.Sleep(1000);
             }
 
             if (counter == 0)
             {
-                Dispatcher.Invoke((Action)(() =>
+                Dispatcher.Invoke(() =>
                 {
                     DisplayAnswer(currentFlashcardIndex - 1);
-                }));
+                });
             }
         }
 
