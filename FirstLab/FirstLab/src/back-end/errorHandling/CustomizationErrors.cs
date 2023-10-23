@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
 namespace FirstLab.src.back_end.errorHandling
@@ -36,7 +37,7 @@ namespace FirstLab.src.back_end.errorHandling
                 ErrorCodes.Add(ErrorCode.NameIsEmpty);
             }
 
-            if (NameOfFlashcardSet.ContainsSymbols())
+            if (NameOfFlashcardSet != null && Regex.IsMatch(NameOfFlashcardSet, @"[\W_]+"))
             {
                 ErrorCodes.Add(ErrorCode.NotAllowedSymbolsInName);
             }
