@@ -1,4 +1,6 @@
 ﻿using FirstLab.src.back_end.utilities;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,6 +10,7 @@ namespace FirstLab.src.back_end.errorHandling;
 
 public class CustomizationErrors
 {
+
     private TextBox errorTextBox;
 
     private string? nameOfFlashcardSet;
@@ -18,13 +21,13 @@ public class CustomizationErrors
 
     public List<ErrorCode> ErrorCodes { get; private set; }
 
-    public CustomizationErrors(TextBox errorTextBox, string? nameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards) 
+    public CustomizationErrors(TextBox errorTextBox, string? nameOfFlashcardSet, IServiceProvider serviceProvider, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards) 
     {
         this.errorTextBox = errorTextBox;
         this.nameOfFlashcardSet = nameOfFlashcardSet;
         this.flashcardSet = flashcardSet;
         this.SetsOfFlashcards = SetsOfFlashcards;
-        ErrorCodes = new List<ErrorCode>();
+        ErrorCodes = serviceProvider.GetRequiredService<List<ErrorCode>>();
     }
 
     private void CheckForErrors()

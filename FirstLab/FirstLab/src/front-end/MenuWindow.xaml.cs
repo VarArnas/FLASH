@@ -1,4 +1,5 @@
-﻿using FirstLab.src.back_end.utilities;
+﻿using FirstLab.src.back_end.factories.factoryInterfaces;
+using FirstLab.src.back_end.utilities;
 using FirstLab.XAML;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -19,18 +20,20 @@ namespace FirstLab
 
         private IServiceProvider serviceProvider;
 
-        public MenuWindow(HomeView homeView, LogsView logsView, IServiceProvider serviceProvider)
+        public MenuWindow(HomeView homeView, LogsView logsView, IServiceProvider serviceProvider, IFactoryContainer factoryContainer)
         {
             InitializeComponent();
-            InitializeMenuFields(homeView,logsView, serviceProvider);
+            InitializeMenuFields(homeView,logsView, serviceProvider, factoryContainer);
         }
 
-        private void InitializeMenuFields(HomeView homeView, LogsView logsView, IServiceProvider serviceProvider)
+        private void InitializeMenuFields(HomeView homeView, LogsView logsView, IServiceProvider serviceProvider, IFactoryContainer factoryContainer)
         {
             this.homeView = homeView;
             contentControl.Content = homeView;
             this.logsView = logsView;
-
+            this.serviceProvider = serviceProvider;
+            ViewsUtils.menuWindowReference = this;
+            StringExtensions.factoryContainer = factoryContainer;
         }
 
         private void MenuWindow_Loaded(object sender, RoutedEventArgs e)

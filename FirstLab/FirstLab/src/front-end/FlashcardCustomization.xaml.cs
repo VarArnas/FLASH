@@ -1,12 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using FirstLab.src.back_end.data;
 using FirstLab.src.back_end.errorHandling;
+using FirstLab.src.back_end.factories.factoryInterfaces;
 using FirstLab.src.back_end.utilities;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FirstLab
 {
@@ -14,25 +16,28 @@ namespace FirstLab
     {
         private FlashcardSet flashcardSet;
 
-        private MenuWindow menuWindowReference;
-
         private FlashcardOptions flashcardOptionsReference;
 
         private string? NameOfSet;
 
         private CustomizationErrors errors;
-        public FlashcardCustomization(MenuWindow menuWindowReference, FlashcardOptions flashcardOptionsReference, FlashcardSet? flashcardSet = null)
+
+        IServiceProvider serviceProvider;
+
+        IFactoryContainer factoryContainer;
+        public FlashcardCustomization(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, IServiceProvider serviceProvider, FlashcardSet? flashcardSet = null)
         {
             InitializeComponent();
-            InitializeCustomizationFields(menuWindowReference, flashcardOptionsReference, flashcardSet);
+            InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, serviceProvider, flashcardSet);
             CheckIfEditingOrNew(flashcardSet);
         }
 
-        private void InitializeCustomizationFields(MenuWindow menuWindowReference, FlashcardOptions flashcardOptionsReference, FlashcardSet? flashcardSet = null)
+        private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, IServiceProvider serviceProvider, FlashcardSet? flashcardSet = null)
         {
-            this.menuWindowReference = menuWindowReference;
             this.flashcardOptionsReference = flashcardOptionsReference;
-            this.flashcardSet = flashcardSet ?? new FlashcardSet();
+            this.serviceProvider = serviceProvider;
+            this.factoryContainer = factoryContainer;
+            this.flashcardSet = flashcardSet ?? factoryContainer.CreateObject<FlashcardSet>();
             DataContext = this.flashcardSet;
         }
 
@@ -40,6 +45,7 @@ namespace FirstLab
         {
             if (flashcardSet == null)
             {
+                this.flashcardSet.Flashcards = factoryContainer.CreateCollection<Flashcard>();
                 QuestionTextBox.IsEnabled = false;
                 AnswerTextBox.IsEnabled = false;
                 QuestionBorder.Visibility = Visibility.Collapsed;
@@ -49,7 +55,7 @@ namespace FirstLab
             }
             else
             {
-                await DatabaseRepository.RemoveAsync(flashcardSet);
+                await DatabaseRepository.RemoveFlashcardSetAsync(flashcardSet);
                 flashcardOptionsReference.flashcardSets.Remove(flashcardSet);
                 ListBoxFlashcards.SelectedIndex = flashcardSet.Flashcards.Count - 1;
                 NameOfSet = flashcardSet.FlashcardSetName;
@@ -58,12 +64,12 @@ namespace FirstLab
 
         private void AddFlashcard_Click(object sender, RoutedEventArgs e)
         {
-            var newFlashcard = new Flashcard();
-            int newFlashcardNumber = flashcardSet.Flashcards.Count + 1;
-            newFlashcard.FlashcardName = newFlashcardNumber.ToString("D2");
-            flashcardSet.Flashcards.Add(newFlashcard);
+            var flashcard = factoryContainer.CreateObject<Flashcard>();
+            int flashcardNumber = flashcardSet.Flashcards.Count + 1;
+            flashcard.FlashcardName = flashcardNumber.ToString("D2");
+            flashcardSet.Flashcards.Add(flashcard);
             ListBoxFlashcards.Items.Refresh();
-            ListBoxFlashcards.SelectedIndex = flashcardSet.Flashcards.IndexOf(newFlashcard);
+            ListBoxFlashcards.SelectedIndex = flashcardSet.Flashcards.IndexOf(flashcard);
 
             QuestionBorder.Visibility = Visibility.Visible;
             QuestionRadioButton.Visibility = Visibility.Visible;
@@ -132,7 +138,7 @@ namespace FirstLab
             }
         }
 
-        private void CapitalizedNormalNameButton_Click(object sender, RoutedEventArgs e)
+        private void CapitalizedNormalNameButton_Click(object? sender = null, RoutedEventArgs? e = null)
         {
             if (CapitalizeButton.IsChecked == true)
             {
@@ -152,7 +158,7 @@ namespace FirstLab
             flashcardSet.FlashcardSetName = flashcardSet.FlashcardSetName;
             CapitalizeButton.IsChecked = false;
             NormalizeButton.IsChecked = true;
-            CapitalizedNormalNameButton_Click(NormalizeButton, new RoutedEventArgs(ButtonBase.ClickEvent));
+            CapitalizedNormalNameButton_Click();
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -162,12 +168,12 @@ namespace FirstLab
 
         private void DeleteFlashcardSet_Click(object sender, RoutedEventArgs e)
         {
-            ViewsUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);
+            ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
         }
 
         private async void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
         {
-            errors = new CustomizationErrors(flashcardSet: flashcardSet, NameOfFlashcardSet: FlashcardSetNameBox.Text, errorTextBox: errorText, SetsOfFlashcards: flashcardOptionsReference.flashcardSets);
+            errors = factoryContainer.CreateErrorHandling(flashcardSet: flashcardSet, nameOfFlashcardSet: FlashcardSetNameBox.Text, errorTextBox: errorText, SetsOfFlashcards: flashcardOptionsReference.flashcardSets);
             errors.CheckAndDisplayErrors();
             if (!errors.ErrorCodes.Any())
             {
@@ -177,7 +183,7 @@ namespace FirstLab
                 }
                 await DatabaseRepository.AddAsync(flashcardSet);
                 flashcardOptionsReference.flashcardSets.Add(flashcardSet);
-                ViewsUtils.ChangeWindow(menuWindowReference, "Flashcards", flashcardOptionsReference);     
+                ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);     
             }
         }
 
@@ -197,7 +203,7 @@ namespace FirstLab
 
                 if (!string.IsNullOrEmpty(selectedColorItem.ToString()))
                 {
-                    SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
+                    SolidColorBrush colorBrush = (SolidColorBrush) serviceProvider.GetRequiredService<BrushConverter>().ConvertFromString(flashcardColorT);
 
                     QuestionBorder.Background = colorBrush;
                     AnswerBorder.Background = colorBrush;

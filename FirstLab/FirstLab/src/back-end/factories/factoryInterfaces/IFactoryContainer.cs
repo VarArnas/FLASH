@@ -10,7 +10,7 @@ namespace FirstLab.src.back_end.factories.factoryInterfaces;
 
 public interface IFactoryContainer
 {
-    T CreateWindow<T>(FlashcardSet flashcardSet) where T : class;
+    T CreateWindow<T>(FlashcardSet? flashcardSet = null) where T : class;
 
     FlashcardSetLog CreateLog(string playedSetsName, DateTime date, int duration);
 
@@ -20,7 +20,7 @@ public interface IFactoryContainer
 
     T CreateObject<T>() where T : class;
 
-    ObservableCollection<T> CreateCollection<T>(List<T> entities);
+    ObservableCollection<T> CreateCollection<T>(List<T>? entities = null);
 
     string CreateString(Array arr);
 }
