@@ -26,6 +26,4 @@ public interface IFactoryContainer
     string CreateString(Array arr);
 
     Thread CreateThread(ThreadStart start);
-
-    Action CreateAction(Action action);
 }
