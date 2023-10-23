@@ -1,94 +1,96 @@
 ﻿using FirstLab.src.back_end.utilities;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
-namespace FirstLab.src.back_end.errorHandling
+namespace FirstLab.src.back_end.errorHandling;
+
+public class CustomizationErrors
 {
-    class CustomizationErrors
+
+    private TextBox errorTextBox;
+
+    private string? nameOfFlashcardSet;
+
+    private FlashcardSet flashcardSet;
+
+    private ObservableCollection<FlashcardSet> SetsOfFlashcards;
+
+    public List<ErrorCode> ErrorCodes { get; private set; }
+
+    public CustomizationErrors(TextBox errorTextBox, string? nameOfFlashcardSet, IServiceProvider serviceProvider, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards) 
     {
-        private TextBox errorTextBox;
+        this.errorTextBox = errorTextBox;
+        this.nameOfFlashcardSet = nameOfFlashcardSet;
+        this.flashcardSet = flashcardSet;
+        this.SetsOfFlashcards = SetsOfFlashcards;
+        ErrorCodes = serviceProvider.GetRequiredService<List<ErrorCode>>();
+    }
 
-        private string? NameOfFlashcardSet;
+    private void CheckForErrors()
+    {
+        ErrorCodes.Clear();
 
-        private FlashcardSet flashcardSet;
-
-        private ObservableCollection<FlashcardSet> SetsOfFlashcards;
-
-        public List<ErrorCode> ErrorCodes { get; private set; }
-
-        public CustomizationErrors(TextBox errorTextBox, string? NameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards) 
+        if (string.IsNullOrWhiteSpace(nameOfFlashcardSet))
         {
-            this.errorTextBox = errorTextBox;
-            this.NameOfFlashcardSet = NameOfFlashcardSet;
-            this.flashcardSet = flashcardSet;
-            this.SetsOfFlashcards = SetsOfFlashcards;
-            ErrorCodes = new List<ErrorCode>();
+            ErrorCodes.Add(ErrorCode.NameIsEmpty);
         }
 
-        private void CheckForErrors()
+        if (nameOfFlashcardSet.ContainsSymbols())
         {
-            ErrorCodes.Clear();
-
-            if (string.IsNullOrWhiteSpace(NameOfFlashcardSet))
-            {
-                ErrorCodes.Add(ErrorCode.NameIsEmpty);
-            }
-
-            if (NameOfFlashcardSet != null && Regex.IsMatch(NameOfFlashcardSet, @"[\W_]+"))
-            {
-                ErrorCodes.Add(ErrorCode.NotAllowedSymbolsInName);
-            }
-
-            if (SetsOfFlashcards.Contains(flashcardSet))
-            {
-                ErrorCodes.Add(ErrorCode.ExistingName);
-            }
-
-            if (!flashcardSet.Flashcards.Any())
-            {
-                ErrorCodes.Add(ErrorCode.NoFlashcardsExist);
-            }
-
-            if (ErrorUtils.AreThereEmptyFlashcards(flashcardSet.Flashcards))
-            {
-                ErrorCodes.Add(ErrorCode.NotAllFlashcardsFull);
-            }
+            ErrorCodes.Add(ErrorCode.NotAllowedSymbolsInName);
         }
 
-        private void DisplayErrors()
+        if (SetsOfFlashcards.Contains(flashcardSet))
         {
-            errorTextBox.Clear();
+            ErrorCodes.Add(ErrorCode.ExistingName);
+        }
 
-            foreach (ErrorCode errorCode in ErrorCodes)
+        if (!flashcardSet.Flashcards.Any())
+        {
+            ErrorCodes.Add(ErrorCode.NoFlashcardsExist);
+        }
+
+        if (ErrorUtils.AreThereEmptyFlashcards(flashcardSet.Flashcards))
+        {
+            ErrorCodes.Add(ErrorCode.NotAllFlashcardsFull);
+        }
+    }
+
+    private void DisplayErrors()
+    {
+        errorTextBox.Clear();
+
+        foreach (ErrorCode errorCode in ErrorCodes)
+        {
+            switch (errorCode)
             {
-                switch (errorCode)
-                {
-                    case ErrorCode.NameIsEmpty:
-                        errorTextBox.AppendText("Error: Name is empty!\n\n");
-                        break;
-                    case ErrorCode.NotAllowedSymbolsInName:
-                        errorTextBox.AppendText("Error: Name contains symbols!\n\n");
-                        break;
-                    case ErrorCode.ExistingName:
-                        errorTextBox.AppendText("Error: Name already exists!\n\n");
-                        break;
-                    case ErrorCode.NoFlashcardsExist:
-                        errorTextBox.AppendText("Error: No flashcards exist!\n\n");
-                        break;
-                    case ErrorCode.NotAllFlashcardsFull:
-                        errorTextBox.AppendText("Error: Not all flashcards have questions and answers!\n\n");
-                        break;
-                }
+                case ErrorCode.NameIsEmpty:
+                    errorTextBox.AppendText("Error: Name is empty!\n\n");
+                    break;
+                case ErrorCode.NotAllowedSymbolsInName:
+                    errorTextBox.AppendText("Error: Name contains symbols!\n\n");
+                    break;
+                case ErrorCode.ExistingName:
+                    errorTextBox.AppendText("Error: Name already exists!\n\n");
+                    break;
+                case ErrorCode.NoFlashcardsExist:
+                    errorTextBox.AppendText("Error: No flashcards exist!\n\n");
+                    break;
+                case ErrorCode.NotAllFlashcardsFull:
+                    errorTextBox.AppendText("Error: Not all flashcards have questions and answers!\n\n");
+                    break;
             }
         }
+    }
 
-        public void CheckAndDisplayErrors()
-        {
-            CheckForErrors();
-            DisplayErrors();
-        }
+    public void CheckAndDisplayErrors()
+    {
+        CheckForErrors();
+        DisplayErrors();
     }
 }

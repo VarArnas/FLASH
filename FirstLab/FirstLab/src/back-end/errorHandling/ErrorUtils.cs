@@ -2,34 +2,24 @@
 using System.Linq;
 using System.Windows.Ink;
 
-namespace FirstLab.src.back_end.errorHandling
-{
-    public static class ErrorUtils
-    {
-        public static bool AreThereEmptyFlashcards(ObservableCollection<Flashcard> flashcardSet)
-        {
-            if (!flashcardSet.Any())
-            {
-                return false;
-            }
+namespace FirstLab.src.back_end.errorHandling;
 
-            foreach (Flashcard flashcard in flashcardSet)
-            {
-                if (IsFlashcardEmpty(flashcard))
-                {
-                    return true;
-                }
-            }
+public static class ErrorUtils
+{
+    public static bool AreThereEmptyFlashcards(ObservableCollection<Flashcard> flashcardSet)
+    {
+        if (!flashcardSet.Any())
+        {
             return false;
         }
 
-        public static bool IsFlashcardEmpty(Flashcard flashcard)
+        foreach (Flashcard flashcard in flashcardSet)
         {
-            if (string.IsNullOrWhiteSpace(flashcard.FlashcardQuestion) || string.IsNullOrWhiteSpace(flashcard.FlashcardAnswer))
+            if(string.IsNullOrWhiteSpace(flashcard.FlashcardQuestion) || string.IsNullOrWhiteSpace(flashcard.FlashcardAnswer))
             {
                 return true;
             }
-            return false;
         }
+        return false;
     }
 }

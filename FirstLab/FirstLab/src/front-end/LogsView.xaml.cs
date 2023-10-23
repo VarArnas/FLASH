@@ -1,5 +1,6 @@
 ﻿using FirstLab.src.back_end;
 using FirstLab.src.back_end.data;
+using FirstLab.src.back_end.factories.factoryInterfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -14,14 +15,17 @@ namespace FirstLab.XAML
 
         private TimeSpan duration;
 
-        public LogsView()
+        IFactoryContainer factoryContainer;
+
+        public LogsView(IFactoryContainer factoryContainer)
         {
             InitializeComponent();
-            InitializeLogsFields();
+            InitializeLogsFields(factoryContainer);
         }
 
-        private async void InitializeLogsFields()
+        private async void InitializeLogsFields(IFactoryContainer factoryContainer)
         {
+            this.factoryContainer = factoryContainer; 
             flashcardSetsLogs = await DatabaseRepository.GetAllAsync<FlashcardSetLog>();
             LogsItemsControl.ItemsSource = flashcardSetsLogs;
         }
@@ -29,7 +33,7 @@ namespace FirstLab.XAML
         public async void CalculateAndCreateLog(DateTime playWindowStartTime, DateTime playWindowEndTime, FlashcardSet flashcardSet)
         {
             duration = playWindowEndTime - playWindowStartTime;
-            var log = new FlashcardSetLog(flashcardSet.FlashcardSetName, playWindowStartTime, (int)duration.TotalSeconds);
+            var log = factoryContainer.CreateLog(flashcardSet.FlashcardSetName, playWindowStartTime, (int)duration.TotalSeconds);
             flashcardSetsLogs.Insert(0, log);
             await DatabaseRepository.AddAsync(log);
         }

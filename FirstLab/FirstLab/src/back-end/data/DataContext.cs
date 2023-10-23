@@ -11,12 +11,6 @@ namespace FirstLab.src.back_end.data
 
         public DbSet<FlashcardSetLog> FlashcardsLog { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {   
-            modelBuilder.Entity<Flashcard>()
-                .HasKey(f => new { f.FlashcardName, f.FlashcardSetName });
-        }
-
         protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={TextUtils.ReturnDatabaseString()}");
     }
 }
