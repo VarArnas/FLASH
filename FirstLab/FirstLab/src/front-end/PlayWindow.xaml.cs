@@ -37,15 +37,16 @@ namespace FirstLab.XAML
 
         private Thread timerThread;
 
-        private readonly object lockObject = new object();
+        private readonly object lockObject;
 
         public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             this.serviceProvider = serviceProvider;
             this.factoryContainer = factoryContainer;
+            lockObject = factoryContainer.CreateObject<object>();
             this.flashcardSet = CloneFlashcardSet(flashcardSet);
-            flashcardDesign = new FlashcardDesign(false, false, incrementTextSize, decreaseTextSize);
+            flashcardDesign = factoryContainer.CreateDesign(false, false, incrementTextSize, decreaseTextSize);
 
             Shuffle(this.flashcardSet.Flashcards);
 

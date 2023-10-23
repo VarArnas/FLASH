@@ -65,9 +65,4 @@ public class FactoryContainer : IFactoryContainer
     {
         return ActivatorUtilities.CreateInstance<Thread>(serviceProvider, start);
     }
-
-    public Action CreateAction(Action action)
-    {
-        return ActivatorUtilities.CreateInstance<Action>(serviceProvider, action);
-    }
 }
