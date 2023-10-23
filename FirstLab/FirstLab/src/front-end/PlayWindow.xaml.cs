@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Threading;
+using FirstLab.src.back_end.factories.factoryInterfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FirstLab.XAML
 {
@@ -18,6 +20,10 @@ namespace FirstLab.XAML
         private ArrayList numbersOfFlashcards;
 
         private FlashcardDesign flashcardDesign;
+
+        IServiceProvider serviceProvider;
+
+        IFactoryContainer factoryContainer;
 
         private int currentFlashcardIndex = 0;
 
@@ -31,17 +37,21 @@ namespace FirstLab.XAML
 
         private Thread timerThread;
 
-        private readonly object lockObject = new object();
+        private readonly object lockObject;
 
-        public PlayWindow(MenuWindow menuWindowReference, FlashcardOptions flashcardOptionsReference, FlashcardSet flashcardSet)
+        public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IServiceProvider serviceProvider)
         {
             InitializeComponent();
+            this.serviceProvider = serviceProvider;
+            this.factoryContainer = factoryContainer;
+            lockObject = factoryContainer.CreateObject<object>();
             this.flashcardSet = CloneFlashcardSet(flashcardSet);
-            flashcardDesign = new FlashcardDesign(false, false, incrementTextSize, decreaseTextSize);
+            flashcardDesign = factoryContainer.CreateDesign(false, false, incrementTextSize, decreaseTextSize);
 
             Shuffle(this.flashcardSet.Flashcards);
 
-            numbersOfFlashcards = CreateArray(this.flashcardSet.Flashcards);
+            numbersOfFlashcards = serviceProvider.GetRequiredService<ArrayList>();
+            PopulateArray(this.flashcardSet.Flashcards);
 
             DataContext = this.flashcardSet;
             nameTextBox.Text = flashcardSet.FlashcardSetName;
@@ -52,15 +62,17 @@ namespace FirstLab.XAML
             }
         }
 
-        private ArrayList CreateArray(ObservableCollection<Flashcard> flashcards)
+        private void PopulateArray(ObservableCollection<Flashcard> flashcards)
         {
-            ArrayList array = new ArrayList(Enumerable.Range(1, flashcards.Count).ToList());
-            return array;
+            for (int i = 1; i <= flashcards.Count(); i++)
+            {
+                numbersOfFlashcards.Add(i);
+            }
         }
 
         private void Shuffle(ObservableCollection<Flashcard> flashcards)
         {
-            Random random = new Random();
+            Random random = serviceProvider.GetRequiredService<Random>();
 
             for (int i = flashcards.Count - 1; i > 0; i--)
             {
@@ -74,15 +86,11 @@ namespace FirstLab.XAML
 
         private FlashcardSet CloneFlashcardSet(FlashcardSet originalSet)
         {
-            FlashcardSet clonedSet = new FlashcardSet();
+            FlashcardSet clonedSet = factoryContainer.CreateObject<FlashcardSet>();
+            clonedSet.Flashcards = factoryContainer.CreateCollection<Flashcard>();
             foreach (var flashcard in originalSet.Flashcards)
             {
-                clonedSet.Flashcards.Add(new Flashcard
-                {
-                    FlashcardQuestion = flashcard.FlashcardQuestion,
-                    FlashcardAnswer = flashcard.FlashcardAnswer,
-                    FlashcardColor = flashcard.FlashcardColor
-                });
+                clonedSet.Flashcards.Add(flashcard);
             }
             clonedSet.FlashcardSetName = originalSet.FlashcardSetName;
             return clonedSet;
@@ -104,7 +112,7 @@ namespace FirstLab.XAML
 
                 if (!string.IsNullOrEmpty(flashcardSet.Flashcards[index].FlashcardColor))
                 {
-                    SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
+                    SolidColorBrush colorBrush = (SolidColorBrush) serviceProvider.GetRequiredService<BrushConverter>().ConvertFromString(flashcardColorT);
 
                     questionTextBox.Background = colorBrush;
                 }
@@ -191,7 +199,7 @@ namespace FirstLab.XAML
 
         private void InitTimer()
         {
-            timerThread = new Thread(Countdown);
+            timerThread = factoryContainer.CreateThread(Countdown);
             timerThread.Start();
         }
 
@@ -203,21 +211,20 @@ namespace FirstLab.XAML
                 {
                     counter--;
 
-                    Dispatcher.Invoke(new Action(() =>
+                    Dispatcher.Invoke(() =>
                     {
                         timerTextBox.Text = counter.ToString();
-                    }));
+                    });
                 }
-
                 Thread.Sleep(1000);
             }
 
             if (counter == 0)
             {
-                Dispatcher.Invoke((Action)(() =>
+                Dispatcher.Invoke(() =>
                 {
                     DisplayAnswer(currentFlashcardIndex - 1);
-                }));
+                });
             }
         }
 
@@ -233,7 +240,7 @@ namespace FirstLab.XAML
 
         private int ExtractNumber(string input)
         {
-            string numericPart = new string(input.Where(char.IsDigit).ToArray());
+            string numericPart = factoryContainer.CreateString(input.Where(char.IsDigit).ToArray());
 
             if (int.TryParse(numericPart, out int timerCounter))
             {

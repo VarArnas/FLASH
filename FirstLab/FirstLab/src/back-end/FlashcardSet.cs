@@ -9,7 +9,7 @@ namespace FirstLab
         [Key]
         public string FlashcardSetName { get; set; }
 
-        public ObservableCollection<Flashcard> Flashcards { get; set; } = new ObservableCollection<Flashcard>();
+        public ObservableCollection<Flashcard>? Flashcards { get; set; }
 
         public bool Equals(FlashcardSet? other)
         {
