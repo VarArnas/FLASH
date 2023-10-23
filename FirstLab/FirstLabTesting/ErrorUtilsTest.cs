@@ -21,13 +21,13 @@ namespace FirstLabTesting
         [InlineData("question", null, true)]
         public void ErrorUtils_IsFlashcardEmpty_ReturnsBool(string question, string answer, bool expected)
         {
-            // Arrange
-            Flashcard flashcard = new Flashcard { FlashcardQuestion = question, FlashcardAnswer = answer};
-            
-            // Act
-            var result = ErrorUtils.IsFlashcardEmpty(flashcard);
+           // Arrange
+           Flashcard flashcard = new Flashcard { FlashcardQuestion = question, FlashcardAnswer = answer };
 
-            // Assert  
+           // Act
+           var result = ErrorUtils.IsFlashcardEmpty(flashcard);
+
+            // Assert
             Assert.Equal(expected, result);
         }
 

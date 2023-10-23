@@ -40,7 +40,7 @@ public class CustomizationErrors
             ErrorCodes.Add(ErrorCode.NameIsEmpty);
         }
 
-        if (nameOfFlashcardSet.ContainsSymbols())
+        if (nameOfFlashcardSet != null && Regex.IsMatch(nameOfFlashcardSet, @"[\W_]+"))
         {
             ErrorCodes.Add(ErrorCode.NotAllowedSymbolsInName);
         }
