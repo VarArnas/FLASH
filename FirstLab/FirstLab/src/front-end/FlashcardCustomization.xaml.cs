@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -173,18 +174,44 @@ namespace FirstLab
 
         private async void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
         {
-            errors = factoryContainer.CreateErrorHandling(flashcardSet: flashcardSet, nameOfFlashcardSet: FlashcardSetNameBox.Text, errorTextBox: errorText, SetsOfFlashcards: flashcardOptionsReference.flashcardSets);
+            errors = InitializeErrors();
             errors.CheckAndDisplayErrors();
+
             if (!errors.ErrorCodes.Any())
             {
-                foreach (var flashcard in flashcardSet.Flashcards)
-                {
-                    flashcard.FlashcardId = flashcardSet.FlashcardSetName + flashcard.FlashcardName;
-                }
-                await DatabaseRepository.AddAsync(flashcardSet);
-                flashcardOptionsReference.flashcardSets.Add(flashcardSet);
+                UpdateFlashcardNames(flashcardSet);
+                SaveToDatabase(flashcardSet);
+                AddToFlashcardSetsList(flashcardSet);
                 ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);     
             }
+        }
+
+        private CustomizationErrors InitializeErrors()
+        {
+            return factoryContainer.CreateErrorHandling(
+                flashcardSet: flashcardSet, 
+                nameOfFlashcardSet: FlashcardSetNameBox.Text, 
+                errorTextBox: errorText, 
+                SetsOfFlashcards: flashcardOptionsReference.flashcardSets
+            );
+        }
+
+        private void UpdateFlashcardNames(FlashcardSet flashcardSet)
+        {
+            foreach (var flashcard in flashcardSet.Flashcards)
+            {
+                flashcard.FlashcardId = flashcardSet.FlashcardSetName + flashcard.FlashcardName;
+            }
+        }
+
+        private async Task SaveToDatabase(FlashcardSet flashcardSet)
+        {
+            await DatabaseRepository.AddAsync(flashcardSet);
+        }
+
+        private void AddToFlashcardSetsList(FlashcardSet flashcardSet)
+        {
+            flashcardOptionsReference.flashcardSets.Add(flashcardSet);
         }
 
         private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

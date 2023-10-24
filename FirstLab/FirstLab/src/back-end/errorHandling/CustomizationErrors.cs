@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
 namespace FirstLab.src.back_end.errorHandling;
@@ -39,7 +40,7 @@ public class CustomizationErrors
             ErrorCodes.Add(ErrorCode.NameIsEmpty);
         }
 
-        if (nameOfFlashcardSet.ContainsSymbols())
+        if (nameOfFlashcardSet != null && Regex.IsMatch(nameOfFlashcardSet, @"[\W_]+"))
         {
             ErrorCodes.Add(ErrorCode.NotAllowedSymbolsInName);
         }

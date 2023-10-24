@@ -1,4 +1,5 @@
-﻿using FirstLab.src.back_end.factories.factoryInterfaces;
+﻿using FirstLab.src.back_end.factories.factoryImplementations;
+using FirstLab.src.back_end.factories.factoryInterfaces;
 using System.Linq;
 
 namespace FirstLab.src.back_end.utilities;
@@ -14,7 +15,7 @@ public static class StringExtensions
             return string.Empty;
         }
 
-        return factoryContainer.CreateString(input.Where(char.IsUpper).ToArray());
+        return new string(input.Where(char.IsUpper).ToArray());
     }
 
     public static string Capitalize(this string input)
@@ -24,7 +25,7 @@ public static class StringExtensions
             return string.Empty;
         }
 
-        return factoryContainer.CreateString(input.Select(char.ToUpper).ToArray());
+        return new string(input.Select(char.ToUpper).ToArray());
     }
 
     public static bool ContainsSymbols(this string input)

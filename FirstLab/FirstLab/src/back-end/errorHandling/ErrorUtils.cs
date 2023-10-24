@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Ink;
 
 namespace FirstLab.src.back_end.errorHandling;
 
@@ -14,10 +15,19 @@ public static class ErrorUtils
 
         foreach (Flashcard flashcard in flashcardSet)
         {
-            if(string.IsNullOrWhiteSpace(flashcard.FlashcardQuestion) || string.IsNullOrWhiteSpace(flashcard.FlashcardAnswer))
+            if (IsFlashcardEmpty(flashcard))
             {
                 return true;
             }
+        }
+        return false;
+    }
+
+    public static bool IsFlashcardEmpty(Flashcard flashcard)
+    {
+        if (string.IsNullOrWhiteSpace(flashcard.FlashcardQuestion) || string.IsNullOrWhiteSpace(flashcard.FlashcardAnswer))
+        {
+            return true;
         }
         return false;
     }
