@@ -394,3 +394,6 @@ FodyWeavers.xsd
 
 /FirstLab/FirstLab/DataFiles/
 /FirstLab/FirstLab/DataFiles/Logs.json
+/FirstLab/FirstLab/src/data/myDatabase.db
+*.db
+
