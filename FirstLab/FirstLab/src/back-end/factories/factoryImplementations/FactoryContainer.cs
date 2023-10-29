@@ -2,9 +2,7 @@
 using FirstLab.src.back_end.factories.factoryInterfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Windows.Controls;
 
 namespace FirstLab.src.back_end.factories.factoryImplementations;
@@ -42,27 +40,8 @@ public class FactoryContainer : IFactoryContainer
         return ActivatorUtilities.CreateInstance<CustomizationErrors>(serviceProvider, errorTextBox, nameOfFlashcardSet!, flashcardSet, SetsOfFlashcards);
     }
 
-    public T CreateObject<T>() where T : class
+    public T CreateObject<T>() where T : class, new()
     {
         return ActivatorUtilities.CreateInstance<T>(serviceProvider);
-    }
-
-    public ObservableCollection<T> CreateCollection<T>(List<T>? entities = null)
-    {
-        if (entities == null)
-        {
-            return ActivatorUtilities.CreateInstance<ObservableCollection<T>>(serviceProvider);
-        }
-        return ActivatorUtilities.CreateInstance<ObservableCollection<T>>(serviceProvider, entities);
-    }
-
-    public string CreateString(Array arr)
-    {
-        return ActivatorUtilities.CreateInstance<string>(serviceProvider, arr);
-    }
-
-    public Thread CreateThread(ThreadStart start)
-    {
-        return ActivatorUtilities.CreateInstance<Thread>(serviceProvider, start);
     }
 }

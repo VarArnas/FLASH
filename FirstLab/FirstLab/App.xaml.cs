@@ -27,12 +27,7 @@ public partial class App : Application
                 services.AddSingleton<HomeView>();
                 services.AddSingleton<LogsView>();
                 services.AddSingleton<FlashcardOptions>();
-                services.AddSingleton<DoubleAnimation>();
-                services.AddTransient<ArrayList>();
-                services.AddTransient<Random>();
-                services.AddTransient<BrushConverter>();
                 services.AddSingleton<IFactoryContainer, FactoryContainer>();
-                services.AddTransient<List<ErrorCode>>();
                 services.AddTransient<DataContext>();
 
             })
@@ -43,6 +38,7 @@ public partial class App : Application
     {
         await AppHost!.StartAsync();
 
+    
         var startupWindow = AppHost.Services.GetRequiredService<MenuWindow>();
         startupWindow.Show();
 

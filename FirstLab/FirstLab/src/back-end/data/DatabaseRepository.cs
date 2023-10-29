@@ -10,7 +10,6 @@ namespace FirstLab.src.back_end.data;
 public static class DatabaseRepository
 {
     public static IServiceProvider? serviceProvider;
-    public static IFactoryContainer? factoryContainer;
 
     public static async Task AddAsync<T>(T entity) where T : class
     {
@@ -30,7 +29,7 @@ public static class DatabaseRepository
     {
         var db = serviceProvider!.GetRequiredService<DataContext>();
         var entities = await db.Set<T>().ToListAsync();
-        var collection = factoryContainer!.CreateCollection(entities);
+        var collection = new ObservableCollection<T>(entities);
         return collection;
     }
 
@@ -62,7 +61,7 @@ public static class DatabaseRepository
         var flashcardSets = await db.FlashcardSets
                 .Include(fs => fs.Flashcards)
                 .ToListAsync();
-        var collection = factoryContainer!.CreateCollection(flashcardSets);
+        var collection = new ObservableCollection<FlashcardSet>(flashcardSets);
         return collection;
     }
 }

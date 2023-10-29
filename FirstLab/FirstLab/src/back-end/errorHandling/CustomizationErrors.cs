@@ -22,13 +22,13 @@ public class CustomizationErrors
 
     public List<ErrorCode> ErrorCodes { get; private set; }
 
-    public CustomizationErrors(TextBox errorTextBox, string? nameOfFlashcardSet, IServiceProvider serviceProvider, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards) 
+    public CustomizationErrors(TextBox errorTextBox, string? nameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards) 
     {
         this.errorTextBox = errorTextBox;
         this.nameOfFlashcardSet = nameOfFlashcardSet;
         this.flashcardSet = flashcardSet;
         this.SetsOfFlashcards = SetsOfFlashcards;
-        ErrorCodes = serviceProvider.GetRequiredService<List<ErrorCode>>();
+        ErrorCodes = new List<ErrorCode>();
     }
 
     private void CheckForErrors()

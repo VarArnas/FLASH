@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FirstLab
 {
     public class Flashcard
     {
         [Key]
-        public string FlashcardId { get; set; }
+        public long FlashcardId { get; set; }
 
         public string FlashcardName { get; set; }
         public string? FlashcardQuestion { get; set; }
