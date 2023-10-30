@@ -38,6 +38,8 @@ namespace FirstLab.XAML
 
         private readonly object lockObject;
 
+        private bool isFunctioning;
+
         public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IServiceProvider serviceProvider)
         {
             InitializeComponent();
@@ -129,17 +131,20 @@ namespace FirstLab.XAML
 
         private void DisplayFlashcard(object sender, RoutedEventArgs e)
         {
-            if (currentFlashcardIndex < flashcardSet.Flashcards.Count)
+            if (!isFunctioning)
             {
-                StringCounter = flashcardSet.Flashcards[currentFlashcardIndex].FlashcardTimer.ToString();
-            }
+                if (currentFlashcardIndex < flashcardSet.Flashcards.Count)
+                {
+                    StringCounter = flashcardSet.Flashcards[currentFlashcardIndex].FlashcardTimer.ToString();
+                }
 
-            timerListBox_SelectionChanged(StringCounter);
-            DisplayFlashcard(currentFlashcardIndex);
-            currentFlashcardIndex++;
-            if (currentFlashcardIndex <= flashcardSet.Flashcards.Count)
-            {
-                InitTimer();
+                timerListBox_SelectionChanged(StringCounter);
+                DisplayFlashcard(currentFlashcardIndex);
+                currentFlashcardIndex++;
+                if (currentFlashcardIndex <= flashcardSet.Flashcards.Count)
+                {
+                    InitTimer();
+                }
             }
         }
 
@@ -208,6 +213,8 @@ namespace FirstLab.XAML
 
         private void Countdown()
         {
+            isFunctioning = true;
+
             while (counter > 0)
             {
                 Monitor.Enter(lockObject);
@@ -232,6 +239,7 @@ namespace FirstLab.XAML
             {
                 Dispatcher.Invoke(() =>
                 {
+                    isFunctioning = false;
                     DisplayAnswer(currentFlashcardIndex - 1);
                 });
             }
