@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,6 +22,8 @@ namespace FirstLab
         private string? NameOfSet;
 
         private CustomizationErrors errors;
+
+        private SelectionErrors selectionErrors;
 
         IFactoryContainer factoryContainer;
         public FlashcardCustomization(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, FlashcardSet? flashcardSet = null)
@@ -202,25 +205,45 @@ namespace FirstLab
 
         private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ColorBox.SelectedItem != null)
+            try
             {
-                ListBoxItem selectedColorItem = (ListBoxItem)ColorBox.SelectedItem;
-
-                string flashcardColorT = selectedColorItem.ToString();
-                int indexOfColon = flashcardColorT.IndexOf(":");
-
-                if (indexOfColon != -1)
+                if (ColorBox.SelectedItem != null)
                 {
-                    flashcardColorT = flashcardColorT.Substring(indexOfColon + 2);
-                }
+                    ListBoxItem selectedColorItem = (ListBoxItem)ColorBox.SelectedItem;
 
-                if (!string.IsNullOrEmpty(selectedColorItem.ToString()))
-                {
-                    SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
+                    string flashcardColorT = selectedColorItem.ToString();
+                    int indexOfColon = flashcardColorT.IndexOf(":");
 
-                    QuestionBorder.Background = colorBrush;
-                    AnswerBorder.Background = colorBrush;
-                }
+                    if (indexOfColon != -1)
+                    {
+                        flashcardColorT = flashcardColorT.Substring(indexOfColon + 2);
+                    }
+
+                    if (!string.IsNullOrEmpty(selectedColorItem.ToString()))
+                    {
+                        SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
+
+                        QuestionBorder.Background = colorBrush;
+                        AnswerBorder.Background = colorBrush;
+                    }
+                }             
+            }
+            catch (Exception ex)
+            {
+                SelectionErrors colorError = new SelectionErrors($"Color option was not chosen");
+                SelectionErrors.LogException(colorError);
+                SelectionErrors.LogException(ex);
+                //MessageBox.Show("Error: Choose the color option");
+            }
+        }
+
+        private void timerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (timerListBox.SelectedIndex == -1)
+            {
+                SelectionErrors timerError = new SelectionErrors($"Timer option was not chosen");
+                SelectionErrors.LogException(timerError);
+                //MessageBox.Show("Error: Choose the timer option");
             }
         }
     }

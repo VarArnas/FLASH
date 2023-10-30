@@ -243,7 +243,8 @@ SelectionChanged="ColorBox_SelectionChanged">
                               BorderThickness="0" Cursor="Arrow" Height="70"/>
             </ScrollViewer>
             <ListBox Name="timerListBox" Grid.Column="2" Margin="0,109,0,165" Background="#FFD8D88E"
-                SelectedValue="{Binding SelectedItem.FlashcardTimer, ElementName=ListBoxFlashcards}">
+                SelectedValue="{Binding SelectedItem.FlashcardTimer, ElementName=ListBoxFlashcards}"
+                SelectionChanged="timerListBox_SelectionChanged">
                 <ListBoxItem Content="3 seconds"/>
                 <ListBoxItem Content="5 seconds"/>
                 <ListBoxItem Content="10 seconds"/>
