@@ -29,7 +29,8 @@ namespace FirstLab.Migrations
                     FlashcardQuestion = table.Column<string>(type: "TEXT", nullable: true),
                     FlashcardAnswer = table.Column<string>(type: "TEXT", nullable: true),
                     FlashcardColor = table.Column<string>(type: "TEXT", nullable: true),
-                    FlashcardSetName = table.Column<string>(type: "TEXT", nullable: true)
+                    FlashcardSetName = table.Column<string>(type: "TEXT", nullable: true),
+                    FlashcardTimer = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -30,9 +30,9 @@ namespace FirstLab.XAML
 
         private int decreaseTextSize = 5;
 
-        private int timerCounter;
-
         private int counter;
+
+        private string StringCounter;
 
         private Thread timerThread;
 
@@ -129,7 +129,8 @@ namespace FirstLab.XAML
 
         private void DisplayFlashcard(object sender, RoutedEventArgs e)
         {
-            counter = timerCounter;
+            StringCounter = flashcardSet.Flashcards[currentFlashcardIndex].FlashcardTimer.ToString();
+            timerListBox_SelectionChanged(StringCounter);
             DisplayFlashcard(currentFlashcardIndex);
             currentFlashcardIndex++;
             if (currentFlashcardIndex <= flashcardSet.Flashcards.Count)
@@ -226,13 +227,13 @@ namespace FirstLab.XAML
             }
         }
 
-        private void timerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void timerListBox_SelectionChanged(string time)
         {
-            string selectedTime = timerListBox.SelectedItem.ToString();
+            string selectedTime = time.ToString();
 
             if (!string.IsNullOrEmpty(selectedTime))
             {
-                timerCounter = ExtractNumber(selectedTime);
+                counter = ExtractNumber(selectedTime);
             }
         }
 

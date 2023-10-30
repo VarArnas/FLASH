@@ -39,6 +39,9 @@ namespace FirstLab.Migrations
                     b.Property<string>("FlashcardSetName")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("FlashcardTimer")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("FlashcardId");
 
                     b.HasIndex("FlashcardSetName");
