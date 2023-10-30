@@ -1,4 +1,5 @@
 ﻿using FirstLab;
+using FirstLab.src.back_end.factories.factoryInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,71 +17,119 @@ namespace FirstLabTesting
         }
 
         [Theory]
-        [InlineData ("test", "test")]
-        [InlineData ("test with spaces", "test with spaces")]
-        [InlineData ("", "")]
-        [InlineData (null, null)]
-        public void Flashcard_FlashcardQuestion_ReturnString(string input, string expected)
+        [InlineData("test", "test")]
+        [InlineData("test with spaces", "test with spaces")]
+        [InlineData("", "")]
+        public void FlashcardQuestion_AssigningCorrectValue_ReturnsSameString(string input, string expected)
         {
             // Arrange
-            
+
             // Act
             flashcard.FlashcardQuestion = input;
             var result = flashcard.FlashcardQuestion;
-            
+
             // Assert
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void FlashcardQuestion_HandlesNull_ReturnsNull() 
+        {
+            // Arrange
+
+            // Act
+            flashcard.FlashcardQuestion = null;
+            var result = flashcard.FlashcardQuestion;
+
+            // Assert
+            Assert.Null(result);
         }
 
         [Theory]
         [InlineData("test", "test")]
         [InlineData("test with spaces", "test with spaces")]
         [InlineData("", "")]
-        [InlineData(null, null)]
-        public void Flashcard_FlashcardAnswer_ReturnString(string input, string expected)
+        public void FlashcardAnswer_AssigningCorrectValue_ReturnsSameString(string input, string expected)
         {
             // Arrange
 
             // Act
-            flashcard.FlashcardQuestion = input;
-            var result = flashcard.FlashcardQuestion;
+            flashcard.FlashcardAnswer = input;
+            var result = flashcard.FlashcardAnswer;
 
             // Assert
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void FlashcardAnswer_HandlesNull_ReturnsNull()
+        {
+            // Arrange
+
+            // Act
+            flashcard.FlashcardAnswer = null;
+            var result = flashcard.FlashcardAnswer;
+
+            // Assert
+            Assert.Null(result);
         }
 
         [Theory]
         [InlineData("test", "test")]
         [InlineData("test with spaces", "test with spaces")]
         [InlineData("", "")]
-        [InlineData(null, null)]
-        public void Flashcard_FlashcardName_ReturnString(string input, string expected)
+        public void FlashcardColor_AssigningCorrectValue_ReturnsSameString(string input, string expected)
         {
             // Arrange
 
             // Act
-            flashcard.FlashcardQuestion = input;
-            var result = flashcard.FlashcardQuestion;
+            flashcard.FlashcardColor = input;
+            var result = flashcard.FlashcardColor;
 
             // Assert
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void FlashcardColor_HandlesNull_ReturnsNull()
+        {
+            // Arrange
+
+            // Act
+            flashcard.FlashcardColor = null;
+            var result = flashcard.FlashcardColor;
+
+            // Assert
+            Assert.Null(result);
         }
 
         [Theory]
         [InlineData("test", "test")]
         [InlineData("test with spaces", "test with spaces")]
         [InlineData("", "")]
-        [InlineData(null, null)]
-        public void Flashcard_FlashcardColor_ReturnString(string input, string expected)
+        public void FlashcardName_AssigningCorrectValue_ReturnsSameString(string input, string expected)
         {
             // Arrange
 
             // Act
-            flashcard.FlashcardQuestion = input;
-            var result = flashcard.FlashcardQuestion;
+            flashcard.FlashcardName = input;
+            var result = flashcard.FlashcardName;
 
             // Assert
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void FlashcardName_HandlesNull_ReturnsNull()
+        {
+            // Arrange
+
+            // Act
+            var result = flashcard.FlashcardName;
+
+            // Assert
+            Assert.Null(result);
+        }
+
     }
 }

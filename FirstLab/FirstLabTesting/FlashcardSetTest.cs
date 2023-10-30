@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Xunit;
 
 namespace FirstLabTesting
 {
@@ -21,8 +23,7 @@ namespace FirstLabTesting
         [InlineData("test", "test")]
         [InlineData("test with spaces", "test with spaces")]
         [InlineData("", "")]
-        [InlineData(null, null)]
-        public void FlashcardSet_FlashcardSetName_ReturnString(string input, string expected)
+        public void FlashcardSetName_AssigningValueCorrectly_ReturnsSameString(string input, string expected)
         {
             // Arrange
             flashcardSet.FlashcardSetName = input;
@@ -34,23 +35,62 @@ namespace FirstLabTesting
             Assert.Equal(expected, result);
         }
 
-        [Theory]
-        [InlineData(null, false)]
-        [InlineData("Set1", true)]
-        [InlineData("Set2", false)]
-        public void FlashcardSet_Equal_ReturnBoolean(string setName, bool expected)
+        [Fact]
+        public void FlashcardSetName_HandlesNull_ReturnsNull()
         {
             // Arrange
-            flashcardSet.FlashcardSetName = "Set1";
-            FlashcardSet? other = setName != null ? new FlashcardSet { FlashcardSetName = setName } : null; 
 
             // Act
-            var result = flashcardSet.Equals(other);
+            var result = flashcardSet.FlashcardSetName;
 
             // Assert
-            Assert.Equal(expected, result);
+            Assert.Null(result);
         }
 
+        [Theory]
+        [InlineData("Set1", "Set1")]
+        [InlineData("new Set", "new Set")]
+        [InlineData("", "")]
+
+        public void Equal_ComparingEqualStrings_ReturnsTrue(string first, string second)
+        {
+            // Arrange
+            FlashcardSet flashcardSet1 = new FlashcardSet { FlashcardSetName = first};
+            FlashcardSet flashcardset2 = new FlashcardSet { FlashcardSetName = second};
+
+            // Act
+            var result = flashcardSet1.Equals(flashcardset2);
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void Equal_ComparingDifferentStrings_ReturnsFalse()
+        {
+            // Arrange
+            FlashcardSet flashcardSet1 = new FlashcardSet { FlashcardSetName = "Set1" };
+            FlashcardSet flashcardset2 = new FlashcardSet { FlashcardSetName = "Set2" };
+
+            // Act
+            var result = flashcardSet1.Equals(flashcardset2);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void Equal_HandlesNull_ReturnsFalse()
+        {
+            // Arrange 
+            FlashcardSet flashcardSet = new FlashcardSet { FlashcardSetName = "Set" };
+
+            // Act 
+            var result = flashcardSet.Equals(null);
+
+            // Assert
+            Assert.False(result);
+        }
 
     }
 }
