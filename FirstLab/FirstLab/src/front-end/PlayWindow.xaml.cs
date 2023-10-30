@@ -129,7 +129,11 @@ namespace FirstLab.XAML
 
         private void DisplayFlashcard(object sender, RoutedEventArgs e)
         {
-            StringCounter = flashcardSet.Flashcards[currentFlashcardIndex].FlashcardTimer.ToString();
+            if (currentFlashcardIndex < flashcardSet.Flashcards.Count)
+            {
+                StringCounter = flashcardSet.Flashcards[currentFlashcardIndex].FlashcardTimer.ToString();
+            }
+
             timerListBox_SelectionChanged(StringCounter);
             DisplayFlashcard(currentFlashcardIndex);
             currentFlashcardIndex++;
@@ -206,7 +210,8 @@ namespace FirstLab.XAML
         {
             while (counter > 0)
             {
-                lock (lockObject)
+                Monitor.Enter(lockObject);
+                try
                 {
                     counter--;
 
@@ -215,6 +220,11 @@ namespace FirstLab.XAML
                         timerTextBox.Text = counter.ToString();
                     });
                 }
+                finally
+                {
+                    Monitor.Exit(lockObject);
+                }
+
                 Thread.Sleep(1000);
             }
 
