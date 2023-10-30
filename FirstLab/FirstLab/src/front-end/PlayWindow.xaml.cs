@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using FirstLab.src.back_end;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -50,7 +49,7 @@ namespace FirstLab.XAML
 
             Shuffle(this.flashcardSet.Flashcards);
 
-            numbersOfFlashcards = serviceProvider.GetRequiredService<ArrayList>();
+            numbersOfFlashcards = new ArrayList();
             PopulateArray(this.flashcardSet.Flashcards);
 
             DataContext = this.flashcardSet;
@@ -72,7 +71,7 @@ namespace FirstLab.XAML
 
         private void Shuffle(ObservableCollection<Flashcard> flashcards)
         {
-            Random random = serviceProvider.GetRequiredService<Random>();
+            Random random = new Random();
 
             for (int i = flashcards.Count - 1; i > 0; i--)
             {
@@ -87,7 +86,6 @@ namespace FirstLab.XAML
         private FlashcardSet CloneFlashcardSet(FlashcardSet originalSet)
         {
             FlashcardSet clonedSet = factoryContainer.CreateObject<FlashcardSet>();
-            clonedSet.Flashcards = factoryContainer.CreateCollection<Flashcard>();
             foreach (var flashcard in originalSet.Flashcards)
             {
                 clonedSet.Flashcards.Add(flashcard);
@@ -112,7 +110,7 @@ namespace FirstLab.XAML
 
                 if (!string.IsNullOrEmpty(flashcardSet.Flashcards[index].FlashcardColor))
                 {
-                    SolidColorBrush colorBrush = (SolidColorBrush) serviceProvider.GetRequiredService<BrushConverter>().ConvertFromString(flashcardColorT);
+                    SolidColorBrush colorBrush = (SolidColorBrush) new BrushConverter().ConvertFromString(flashcardColorT);
 
                     questionTextBox.Background = colorBrush;
                 }
@@ -199,7 +197,7 @@ namespace FirstLab.XAML
 
         private void InitTimer()
         {
-            timerThread = factoryContainer.CreateThread(Countdown);
+            timerThread = new Thread(Countdown);
             timerThread.Start();
         }
 
@@ -240,7 +238,7 @@ namespace FirstLab.XAML
 
         private int ExtractNumber(string input)
         {
-            string numericPart = factoryContainer.CreateString(input.Where(char.IsDigit).ToArray());
+            string numericPart = new string(input.Where(char.IsDigit).ToArray());
 
             if (int.TryParse(numericPart, out int timerCounter))
             {

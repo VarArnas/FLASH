@@ -1,13 +1,9 @@
-﻿using FirstLab.src.back_end.factories.factoryImplementations;
-using FirstLab.src.back_end.factories.factoryInterfaces;
-using System.Linq;
+﻿using System.Linq;
 
 namespace FirstLab.src.back_end.utilities;
 
 public static class StringExtensions
 {
-
-    public static IFactoryContainer factoryContainer;
     public static string ExtractCapLetters(this string input)
     {
         if (string.IsNullOrEmpty(input))

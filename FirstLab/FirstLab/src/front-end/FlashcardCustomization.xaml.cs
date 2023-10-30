@@ -9,7 +9,6 @@ using FirstLab.src.back_end.data;
 using FirstLab.src.back_end.errorHandling;
 using FirstLab.src.back_end.factories.factoryInterfaces;
 using FirstLab.src.back_end.utilities;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FirstLab
 {
@@ -23,20 +22,17 @@ namespace FirstLab
 
         private CustomizationErrors errors;
 
-        IServiceProvider serviceProvider;
-
         IFactoryContainer factoryContainer;
-        public FlashcardCustomization(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, IServiceProvider serviceProvider, FlashcardSet? flashcardSet = null)
+        public FlashcardCustomization(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, FlashcardSet? flashcardSet = null)
         {
             InitializeComponent();
-            InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, serviceProvider, flashcardSet);
+            InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, flashcardSet);
             CheckIfEditingOrNew(flashcardSet);
         }
 
-        private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, IServiceProvider serviceProvider, FlashcardSet? flashcardSet = null)
+        private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, FlashcardSet? flashcardSet = null)
         {
             this.flashcardOptionsReference = flashcardOptionsReference;
-            this.serviceProvider = serviceProvider;
             this.factoryContainer = factoryContainer;
             this.flashcardSet = flashcardSet ?? factoryContainer.CreateObject<FlashcardSet>();
             DataContext = this.flashcardSet;
@@ -46,7 +42,6 @@ namespace FirstLab
         {
             if (flashcardSet == null)
             {
-                this.flashcardSet.Flashcards = factoryContainer.CreateCollection<Flashcard>();
                 QuestionTextBox.IsEnabled = false;
                 AnswerTextBox.IsEnabled = false;
                 QuestionBorder.Visibility = Visibility.Collapsed;
@@ -179,8 +174,7 @@ namespace FirstLab
 
             if (!errors.ErrorCodes.Any())
             {
-                UpdateFlashcardNames(flashcardSet);
-                SaveToDatabase(flashcardSet);
+                await SaveToDatabase(flashcardSet);
                 AddToFlashcardSetsList(flashcardSet);
                 ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);     
             }
@@ -194,14 +188,6 @@ namespace FirstLab
                 errorTextBox: errorText, 
                 SetsOfFlashcards: flashcardOptionsReference.flashcardSets
             );
-        }
-
-        private void UpdateFlashcardNames(FlashcardSet flashcardSet)
-        {
-            foreach (var flashcard in flashcardSet.Flashcards)
-            {
-                flashcard.FlashcardId = flashcardSet.FlashcardSetName + flashcard.FlashcardName;
-            }
         }
 
         private async Task SaveToDatabase(FlashcardSet flashcardSet)
@@ -230,7 +216,7 @@ namespace FirstLab
 
                 if (!string.IsNullOrEmpty(selectedColorItem.ToString()))
                 {
-                    SolidColorBrush colorBrush = (SolidColorBrush) serviceProvider.GetRequiredService<BrushConverter>().ConvertFromString(flashcardColorT);
+                    SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
 
                     QuestionBorder.Background = colorBrush;
                     AnswerBorder.Background = colorBrush;

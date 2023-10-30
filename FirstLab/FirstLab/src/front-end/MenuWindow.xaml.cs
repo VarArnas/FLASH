@@ -18,27 +18,23 @@ namespace FirstLab
 
         private DateTime playWindowEndTime;
 
-        private IServiceProvider serviceProvider;
-
-        public MenuWindow(HomeView homeView, LogsView logsView, IServiceProvider serviceProvider, IFactoryContainer factoryContainer)
+        public MenuWindow(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer)
         {
             InitializeComponent();
-            InitializeMenuFields(homeView,logsView, serviceProvider, factoryContainer);
+            InitializeMenuFields(homeView,logsView, factoryContainer);
         }
 
-        private void InitializeMenuFields(HomeView homeView, LogsView logsView, IServiceProvider serviceProvider, IFactoryContainer factoryContainer)
+        private void InitializeMenuFields(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer)
         {
             this.homeView = homeView;
             contentControl.Content = homeView;
             this.logsView = logsView;
-            this.serviceProvider = serviceProvider;
             ViewsUtils.menuWindowReference = this;
-            StringExtensions.factoryContainer = factoryContainer;
         }
 
         private void MenuWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            DoubleAnimation opacityAnimation = serviceProvider.GetRequiredService<DoubleAnimation>();
+            DoubleAnimation opacityAnimation = new DoubleAnimation();
             opacityAnimation.From = 1.0;
             opacityAnimation.To = 0.1;
             opacityAnimation.Duration = TimeSpan.FromSeconds(2);

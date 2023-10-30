@@ -19,11 +19,5 @@ public interface IFactoryContainer
 
     CustomizationErrors CreateErrorHandling(TextBox errorTextBox, string? nameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards);
 
-    T CreateObject<T>() where T : class;
-
-    ObservableCollection<T> CreateCollection<T>(List<T>? entities = null);
-
-    string CreateString(Array arr);
-
-    Thread CreateThread(ThreadStart start);
+    T CreateObject<T>() where T : class, new();
 }

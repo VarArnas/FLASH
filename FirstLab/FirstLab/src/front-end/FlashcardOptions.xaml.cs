@@ -34,7 +34,6 @@ namespace FirstLab
         private void InitializeDatabase(IServiceProvider serviceProvider, IFactoryContainer factoryContainer)
         {
             DatabaseRepository.serviceProvider = serviceProvider;
-            DatabaseRepository.factoryContainer = factoryContainer;
         }
 
         private async void InitializeOptionsFields(IFactoryContainer factoryContainer)
