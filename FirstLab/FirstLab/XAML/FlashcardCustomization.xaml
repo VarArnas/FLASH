@@ -73,7 +73,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ListBox Name="ColorBox" Grid.Column="2" Margin="0,0,0,251" 
+            <ListBox Name="ColorBox" Grid.Column="2" Margin="0,0,0,251" Background="#FFD8D88E"
 SelectedValue="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards}"
 SelectionChanged="ColorBox_SelectionChanged">
                 <ListBoxItem>Red</ListBoxItem>
@@ -134,11 +134,11 @@ SelectionChanged="ColorBox_SelectionChanged">
             </Grid>
 
 
-            <RadioButton GroupName="Question/Answer" Name="QuestionRadioButton" Height="20" Margin="8,200,2,140"
+            <RadioButton GroupName="Question/Answer" Name="QuestionRadioButton" Height="20" Margin="8,205,2,135"
                          Grid.Row="0" Grid.Column="2" Content="Question"
                          Click="QuestionAnswerRadioButton_Click" IsChecked="True" FontFamily="Fonts/#Dosis"
                          FontWeight="DemiBold" FontSize="14"/>
-            <RadioButton GroupName="Question/Answer" Name="AnswerRadioButton" Height="20" Margin="8,225,2,115" Grid.Row="0"
+            <RadioButton GroupName="Question/Answer" Name="AnswerRadioButton" Height="20" Margin="8,238,2,102" Grid.Row="0"
                          Grid.Column="2" Content="Answer" Click="QuestionAnswerRadioButton_Click" FontFamily="Fonts/#Dosis"
                          FontWeight="DemiBold" FontSize="14"/>
 
@@ -240,9 +240,9 @@ SelectionChanged="ColorBox_SelectionChanged">
                               FontWeight="Bold" FontSize="12"
                               TextAlignment="Left"
                               TextWrapping="Wrap" IsReadOnly="True"
-                              BorderThickness="0" Cursor="Arrow"/>
+                              BorderThickness="0" Cursor="Arrow" Height="70"/>
             </ScrollViewer>
-            <ListBox Name="timerListBox" Grid.Column="2" Margin="0,109,0,165"
+            <ListBox Name="timerListBox" Grid.Column="2" Margin="0,109,0,165" Background="#FFD8D88E"
                 SelectedValue="{Binding SelectedItem.FlashcardTimer, ElementName=ListBoxFlashcards}">
                 <ListBoxItem Content="3 seconds"/>
                 <ListBoxItem Content="5 seconds"/>
