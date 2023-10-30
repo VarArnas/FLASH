@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -131,7 +132,7 @@ namespace FirstLab
             {
                 QuestionTextBox.Focus();
             }
-            else 
+            else
             {
                 AnswerTextBox.Focus();
             }
@@ -179,16 +180,16 @@ namespace FirstLab
             {
                 await SaveToDatabase(flashcardSet);
                 AddToFlashcardSetsList(flashcardSet);
-                ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);     
+                ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
             }
         }
 
         private CustomizationErrors InitializeErrors()
         {
             return factoryContainer.CreateErrorHandling(
-                flashcardSet: flashcardSet, 
-                nameOfFlashcardSet: FlashcardSetNameBox.Text, 
-                errorTextBox: errorText, 
+                flashcardSet: flashcardSet,
+                nameOfFlashcardSet: FlashcardSetNameBox.Text,
+                errorTextBox: errorText,
                 SetsOfFlashcards: flashcardOptionsReference.flashcardSets
             );
         }
@@ -203,47 +204,62 @@ namespace FirstLab
             flashcardOptionsReference.flashcardSets.Add(flashcardSet);
         }
 
+        private void ColorBox_SelectionChanged()
+        {
+            if (ColorBox.SelectedItem != null)
+            {
+                ListBoxItem selectedColorItem = (ListBoxItem)ColorBox.SelectedItem;
+
+                string flashcardColorT = selectedColorItem.ToString();
+                int indexOfColon = flashcardColorT.IndexOf(":");
+
+                if (indexOfColon != -1)
+                {
+                    flashcardColorT = flashcardColorT.Substring(indexOfColon + 2);
+                }
+
+                if (!string.IsNullOrEmpty(selectedColorItem.ToString()))
+                {
+                    SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
+
+                    QuestionBorder.Background = colorBrush;
+                    AnswerBorder.Background = colorBrush;
+                }
+            }
+        }
+
         private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                if (ColorBox.SelectedItem != null)
-                {
-                    ListBoxItem selectedColorItem = (ListBoxItem)ColorBox.SelectedItem;
-
-                    string flashcardColorT = selectedColorItem.ToString();
-                    int indexOfColon = flashcardColorT.IndexOf(":");
-
-                    if (indexOfColon != -1)
-                    {
-                        flashcardColorT = flashcardColorT.Substring(indexOfColon + 2);
-                    }
-
-                    if (!string.IsNullOrEmpty(selectedColorItem.ToString()))
-                    {
-                        SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
-
-                        QuestionBorder.Background = colorBrush;
-                        AnswerBorder.Background = colorBrush;
-                    }
-                }             
+                ColorBox_SelectionChanged();
             }
             catch (Exception ex)
             {
                 SelectionErrors colorError = new SelectionErrors($"Color option was not chosen");
                 SelectionErrors.LogException(colorError);
                 SelectionErrors.LogException(ex);
-                //MessageBox.Show("Error: Choose the color option");
             }
         }
 
+        private void timerListBox_SelectionChanged()
+        {
+            if (timerListBox.SelectedItem != null)
+            {
+                return;
+            }
+        }
         private void timerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (timerListBox.SelectedIndex == -1)
+            try
             {
+                timerListBox_SelectionChanged();
+            }
+            catch (Exception ex) 
+            { 
                 SelectionErrors timerError = new SelectionErrors($"Timer option was not chosen");
                 SelectionErrors.LogException(timerError);
-                //MessageBox.Show("Error: Choose the timer option");
+                SelectionErrors.LogException(ex);
             }
         }
     }
