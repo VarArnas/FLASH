@@ -10,6 +10,6 @@ namespace FirstLab
         public string? FlashcardQuestion { get; set; }
         public string? FlashcardAnswer { get; set; }
         public string? FlashcardColor { get; set; }
-        public string FlashcardTimer { get; set; }
+        public string? FlashcardTimer { get; set; }
     }
 }

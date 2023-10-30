@@ -3,6 +3,7 @@ using System;
 using FirstLab.src.back_end.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FirstLab.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231030195834_FlashcardTimer")]
+    partial class FlashcardTimer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -37,6 +40,10 @@ namespace FirstLab.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FlashcardSetName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FlashcardTimer")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("FlashcardId");
