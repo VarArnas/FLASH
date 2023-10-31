@@ -20,4 +20,6 @@ public interface IFactoryContainer
     CustomizationErrors CreateErrorHandling(TextBox errorTextBox, string? nameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards);
 
     T CreateObject<T>() where T : class, new();
+
+    public SelectionErrors CreateException(string errorMsg);
 }

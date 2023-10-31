@@ -8,11 +8,12 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Threading;
 using FirstLab.src.back_end.factories.factoryInterfaces;
-using Microsoft.Extensions.DependencyInjection;
 using FirstLab.src.back_end.errorHandling;
 
 namespace FirstLab.XAML
 {
+
+    public delegate void ActionDelegates();
     public partial class PlayWindow : UserControl
     {
         private FlashcardSet flashcardSet;
@@ -33,23 +34,18 @@ namespace FirstLab.XAML
 
         private int counter;
 
-        private string stringCounter;
-
         private Thread timerThread;
 
         private readonly object lockObject;
 
         private bool isFunctioning;
 
-        private SelectionErrors selectionErrors;
-
-        private string defaultColor = "System.Windows.Controls.ListBoxItem: Blue";
-
-        private string defaultTimer = "System.Windows.Controls.ListBoxItem: 5 seconds";
+        private ActionDelegates setTimer, showAnswer;
 
         public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IServiceProvider serviceProvider)
         {
             InitializeComponent();
+            InitializeDelegates();
             this.serviceProvider = serviceProvider;
             this.factoryContainer = factoryContainer;
             lockObject = factoryContainer.CreateObject<object>();
@@ -68,6 +64,21 @@ namespace FirstLab.XAML
             {
                 DisplayFlashcard(currentFlashcardIndex);
             }
+        }
+
+        private void InitializeDelegates()
+        {
+            setTimer = () =>
+            {
+                timerTextBox.Text = counter.ToString();
+            };
+
+
+            showAnswer = () =>
+            {
+                isFunctioning = false;
+                DisplayAnswer(currentFlashcardIndex - 1);
+            };
         }
 
         private void PopulateArray(ObservableCollection<Flashcard> flashcards)
@@ -110,40 +121,24 @@ namespace FirstLab.XAML
                 flashcardNumberTextBlock.Text = ((int)numbersOfFlashcards[index]).ToString() + "/" + ListBoxFlashcards.Items.Count.ToString();
                 questionTextBox.Text = flashcardSet.Flashcards[index].FlashcardQuestion;
                 string flashcardColorT;
-
                 try
                 {
-                    if (flashcardSet != null && flashcardSet.Flashcards != null && flashcardSet.Flashcards[index].FlashcardColor != null)
-                    {
-                        flashcardColorT = flashcardSet.Flashcards[index].FlashcardColor.ToString();
-                    }
-                    else
-                    {
-                        flashcardColorT = defaultColor;
-                    }
-
-                    int indexOfColon = flashcardColorT.IndexOf(":");
-
-                    if (indexOfColon != -1)
-                    {
-                        flashcardColorT = flashcardColorT.Substring(indexOfColon + 2);
-                    }
-
-                    if (!string.IsNullOrEmpty(flashcardColorT))
-                    {
-                        SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
-
-                        questionTextBox.Background = colorBrush;
-                    }
-
-                    answerTextBox.Clear();
+                    flashcardColorT = flashcardSet.Flashcards[index].FlashcardColor.ToString();
                 }
-                catch (NullReferenceException ex)
+                catch (Exception ex)
                 {
-                    SelectionErrors displayError = new SelectionErrors($"No default color has been selected. Red color applied");
-                    SelectionErrors.LogException(displayError);
                     SelectionErrors.LogException(ex);
+                    throw factoryContainer.CreateException($"No default color has been selected");
                 }
+
+                int indexOfColon = flashcardColorT.IndexOf(":");
+                if (indexOfColon != -1)
+                {
+                    flashcardColorT = flashcardColorT.Substring(indexOfColon + 2);
+                }
+                SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
+                questionTextBox.Background = colorBrush;
+                answerTextBox.Clear();
             }
         }
 
@@ -157,39 +152,39 @@ namespace FirstLab.XAML
 
         private void DisplayFlashcard(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (flashcardSet != null && flashcardSet.Flashcards != null && flashcardSet.Flashcards[currentFlashcardIndex].FlashcardTimer != null)
-                {
-                    stringCounter = flashcardSet.Flashcards[currentFlashcardIndex].FlashcardTimer.ToString();
-                }
-                else
-                {
-                    flashcardSet.Flashcards[currentFlashcardIndex].FlashcardTimer = defaultTimer;
-                }
-            }
-            catch (NullReferenceException ex)
-            {
-                SelectionErrors displayError = new SelectionErrors($"No default timer has been selected. 5 seconds applied");
-                SelectionErrors.LogException(displayError);
-                SelectionErrors.LogException(ex);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                SelectionErrors displayError = new SelectionErrors($"Error. All flashcards have been displayed");
-                SelectionErrors.LogException(displayError);
-                SelectionErrors.LogException(ex);
-            }
-
             if (!isFunctioning)
             {
-                if (currentFlashcardIndex < flashcardSet.Flashcards.Count)
+                try
                 {
-                    stringCounter = flashcardSet.Flashcards[currentFlashcardIndex].FlashcardTimer;
+                    SetTheCounter(currentFlashcardIndex);
+                }
+                catch (SelectionErrors ex)
+                {
+                    if (currentFlashcardIndex < flashcardSet.Flashcards.Count())
+                    {
+                        SelectionErrors.LogException(ex);
+                        flashcardSet.Flashcards[currentFlashcardIndex].FlashcardTimer = ex.defaultTime;
+                        SetTheCounter(currentFlashcardIndex);
+                    }
+                    else
+                    {
+                        SelectionErrors displayError = factoryContainer.CreateException($"Error. All flashcards have been displayed");
+                        SelectionErrors.LogException(displayError);
+                        SelectionErrors.LogException(ex);
+                    }
                 }
 
-                timerListBox_SelectionChanged(stringCounter);
-                DisplayFlashcard(currentFlashcardIndex);
+                try
+                {
+                    DisplayFlashcard(currentFlashcardIndex);
+                }
+                catch (SelectionErrors ex)
+                {
+                    SelectionErrors.LogException(ex);
+                    flashcardSet.Flashcards[currentFlashcardIndex].FlashcardColor = ex.defaultColor;
+                    DisplayFlashcard(currentFlashcardIndex);
+                }
+
                 currentFlashcardIndex++;
                 if (currentFlashcardIndex <= flashcardSet.Flashcards.Count)
                 {
@@ -207,7 +202,7 @@ namespace FirstLab.XAML
             }
             catch (Exception ex)
             {
-                SelectionErrors displayError = new SelectionErrors($"Error displaying flashcard answer");
+                SelectionErrors displayError = factoryContainer.CreateException($"Error displaying flashcard answer");
                 SelectionErrors.LogException(displayError);
                 SelectionErrors.LogException(ex);
             }
@@ -287,10 +282,7 @@ namespace FirstLab.XAML
 
                     counter--;
 
-                    Dispatcher.Invoke(() =>
-                    {
-                        timerTextBox.Text = counter.ToString();
-                    });
+                    Dispatcher.Invoke(setTimer);
                 }
                 finally
                 {
@@ -302,17 +294,26 @@ namespace FirstLab.XAML
 
             if (counter == 0)
             {
-                Dispatcher.Invoke(() =>
-                {
-                    isFunctioning = false;
-                    DisplayAnswer(currentFlashcardIndex - 1);
-                });
+                Dispatcher.Invoke(showAnswer);
             }
         }
 
-        private void timerListBox_SelectionChanged(string time)
+        private void SetTheCounter(int ind)
         {
-            string selectedTime = time.ToString();
+            string stringCounter;
+
+            string selectedTime;
+
+            try
+            {
+                stringCounter = flashcardSet.Flashcards[ind].FlashcardTimer;
+                selectedTime = stringCounter.ToString();
+            }
+            catch (Exception ex)
+            {
+                SelectionErrors.LogException(ex);
+                throw factoryContainer.CreateException($"No default timer has been selected");
+            }
 
             if (!string.IsNullOrEmpty(selectedTime))
             {

@@ -14,7 +14,7 @@ namespace FirstLab.Migrations
                 name: "FlashcardTimer",
                 table: "Flashcards",
                 type: "TEXT",
-                nullable: false,
+                nullable: true,
                 defaultValue: "");
         }
 
