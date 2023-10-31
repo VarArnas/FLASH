@@ -1,5 +1,7 @@
 ﻿using FirstLab;
+using FirstLab.src.back_end.factories.factoryImplementations;
 using FirstLab.src.back_end.factories.factoryInterfaces;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace FirstLabTesting
     public class FlashcardTest
     {
         private readonly Flashcard flashcard;
-        public FlashcardTest() 
+        public FlashcardTest()
         {
             flashcard = new Flashcard();
         }
