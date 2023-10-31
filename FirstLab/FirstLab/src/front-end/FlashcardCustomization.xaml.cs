@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +23,8 @@ namespace FirstLab
         private string? NameOfSet;
 
         private CustomizationErrors errors;
+
+        private SelectionErrors selectionErrors;
 
         IFactoryContainer factoryContainer;
         public FlashcardCustomization(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, FlashcardSet? flashcardSet = null)
@@ -128,7 +132,7 @@ namespace FirstLab
             {
                 QuestionTextBox.Focus();
             }
-            else 
+            else
             {
                 AnswerTextBox.Focus();
             }
@@ -176,16 +180,16 @@ namespace FirstLab
             {
                 await SaveToDatabase(flashcardSet);
                 AddToFlashcardSetsList(flashcardSet);
-                ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);     
+                ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
             }
         }
 
         private CustomizationErrors InitializeErrors()
         {
             return factoryContainer.CreateErrorHandling(
-                flashcardSet: flashcardSet, 
-                nameOfFlashcardSet: FlashcardSetNameBox.Text, 
-                errorTextBox: errorText, 
+                flashcardSet: flashcardSet,
+                nameOfFlashcardSet: FlashcardSetNameBox.Text,
+                errorTextBox: errorText,
                 SetsOfFlashcards: flashcardOptionsReference.flashcardSets
             );
         }
@@ -200,7 +204,7 @@ namespace FirstLab
             flashcardOptionsReference.flashcardSets.Add(flashcardSet);
         }
 
-        private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ColorBox_SelectionChanged()
         {
             if (ColorBox.SelectedItem != null)
             {
@@ -221,6 +225,41 @@ namespace FirstLab
                     QuestionBorder.Background = colorBrush;
                     AnswerBorder.Background = colorBrush;
                 }
+            }
+        }
+
+        private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                ColorBox_SelectionChanged();
+            }
+            catch (Exception ex)
+            {
+                SelectionErrors colorError = new SelectionErrors($"Color option was not chosen");
+                SelectionErrors.LogException(colorError);
+                SelectionErrors.LogException(ex);
+            }
+        }
+
+        private void timerListBox_SelectionChanged()
+        {
+            if (timerListBox.SelectedItem != null)
+            {
+                return;
+            }
+        }
+        private void timerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                timerListBox_SelectionChanged();
+            }
+            catch (Exception ex) 
+            { 
+                SelectionErrors timerError = new SelectionErrors($"Timer option was not chosen");
+                SelectionErrors.LogException(timerError);
+                SelectionErrors.LogException(ex);
             }
         }
     }

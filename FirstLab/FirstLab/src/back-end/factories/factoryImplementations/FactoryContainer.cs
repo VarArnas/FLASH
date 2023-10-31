@@ -44,4 +44,10 @@ public class FactoryContainer : IFactoryContainer
     {
         return ActivatorUtilities.CreateInstance<T>(serviceProvider);
     }
+
+    public SelectionErrors CreateException(string errorMsg)
+    {
+        var constructor = typeof(SelectionErrors).GetConstructor(new[] { typeof(string) });
+        return (SelectionErrors)constructor.Invoke(new object[] { errorMsg });
+    }
 }

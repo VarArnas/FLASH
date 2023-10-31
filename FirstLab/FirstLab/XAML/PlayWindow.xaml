@@ -120,14 +120,6 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <ListBox Name="timerListBox" Margin="114,112,593,225"
-                 SelectionChanged="timerListBox_SelectionChanged">
-            <ListBoxItem Content="3 seconds"/>
-            <ListBoxItem Content="5 seconds"/>
-            <ListBoxItem Content="10 seconds"/>
-            <ListBoxItem Content="15 seconds"/>
-            <ListBoxItem Content="30 seconds"/>
-        </ListBox>
     </Grid>
 </UserControl>
 
