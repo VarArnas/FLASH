@@ -12,10 +12,9 @@ namespace FirstLabTesting
         [Theory]
         [InlineData("AaBbCcDd", "ABCD")]
         [InlineData("Cat", "C")]
-        [InlineData("word", "")]
-        [InlineData("", "")]
+        
         [InlineData(null, "")]
-        public void StringExtensions_ExtractCapLetters_ReturnsString(string input, string expected)
+        public void ExtractCapLetters_PassingWordsWithCapitalLetters_ReturnsOnlyCapitalLetters(string input, string expected)
         {
             // Arrange
             // Act
@@ -26,13 +25,38 @@ namespace FirstLabTesting
         }
 
         [Theory]
+        [InlineData("word", "")]
+        [InlineData("", "")]
+        public void ExtractCapLetters_PassingWordsWithoutCapitalLetters_ReturnsEmptyString(string input, string expected)
+        {
+            // Arrange
+            // Act
+            var result = StringExtensions.ExtractCapLetters(input);
+
+            // Assert
+            Assert.True(result.Equals(expected));
+        }
+
+        [Fact]
+        public void ExtractCapLetters_HandlingNull_ReturnsEmptyString()
+        {
+            // Arrange
+            string? input = null;
+            
+            // Act
+            var result = StringExtensions.ExtractCapLetters(input);
+
+            // Assert
+            Assert.True(result.Equals(""));
+        }
+
+
+        [Theory]
         [InlineData("word", "WORD")]
         [InlineData("Cat", "CAT")]
         [InlineData("CAPS", "CAPS")]
-        [InlineData("4fff", "4FFF")]
         [InlineData("", "")]
-        [InlineData(null, "")]
-        public void StringExtensions_Capitalize_ReturnsString(string input, string expected)
+        public void Capitalize_PassingWordsWithOnlyLetters_ReturnsAllCapitalLetters(string input, string expected)
         {
             // Arrange
             // Act
@@ -43,20 +67,72 @@ namespace FirstLabTesting
         }
 
         [Theory]
-        [InlineData("Word", false)]
-        [InlineData("A word", false)]
-        [InlineData("%#$$Aa", true)]
-        [InlineData("4", false)]
-        [InlineData("", false)]
-        [InlineData(null, false)]
-        public void StringExtensions_ContainsSymbols_ReturnsBoolean(string input, bool expected)
+        [InlineData("4fff", "4FFF")]
+        [InlineData("%#dfff", "%#DFFF")]
+
+        public void Capitalize_PassingWordsWithLettersAndSymbols_ReturnsCapitalizedLetters(string input, string expected)
+        {
+            // Arrange
+            // Act
+            var result = StringExtensions.Capitalize(input);
+
+            // Assert
+            Assert.True(result.Equals(expected));
+        }
+
+        [Fact]
+        public void Capitalize_HandlingNull_ReturnsEmptyString()
+        {
+            // Arrange
+            string? input = null;
+
+            // Act
+            var result = StringExtensions.Capitalize(input);
+
+            // Assert
+            Assert.True(result.Equals(""));
+        }
+
+
+        [Theory]
+        [InlineData("Word")]
+        [InlineData("A word")]
+        [InlineData("4")]
+        [InlineData("")]
+        public void ContainsSymbols_PassingWordsWithoutSymbols_ReturnsFalse(string input)
         {
             // Arrange
             // Act
             var result = StringExtensions.ContainsSymbols(input);
 
             // Assert
-            Assert.Equal(expected, result);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void ContainsSymbols_PassingWordsWithSymbols_ReturnsTrue()
+        {
+            // Arrange
+            string input = "%#$$Aa";
+
+            // Act
+            var result = StringExtensions.ContainsSymbols(input);
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void ContainsSymbols_HandlingNull_ReturnsFalse()
+        {
+            // Arrange
+            string? input = null;
+
+            // Act
+            var result = StringExtensions.ContainsSymbols(input);
+
+            // Assert
+            Assert.False(result);
         }
     }
 }
