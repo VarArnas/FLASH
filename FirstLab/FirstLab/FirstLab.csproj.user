@@ -3,33 +3,33 @@
   <PropertyGroup />
   <ItemGroup />
   <ItemGroup>
-    <Compile Update="src\front-end\FlashcardCustomization.xaml.cs">
+    <Compile Update="src\controllers\FlashcardCustomization.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="src\front-end\FlashcardOptions.xaml.cs">
+    <Compile Update="src\controllers\FlashcardOptions.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="src\front-end\HomeView.xaml.cs">
+    <Compile Update="src\controllers\HomeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="src\front-end\LogsView.xaml.cs">
+    <Compile Update="src\controllers\LogsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="XAML\FlashcardCustomization.xaml">
+    <Page Update="src\views\FlashcardCustomization.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="XAML\FlashcardOptions.xaml">
+    <Page Update="src\views\FlashcardOptions.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="XAML\HomeView.xaml">
+    <Page Update="src\views\HomeView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="XAML\LogsView.xaml">
+    <Page Update="src\views\LogsView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="XAML\MenuWindow.xaml">
+    <Page Update="src\views\MenuWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

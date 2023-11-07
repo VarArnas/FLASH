@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FirstLab.Migrations;
-using FirstLab.src.back_end;
+using FirstLab.src.models;
 
 namespace FirstLabTesting
 {
