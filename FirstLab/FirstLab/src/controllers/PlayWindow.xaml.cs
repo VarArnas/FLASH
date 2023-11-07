@@ -7,6 +7,7 @@ using System.Threading;
 using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.exceptions;
+using System.Windows.Input;
 
 namespace FirstLab.XAML;
 
@@ -24,6 +25,8 @@ public partial class PlayWindow : UserControl
 
     private bool isFunctioning;
 
+    private bool switchDisplay;
+
     private ActionDelegates setTimer, showAnswer;
 
     IPlayWindowService _controllerService;
@@ -34,7 +37,7 @@ public partial class PlayWindow : UserControl
         InitializePlayWindowFields(flashcardSet, factoryContainer, controllerService);
         InitializeDelegates();
         controllerService.ShuffleFlashcards(this.flashcardSet!.Flashcards!);
-        DisplayFlashcard();
+        this.PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 
     private void InitializePlayWindowFields(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService controllerService)
@@ -83,7 +86,7 @@ public partial class PlayWindow : UserControl
         }
     }
 
-    private void DisplayFlashcard(object? sender = null, RoutedEventArgs? e = null)
+    private void DisplayFlashcard()
     {
         if (!isFunctioning)
         {
@@ -121,6 +124,10 @@ public partial class PlayWindow : UserControl
                 InitTimer();
             }
         }
+    }
+    private void DisplayFlashcard(object? sender = null, RoutedEventArgs? e = null)
+    {
+        DisplayFlashcard();
     }
 
     private void DisplayAnswer(object? sender = null, RoutedEventArgs? e = null)
@@ -208,6 +215,24 @@ public partial class PlayWindow : UserControl
         if (counter == 0)
         {
             Dispatcher.Invoke(showAnswer);
+        }
+    }
+
+    private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case Key.Space:
+                switchDisplay = !switchDisplay;
+                if (switchDisplay)
+                {
+                    DisplayFlashcard();
+                }
+                else
+                {
+                    DisplayAnswer();
+                }
+                break;
         }
     }
 }

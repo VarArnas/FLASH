@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using FirstLab.src.errorHandling;
 using FirstLab.src.interfaces;
 using FirstLab.src.models;
@@ -25,6 +26,7 @@ public partial class FlashcardCustomization : UserControl
         InitializeComponent();
         InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, controllerService, flashcardSet);
         CheckIfEditingOrNew(flashcardSet);
+        this.PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 
     private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, IFlashcardCustomizationService controllerService, FlashcardSet? flashcardSet = null)
@@ -76,12 +78,13 @@ public partial class FlashcardCustomization : UserControl
             ColorBox.Visibility= Visibility.Visible;
             timerListBox.Visibility = Visibility.Visible;
         }
-        else
+        else if(!question && answer)
         {
             QuestionBorder.Visibility = Visibility.Collapsed;
             AnswerBorder.Visibility = Visibility.Visible;
             QuestionTextBox.IsEnabled = false;
             AnswerTextBox.IsEnabled = true;
+            AnswerRadioButton.IsChecked = true;
             AnswerTextBox.Focus();
         }
     }
@@ -143,13 +146,17 @@ public partial class FlashcardCustomization : UserControl
         ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
     }
 
-    private async void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
+    private async void SaveFlashcards()
     {
         if (IsFlashcardSetCorrect())
         {
             await controllerService.SaveToDatabase(flashcardSet, flashcardOptionsReference);
             ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
         }
+    }
+    private async void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
+    {
+        SaveFlashcards();
     }
 
     private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -177,5 +184,45 @@ public partial class FlashcardCustomization : UserControl
             errorTextBox: errorText,
             SetsOfFlashcards: flashcardOptionsReference.flashcardSets
         );
+    }
+
+    private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case Key.Left:
+                IsQestionOrAnswer(true, false);
+                break;
+            case Key.Right:
+                IsQestionOrAnswer(false, true);
+                break;
+            case Key.Up:
+                NavigateFlashcards(-1);
+                break;
+            case Key.Down:
+                NavigateFlashcards(1);
+                break;
+            case Key.Enter:
+                SaveFlashcards();
+                break;
+            case Key.Escape:
+                ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
+                break;
+        }
+    }
+
+    private void NavigateFlashcards(int direction)
+    {
+        int currentIndex = ListBoxFlashcards.SelectedIndex;
+
+        if (currentIndex >= 0 && currentIndex < flashcardSet.Flashcards.Count)
+        {
+            int newIndex = currentIndex + direction;
+            if (newIndex >= 0 && newIndex < flashcardSet.Flashcards.Count)
+            {
+                ListBoxFlashcards.SelectedIndex = newIndex;
+                IsQestionOrAnswer(true, false);
+            }
+        }
     }
 }
