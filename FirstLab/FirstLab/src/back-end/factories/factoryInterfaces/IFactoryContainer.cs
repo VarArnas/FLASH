@@ -21,5 +21,5 @@ public interface IFactoryContainer
 
     T CreateObject<T>() where T : class, new();
 
-    public SelectionErrors CreateException(string errorMsg);
+    CustomNullException CreateException(string errorMsg);
 }

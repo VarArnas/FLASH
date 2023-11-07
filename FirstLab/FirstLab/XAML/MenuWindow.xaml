@@ -9,8 +9,7 @@
         Background="Transparent"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
-        Loaded="MenuWindow_Loaded">
+        ResizeMode="NoResize">
     <Border Background="#FF5E4682"
             CornerRadius="20">
         <Grid>
@@ -70,7 +69,7 @@
                          FontFamily="Fonts/#Dosis"
                          Height="40" FontSize="15"
                          Margin="0, 0, 0 ,0"
-                         Click="ReturnToHomeView">
+                         Click="ReturnToHomeView_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Name="Border" Background="#FF5E4682" BorderThickness="1">
@@ -153,7 +152,7 @@
                  FontWeight="Light"
                  FontFamily="Fonts/#Dosis"
                  Height="40" FontSize="15"
-                 Click="CloseWindow">
+                 Click="CloseWindow_Click">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border Name="Border" Background="#FF5E4682" BorderThickness="1">

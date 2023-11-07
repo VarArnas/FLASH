@@ -1,26 +1,27 @@
 ﻿using System;
 using System.IO;
+using System.Windows.Media;
 
 namespace FirstLab.src.back_end.errorHandling
 {
-    public class SelectionErrors : Exception
+    public class CustomNullException : Exception
     {
 
         public string defaultTime;
 
         public string defaultColor;
 
-        public SelectionErrors()
+        public CustomNullException()
         {
         }
 
-        public SelectionErrors(string message) : base(message)
+        public CustomNullException(string message) : base(message)
         {
             defaultTime = "System.Windows.Controls.ListBoxItem: 5 seconds";
-            defaultColor = "System.Windows.Controls.ListBoxItem: Green";
+            defaultColor = "Green";
         }
 
-        public SelectionErrors(string message, Exception innerException) : base(message, innerException)
+        public CustomNullException(string message, Exception innerException) : base(message, innerException)
         {
         }
 

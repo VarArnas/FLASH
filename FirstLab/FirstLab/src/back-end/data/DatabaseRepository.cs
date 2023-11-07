@@ -1,5 +1,4 @@
-﻿using FirstLab.src.back_end.factories.factoryInterfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
@@ -41,27 +40,27 @@ public static class DatabaseRepository
         await db.SaveChangesAsync();
     }
 
-    public static async Task RemoveFlashcardSetAsync(FlashcardSet flashcardSet)
+    public static async Task RemoveFlashcardSetAsync(string flashcardSetName)
     {
         var db = serviceProvider!.GetRequiredService<DataContext>();
         var flashcardSetWithFlashcards = await db.FlashcardSets
             .Include(fs => fs.Flashcards)
-            .FirstOrDefaultAsync(fs => fs.FlashcardSetName == flashcardSet.FlashcardSetName);
+            .FirstOrDefaultAsync(fs => fs.FlashcardSetName == flashcardSetName);
         if (flashcardSetWithFlashcards != null)
         {
-            db.Flashcards.RemoveRange(flashcardSetWithFlashcards.Flashcards);
+            db.Flashcards.RemoveRange(flashcardSetWithFlashcards.Flashcards!);
             db.FlashcardSets.Remove(flashcardSetWithFlashcards);
             await db.SaveChangesAsync();
         }
     }
 
-    public static async Task<ObservableCollection<FlashcardSet>> GetAllFlashcardSetsAsync()
+    public static async Task<ObservableCollection<FlashcardSetDTO>> GetAllFlashcardSetsAsync()
     {
         var db = serviceProvider!.GetRequiredService<DataContext>();
         var flashcardSets = await db.FlashcardSets
                 .Include(fs => fs.Flashcards)
                 .ToListAsync();
-        var collection = new ObservableCollection<FlashcardSet>(flashcardSets);
+        var collection = new ObservableCollection<FlashcardSetDTO>(flashcardSets);
         return collection;
     }
 }

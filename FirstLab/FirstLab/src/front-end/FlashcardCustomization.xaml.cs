@@ -1,76 +1,81 @@
-﻿using System;
-using System.Diagnostics.Metrics;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
+using FirstLab.src.back_end;
 using FirstLab.src.back_end.data;
 using FirstLab.src.back_end.errorHandling;
 using FirstLab.src.back_end.factories.factoryInterfaces;
 using FirstLab.src.back_end.utilities;
 
-namespace FirstLab
+namespace FirstLab;
+
+public partial class FlashcardCustomization : UserControl
 {
-    public partial class FlashcardCustomization : UserControl
+    private FlashcardSet flashcardSet;
+
+    private FlashcardOptions flashcardOptionsReference;
+
+    private string? NameOfSet;
+
+    IFactoryContainer factoryContainer;
+
+    public FlashcardCustomization(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, FlashcardSet? flashcardSet = null)
     {
-        private FlashcardSet flashcardSet;
+        InitializeComponent();
+        InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, flashcardSet);
+        CheckIfEditingOrNew(flashcardSet);
+    }
 
-        private FlashcardOptions flashcardOptionsReference;
+    private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, FlashcardSet? flashcardSet = null)
+    {
+        this.flashcardOptionsReference = flashcardOptionsReference;
+        this.factoryContainer = factoryContainer;
+        this.flashcardSet = flashcardSet ?? factoryContainer.CreateObject<FlashcardSet>();
+        DataContext = this.flashcardSet;
+    }
 
-        private string? NameOfSet;
-
-        private CustomizationErrors errors;
-
-        private SelectionErrors selectionErrors;
-
-        IFactoryContainer factoryContainer;
-        public FlashcardCustomization(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, FlashcardSet? flashcardSet = null)
+    private async void CheckIfEditingOrNew(FlashcardSet? flashcardSet)
+    {
+        if (flashcardSet == null)
         {
-            InitializeComponent();
-            InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, flashcardSet);
-            CheckIfEditingOrNew(flashcardSet);
+            IsQestionOrAnswer(false, false);
         }
-
-        private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, FlashcardSet? flashcardSet = null)
+        else
         {
-            this.flashcardOptionsReference = flashcardOptionsReference;
-            this.factoryContainer = factoryContainer;
-            this.flashcardSet = flashcardSet ?? factoryContainer.CreateObject<FlashcardSet>();
-            DataContext = this.flashcardSet;
+            await RemoveFromDatabase(flashcardSet);
+            RemoveFromFlashcardSetList(flashcardSet);
+            ListBoxFlashcards.SelectedIndex = flashcardSet.Flashcards!.Count - 1;
+            NameOfSet = flashcardSet.FlashcardSetName;
         }
+    }
 
-        private async void CheckIfEditingOrNew(FlashcardSet flashcardSet)
+    private async Task RemoveFromDatabase(FlashcardSet flashcardSet)
+    {
+        await DatabaseRepository.RemoveFlashcardSetAsync(flashcardSet.FlashcardSetName);
+    }
+
+    private void RemoveFromFlashcardSetList(FlashcardSet flashcardSet)
+    {
+        flashcardOptionsReference.flashcardSets.Remove(flashcardSet);
+    }
+
+    private void IsQestionOrAnswer(bool question, bool answer)
+    {
+        if(!question && !answer)
         {
-            if (flashcardSet == null)
-            {
-                QuestionTextBox.IsEnabled = false;
-                AnswerTextBox.IsEnabled = false;
-                QuestionBorder.Visibility = Visibility.Collapsed;
-                AnswerBorder.Visibility = Visibility.Collapsed;
-                QuestionRadioButton.Visibility = Visibility.Collapsed;
-                AnswerRadioButton.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                await DatabaseRepository.RemoveFlashcardSetAsync(flashcardSet);
-                flashcardOptionsReference.flashcardSets.Remove(flashcardSet);
-                ListBoxFlashcards.SelectedIndex = flashcardSet.Flashcards.Count - 1;
-                NameOfSet = flashcardSet.FlashcardSetName;
-            }
+            QuestionTextBox.IsEnabled = false;
+            AnswerTextBox.IsEnabled = false;
+            QuestionBorder.Visibility = Visibility.Collapsed;
+            AnswerBorder.Visibility = Visibility.Collapsed;
+            QuestionRadioButton.Visibility = Visibility.Collapsed;
+            AnswerRadioButton.Visibility = Visibility.Collapsed;
+            ColorBox.Visibility = Visibility.Collapsed; 
+            timerListBox.Visibility = Visibility.Collapsed;
         }
-
-        private void AddFlashcard_Click(object sender, RoutedEventArgs e)
+        else if(question && !answer)
         {
-            var flashcard = factoryContainer.CreateObject<Flashcard>();
-            int flashcardNumber = flashcardSet.Flashcards.Count + 1;
-            flashcard.FlashcardName = flashcardNumber.ToString("D2");
-            flashcardSet.Flashcards.Add(flashcard);
-            ListBoxFlashcards.Items.Refresh();
-            ListBoxFlashcards.SelectedIndex = flashcardSet.Flashcards.IndexOf(flashcard);
-
             QuestionBorder.Visibility = Visibility.Visible;
             QuestionRadioButton.Visibility = Visibility.Visible;
             QuestionRadioButton.IsChecked = true;
@@ -79,188 +84,161 @@ namespace FirstLab
             QuestionTextBox.Focus();
             AnswerBorder.Visibility = Visibility.Collapsed;
             AnswerRadioButton.Visibility = Visibility.Visible;
+            ColorBox.Visibility= Visibility.Visible;
+            timerListBox.Visibility = Visibility.Visible;
         }
-
-        private void ListBoxFlashcards_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        else
         {
-            if (ListBoxFlashcards.SelectedItem != null)
-            {
-                QuestionBorder.Visibility = Visibility.Visible;
-                AnswerBorder.Visibility = Visibility.Collapsed;
-                QuestionRadioButton.IsChecked = true;
-                QuestionTextBox.IsEnabled = true;
-            }
+            QuestionBorder.Visibility = Visibility.Collapsed;
+            AnswerBorder.Visibility = Visibility.Visible;
+            QuestionTextBox.IsEnabled = false;
+            AnswerTextBox.IsEnabled = true;
+            AnswerTextBox.Focus();
         }
+    }
 
-        private void DeleteFlashcard_Click(object sender, RoutedEventArgs e)
+    private void AddFlashcard_Click(object sender, RoutedEventArgs e)
+    {
+        int index = AddFlashcard();
+        ListBoxFlashcards.Items.Refresh();
+        ListBoxFlashcards.SelectedIndex = index;
+        IsQestionOrAnswer(true, false);
+    }
+
+    private int AddFlashcard()
+    {
+        var flashcard = factoryContainer.CreateObject<Flashcard>();
+        int flashcardNumber = flashcardSet.Flashcards!.Count + 1;
+        flashcard.FlashcardName = flashcardNumber.ToString("D2");
+        flashcardSet.Flashcards.Add(flashcard);
+        return flashcardSet.Flashcards.IndexOf(flashcard);
+    }
+
+    private void ListBoxFlashcards_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+       IsQestionOrAnswer(true, false);
+    }
+
+    private void DeleteFlashcard_Click(object sender, RoutedEventArgs e)
+    {
+        int oldIndex = DeleteFlashcard(ListBoxFlashcards.SelectedIndex);
+        ListBoxFlashcards.Items.Refresh();
+        ListBoxFlashcards.SelectedIndex = (oldIndex - 1 < 0) ? 0 : oldIndex - 1;
+    }
+
+    private int DeleteFlashcard(int index)
+    {
+        if(flashcardSet.Flashcards!.Count > 1)
         {
-            if (flashcardSet.Flashcards.Count > 0)
+            flashcardSet.Flashcards!.Remove(flashcardSet.Flashcards[index]);
+            for (int i = index; i < flashcardSet.Flashcards.Count; i++)
             {
-                int selectedIndex = ListBoxFlashcards.SelectedIndex;
-                flashcardSet.Flashcards.Remove((Flashcard)ListBoxFlashcards.SelectedItem);
-                ListBoxFlashcards.Items.Refresh();
-                ListBoxFlashcards.SelectedIndex = (selectedIndex - 1 < 0) ? 0 : selectedIndex - 1;
-
-                for (int i = selectedIndex; i < flashcardSet.Flashcards.Count; i++)
-                {
-                    flashcardSet.Flashcards[i].FlashcardName = (i + 1).ToString("D2");
-                }
+                flashcardSet.Flashcards[i].FlashcardName = (i + 1).ToString("D2");
             }
+            return index;
         }
+        return index;
+    }
 
-        private void QuestionAnswerRadioButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (QuestionRadioButton.IsChecked == true)
-            {
-                QuestionBorder.Visibility = Visibility.Visible;
-                AnswerBorder.Visibility = Visibility.Collapsed;
-                QuestionTextBox.IsEnabled = true;
-                AnswerTextBox.IsEnabled = false;
-            }
-            else
-            {
-                QuestionBorder.Visibility = Visibility.Collapsed;
-                AnswerBorder.Visibility = Visibility.Visible;
-                QuestionTextBox.IsEnabled = false;
-                AnswerTextBox.IsEnabled = true;
-            }
-        }
+    private void QuestionAnswerRadioButton_Click(object sender, RoutedEventArgs e)
+    {
+        IsQestionOrAnswer((bool)QuestionRadioButton.IsChecked!, (bool)AnswerRadioButton.IsChecked!);
+    }
 
-        private void QuestionBorder_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (QuestionRadioButton.IsChecked == true)
-            {
-                QuestionTextBox.Focus();
-            }
-            else
-            {
-                AnswerTextBox.Focus();
-            }
-        }
-
-        private void CapitalizedNormalNameButton_Click(object? sender = null, RoutedEventArgs? e = null)
-        {
-            if (CapitalizeButton.IsChecked == true)
-            {
-                NameOfSet = FlashcardSetNameBox.Text;
-                FlashcardSetNameBox.Text = NameOfSet.Capitalize();
-                flashcardSet.FlashcardSetName = NameOfSet.Capitalize();
-            }
-            else
-            {
-                FlashcardSetNameBox.Text = NameOfSet;
-                flashcardSet.FlashcardSetName = NameOfSet;
-            }
-        }
-
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            flashcardSet.FlashcardSetName = flashcardSet.FlashcardSetName;
-            CapitalizeButton.IsChecked = false;
-            NormalizeButton.IsChecked = true;
-            CapitalizedNormalNameButton_Click();
-        }
-
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+    private void CapitalizedNormalNameButton_Click(object? sender = null, RoutedEventArgs? e = null)
+    {
+        if (CapitalizeButton.IsChecked == true)
         {
             NameOfSet = FlashcardSetNameBox.Text;
+            FlashcardSetNameBox.Text = NameOfSet.Capitalize();
+            SaveFlashcardSetName(NameOfSet.Capitalize());
         }
-
-        private void DeleteFlashcardSet_Click(object sender, RoutedEventArgs e)
+        else
         {
+            FlashcardSetNameBox.Text = NameOfSet;
+            SaveFlashcardSetName(NameOfSet!);
+        }
+    }
+
+    private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+    {
+        CapitalizeButton.IsChecked = false;
+        NormalizeButton.IsChecked = true;
+        CapitalizedNormalNameButton_Click();
+    }
+
+    private void SaveFlashcardSetName(string name)
+    {
+        flashcardSet.FlashcardSetName = name;
+    }
+
+    private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+    {
+        NameOfSet = FlashcardSetNameBox.Text;
+    }
+
+    private void DeleteFlashcardSet_Click(object sender, RoutedEventArgs e)
+    {
+        ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
+    }
+
+    private async void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
+    {
+        if (IsFlashcardSetCorrect())
+        {
+            await SaveToDatabase(flashcardSet);
+            AddToFlashcardSetsList(flashcardSet);
             ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
         }
+    }
 
-        private async void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
-        {
-            errors = InitializeErrors();
-            errors.CheckAndDisplayErrors();
+    private bool IsFlashcardSetCorrect()
+    {
+        CustomizationErrors errors = InitializeErrors();
+        errors.CheckAndDisplayErrors();
+        return !errors.ErrorCodes.Any();
+    }
 
-            if (!errors.ErrorCodes.Any())
-            {
-                await SaveToDatabase(flashcardSet);
-                AddToFlashcardSetsList(flashcardSet);
-                ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
-            }
-        }
+    private CustomizationErrors InitializeErrors()
+    {
+        return factoryContainer.CreateErrorHandling(
+            flashcardSet: flashcardSet,
+            nameOfFlashcardSet: FlashcardSetNameBox.Text,
+            errorTextBox: errorText,
+            SetsOfFlashcards: flashcardOptionsReference.flashcardSets
+        );
+    }
 
-        private CustomizationErrors InitializeErrors()
-        {
-            return factoryContainer.CreateErrorHandling(
-                flashcardSet: flashcardSet,
-                nameOfFlashcardSet: FlashcardSetNameBox.Text,
-                errorTextBox: errorText,
-                SetsOfFlashcards: flashcardOptionsReference.flashcardSets
-            );
-        }
+    private async Task SaveToDatabase(FlashcardSet flashcardSet)
+    {
+        FlashcardSetDTO flashcardSetDTO = new FlashcardSetDTO();
+        flashcardSetDTO.FlashcardSetName = flashcardSet.FlashcardSetName;
 
-        private async Task SaveToDatabase(FlashcardSet flashcardSet)
-        {
-            await DatabaseRepository.AddAsync(flashcardSet);
-        }
-
-        private void AddToFlashcardSetsList(FlashcardSet flashcardSet)
-        {
-            flashcardOptionsReference.flashcardSets.Add(flashcardSet);
-        }
-
-        private void ColorBox_SelectionChanged()
-        {
-            if (ColorBox.SelectedItem != null)
-            {
-                ListBoxItem selectedColorItem = (ListBoxItem)ColorBox.SelectedItem;
-
-                string flashcardColorT = selectedColorItem.ToString();
-                int indexOfColon = flashcardColorT.IndexOf(":");
-
-                if (indexOfColon != -1)
+        flashcardSetDTO.Flashcards = new ObservableCollection<FlashcardDTO>(
+                flashcardSet.Flashcards!.Select(flashcardSet => new FlashcardDTO
                 {
-                    flashcardColorT = flashcardColorT.Substring(indexOfColon + 2);
-                }
+                    FlashcardName = flashcardSet.FlashcardName,
+                    FlashcardQuestion = flashcardSet.FlashcardQuestion,
+                    FlashcardAnswer = flashcardSet.FlashcardAnswer,
+                    FlashcardColor = flashcardSet.FlashcardColor,
+                    FlashcardTimer = flashcardSet.FlashcardTimer
+                }));
 
-                if (!string.IsNullOrEmpty(selectedColorItem.ToString()))
-                {
-                    SolidColorBrush colorBrush = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardColorT);
+        await DatabaseRepository.AddAsync(flashcardSetDTO);
+    }
 
-                    QuestionBorder.Background = colorBrush;
-                    AnswerBorder.Background = colorBrush;
-                }
-            }
-        }
+    private void AddToFlashcardSetsList(FlashcardSet flashcardSet)
+    {
+        flashcardOptionsReference.flashcardSets.Add(flashcardSet);
+    }
 
-        private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                ColorBox_SelectionChanged();
-            }
-            catch (Exception ex)
-            {
-                SelectionErrors colorError = new SelectionErrors($"Color option was not chosen");
-                SelectionErrors.LogException(colorError);
-                SelectionErrors.LogException(ex);
-            }
-        }
+    private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        IsQestionOrAnswer((bool)QuestionRadioButton.IsChecked!, (bool)AnswerRadioButton.IsChecked!);
+    }
 
-        private void timerListBox_SelectionChanged()
-        {
-            if (timerListBox.SelectedItem != null)
-            {
-                return;
-            }
-        }
-        private void timerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                timerListBox_SelectionChanged();
-            }
-            catch (Exception ex) 
-            { 
-                SelectionErrors timerError = new SelectionErrors($"Timer option was not chosen");
-                SelectionErrors.LogException(timerError);
-                SelectionErrors.LogException(ex);
-            }
-        }
+    private void TimerListBox_SelectionChanged(object sender, RoutedEventArgs e)
+    {
+        IsQestionOrAnswer((bool)QuestionRadioButton.IsChecked!, (bool)AnswerRadioButton.IsChecked!);
     }
 }

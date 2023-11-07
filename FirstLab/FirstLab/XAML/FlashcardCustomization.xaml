@@ -3,9 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FirstLab.src.back_end.utilities"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="636"
              Background="Transparent">
+    <UserControl.Resources>
+        <local:ColorStringToBrushConverter x:Key="ColorConverter"/>
+        <x:Array x:Key="ColorNames" Type="sys:String"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:String>Red</sys:String>
+            <sys:String>Green</sys:String>
+            <sys:String>Yellow</sys:String>
+            <sys:String>Blue</sys:String>
+            <sys:String>Orange</sys:String>
+        </x:Array>
+        <x:Array x:Key="Times" Type="sys:String"
+         xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            <sys:String>3 seconds</sys:String>
+            <sys:String>5 seconds</sys:String>
+            <sys:String>10 seconds</sys:String>
+            <sys:String>15 seconds</sys:String>
+            <sys:String>30 seconds</sys:String>
+        </x:Array>
+    </UserControl.Resources>
+    
     <Border Background="#FFC7891B"
             CornerRadius="0, 0, 20, 0">
         <Grid>
@@ -73,14 +94,41 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ListBox Name="ColorBox" Grid.Column="2" Margin="0,0,0,251" Background="#FFD8D88E"
-SelectedValue="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards}"
-SelectionChanged="ColorBox_SelectionChanged">
-                <ListBoxItem>Red</ListBoxItem>
-                <ListBoxItem>Green</ListBoxItem>
-                <ListBoxItem>Yellow</ListBoxItem>
-                <ListBoxItem>Blue</ListBoxItem>
-                <ListBoxItem>Orange</ListBoxItem>
+            <ListBox Name="ColorBox" Grid.Column="2" Margin="0,0,0,264" Background="#FFD8D88E"
+                     SelectedValue="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards}"
+                     SelectionChanged="ColorBox_SelectionChanged">
+                <ListBox.ItemsSource>
+                    <Binding Source="{StaticResource ColorNames}" />
+                </ListBox.ItemsSource>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FFAFAF77"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#FFB54BCE" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
 
             <Button  Margin="0,0,50,340" Width="50" Height="20"
@@ -99,10 +147,11 @@ SelectionChanged="ColorBox_SelectionChanged">
             </Button>
 
             <Grid Grid.Row="0" Grid.Column="1">
-                
-                <Border Margin="30" Name="QuestionBorder" Visibility="Visible"
-                        Background="LightBlue" BorderBrush="DarkBlue" BorderThickness="1"
-                        PreviewMouseDown="QuestionBorder_PreviewMouseDown" CornerRadius="10">
+
+                <Border Margin="30" Name="QuestionBorder" Visibility="Visible"                      
+                        BorderBrush="DarkBlue" BorderThickness="1"
+                        Background="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards, Converter={StaticResource ColorConverter}}"
+                        CornerRadius="10">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
                     </Border.Effect>
@@ -116,8 +165,9 @@ SelectionChanged="ColorBox_SelectionChanged">
                     display it-->
                 </Border>
                 <Border Margin="30" Name="AnswerBorder" Visibility="Collapsed"
-                        Background="LightGreen" BorderBrush="DarkGreen" BorderThickness="1"
-                        PreviewMouseDown="QuestionBorder_PreviewMouseDown" CornerRadius="10">
+                        Background="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards, Converter={StaticResource ColorConverter}}"
+                        BorderBrush="DarkGreen" BorderThickness="1"
+                        CornerRadius="10">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
                     </Border.Effect>
@@ -236,25 +286,52 @@ SelectionChanged="ColorBox_SelectionChanged">
             <ScrollViewer Name="ErrorScrollViewer" Grid.Row="0" Grid.Column="2"
                           Margin="5, 250, 0, 20" FontFamily="Fonts/#Dosis"
                           IsEnabled="true" BorderThickness="0" VerticalScrollBarVisibility="Disabled" Cursor="Arrow">
-                     <TextBox Background="#FFC7891B" Foreground="Red"  Name="errorText"
+                <TextBox Background="#FFC7891B" Foreground="Red"  Name="errorText"
                               FontWeight="Bold" FontSize="12"
                               TextAlignment="Left"
                               TextWrapping="Wrap" IsReadOnly="True"
                               BorderThickness="0" Cursor="Arrow" Height="70"/>
             </ScrollViewer>
-            <ListBox Name="timerListBox" Grid.Column="2" Margin="0,109,0,165" Background="#FFD8D88E"
-                SelectedValue="{Binding SelectedItem.FlashcardTimer, ElementName=ListBoxFlashcards}"
-                SelectionChanged="timerListBox_SelectionChanged">
-                <ListBoxItem Content="3 seconds"/>
-                <ListBoxItem Content="5 seconds"/>
-                <ListBoxItem Content="10 seconds"/>
-                <ListBoxItem Content="15 seconds"/>
-                <ListBoxItem Content="30 seconds"/>
+            <ListBox Name="timerListBox" Grid.Column="2" Margin="0,106,0,160" Background="#FFD8D88E"
+                     SelectedValue="{Binding SelectedItem.FlashcardTimer, ElementName=ListBoxFlashcards}"
+                     SelectionChanged="TimerListBox_SelectionChanged">
+                <ListBox.ItemsSource>
+                    <Binding Source="{StaticResource Times}" />
+                </ListBox.ItemsSource>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FFAFAF77"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#FFB54BCE" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
     </Border>
-    
-    
+
+
 
 
 </UserControl>

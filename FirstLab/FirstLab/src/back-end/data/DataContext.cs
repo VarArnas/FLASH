@@ -5,12 +5,12 @@ namespace FirstLab.src.back_end.data
 {
     class DataContext : DbContext
     {
-        public DbSet<FlashcardSet> FlashcardSets { get; set; }
+        public DbSet<FlashcardSetDTO> FlashcardSets { get; set; }
 
-        public DbSet<Flashcard> Flashcards { get; set; }
+        public DbSet<FlashcardDTO> Flashcards { get; set; }
 
-        public DbSet<FlashcardSetLog> FlashcardsLog { get; set; }
+        public DbSet<FlashcardSetLogDTO> FlashcardsLog { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source = {TextUtils.ReturnDatabaseString()}");
+        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source = {TextUtils.ReturnDatabaseString}");
     }
 }

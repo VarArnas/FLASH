@@ -1,89 +1,93 @@
 ﻿using FirstLab.src.back_end.factories.factoryInterfaces;
 using FirstLab.src.back_end.utilities;
 using FirstLab.XAML;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace FirstLab
+namespace FirstLab;
+
+public partial class MenuWindow : Window
 {
-    public partial class MenuWindow : Window
+    private HomeView homeView;
+
+    private LogsView logsView;
+
+    private DateTime playWindowEndTime;
+
+    public MenuWindow(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer)
     {
-        private HomeView homeView;
+        InitializeComponent();
+        InitializeAnimation();
+        InitializeMenuFields(homeView,logsView, factoryContainer);
+    }
 
-        private LogsView logsView;
+    private void InitializeAnimation()
+    {
+        DoubleAnimation opacityAnimation = new DoubleAnimation();
+        opacityAnimation.From = 1.0;
+        opacityAnimation.To = 0.1;
+        opacityAnimation.Duration = TimeSpan.FromSeconds(2);
+        opacityAnimation.AutoReverse = true;
+        opacityAnimation.RepeatBehavior = RepeatBehavior.Forever;
+        breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, opacityAnimation);
+    }
 
-        private DateTime playWindowEndTime;
+    private void InitializeMenuFields(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer)
+    {
+        this.homeView = homeView;
+        contentControl.Content = homeView;
+        this.logsView = logsView;
+        ViewsUtils.menuWindowReference = this;
+    }
 
-        public MenuWindow(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer)
+    private void MovingWindow(object sender, MouseButtonEventArgs e)
+    {
+        if(e.LeftButton == MouseButtonState.Pressed)
         {
-            InitializeComponent();
-            InitializeMenuFields(homeView,logsView, factoryContainer);
+            DragMove();
         }
+    }
 
-        private void InitializeMenuFields(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer)
-        {
-            this.homeView = homeView;
-            contentControl.Content = homeView;
-            this.logsView = logsView;
-            ViewsUtils.menuWindowReference = this;
-        }
+    private void ReturnToHomeView_Click(object sender, RoutedEventArgs e)
+    {
+       if(contentControl.Content is PlayWindow)
+       {
+            playWindowEndTime = DateTime.Now;
+            logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
+       } 
+       else if (contentControl.Content is FlashcardCustomization) 
+       {
+            ShowMessage("There are unsaved changes!!");
+            return;
+       }
+       ViewsUtils.ChangeWindow("Menu", homeView);
+    }
 
-        private void MenuWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            DoubleAnimation opacityAnimation = new DoubleAnimation();
-            opacityAnimation.From = 1.0;
-            opacityAnimation.To = 0.1;
-            opacityAnimation.Duration = TimeSpan.FromSeconds(2);
-            opacityAnimation.AutoReverse = true;
-            opacityAnimation.RepeatBehavior = RepeatBehavior.Forever;
-            breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, opacityAnimation);
-        }
+    private void CloseWindow_Click(object sender, RoutedEventArgs e)
+    {
+        this.Close();
+    }
 
-        private void MovingWindow(object sender, MouseButtonEventArgs e)
+    private void AccessLogs_Click(object sender, RoutedEventArgs e)
+    {
+        if (contentControl.Content is PlayWindow)
         {
-            if(e.LeftButton == MouseButtonState.Pressed)
-            {
-                DragMove();
-            }
+            playWindowEndTime = DateTime.Now;
+            logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
         }
+        else if (contentControl.Content is FlashcardCustomization)
+        {
+            ShowMessage("There are unsaved changes!!");
+            return;
+        }
+        ViewsUtils.ChangeWindow("Logs", logsView);
+    }
 
-        private void ReturnToHomeView(object sender, RoutedEventArgs e)
-        {
-           if(contentControl.Content is PlayWindow)
-           {
-                playWindowEndTime = DateTime.Now;
-                logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
-           } 
-           else if (contentControl.Content is FlashcardCustomization) 
-           {
-                MessageBox.Show("There are unsaved changes!!");
-                return;
-           }
-           ViewsUtils.ChangeWindow("Menu", homeView);
-        }
-
-        private void CloseWindow(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void AccessLogs_Click(object sender, RoutedEventArgs e)
-        {
-            if (contentControl.Content is PlayWindow)
-            {
-                playWindowEndTime = DateTime.Now;
-                logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);
-            }
-            else if (contentControl.Content is FlashcardCustomization)
-            {
-                MessageBox.Show("There are unsaved changes!!");
-                return;
-            }
-            ViewsUtils.ChangeWindow("Logs", logsView);
-        }
+    private void ShowMessage(string message)
+    {
+        MessageBox.Show(message);
     }
 }

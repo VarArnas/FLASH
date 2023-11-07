@@ -45,9 +45,9 @@ public class FactoryContainer : IFactoryContainer
         return ActivatorUtilities.CreateInstance<T>(serviceProvider);
     }
 
-    public SelectionErrors CreateException(string errorMsg)
+    public CustomNullException CreateException(string errorMsg)
     {
-        var constructor = typeof(SelectionErrors).GetConstructor(new[] { typeof(string) });
-        return (SelectionErrors)constructor.Invoke(new object[] { errorMsg });
+        var constructor = typeof(CustomNullException).GetConstructor(new[] { typeof(string) });
+        return (CustomNullException)constructor.Invoke(new object[] { errorMsg });
     }
 }

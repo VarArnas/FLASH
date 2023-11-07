@@ -7,41 +7,44 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace FirstLab.XAML
+namespace FirstLab.XAML;
+
+public partial class LogsView : UserControl
 {
-    public partial class LogsView : UserControl
+    public ObservableCollection<FlashcardSetLogDTO> _flashcardSetsLogs;
+
+    private TimeSpan duration;
+
+    IFactoryContainer factoryContainer;
+
+    public LogsView(IFactoryContainer factoryContainer)
     {
-        public ObservableCollection<FlashcardSetLog> flashcardSetsLogs;
+        InitializeComponent();
+        InitializeLogsFields(factoryContainer);
+    }
 
-        private TimeSpan duration;
+    private async void InitializeLogsFields(IFactoryContainer factoryContainer)
+    {
+        this.factoryContainer = factoryContainer; 
+        _flashcardSetsLogs = await DatabaseRepository.GetAllAsync<FlashcardSetLogDTO>();
+        LogsItemsControl.ItemsSource = _flashcardSetsLogs;
+    }
 
-        IFactoryContainer factoryContainer;
+    public async void CalculateAndCreateLog(DateTime playWindowStartTime, DateTime playWindowEndTime, FlashcardSet flashcardSet)
+    {
+        duration = playWindowEndTime - playWindowStartTime;
+        var log = factoryContainer.CreateLog(flashcardSet.FlashcardSetName, playWindowStartTime, (int)duration.TotalSeconds);
+        FlashcardSetLogDTO temp = new FlashcardSetLogDTO();
+        temp.Duration = log.Duration;
+        temp.Date = log.Date;
+        temp.PlayedSetsName = log.PlayedSetsName;
+        _flashcardSetsLogs.Insert(0, temp);
+        await DatabaseRepository.AddAsync(temp);
+    }
 
-        public LogsView(IFactoryContainer factoryContainer)
-        {
-            InitializeComponent();
-            InitializeLogsFields(factoryContainer);
-        }
-
-        private async void InitializeLogsFields(IFactoryContainer factoryContainer)
-        {
-            this.factoryContainer = factoryContainer; 
-            flashcardSetsLogs = await DatabaseRepository.GetAllAsync<FlashcardSetLog>();
-            LogsItemsControl.ItemsSource = flashcardSetsLogs;
-        }
-
-        public async void CalculateAndCreateLog(DateTime playWindowStartTime, DateTime playWindowEndTime, FlashcardSet flashcardSet)
-        {
-            duration = playWindowEndTime - playWindowStartTime;
-            var log = factoryContainer.CreateLog(flashcardSet.FlashcardSetName, playWindowStartTime, (int)duration.TotalSeconds);
-            flashcardSetsLogs.Insert(0, log);
-            await DatabaseRepository.AddAsync(log);
-        }
-
-        private async void ClearLogs_Click(object sender, RoutedEventArgs e)
-        {
-            flashcardSetsLogs.Clear();
-            await DatabaseRepository.RemoveAllAsync<FlashcardSetLog>();
-        }
+    private async void ClearLogs_Click(object sender, RoutedEventArgs e)
+    {
+        _flashcardSetsLogs.Clear();
+        await DatabaseRepository.RemoveAllAsync<FlashcardSetLog>();
     }
 }

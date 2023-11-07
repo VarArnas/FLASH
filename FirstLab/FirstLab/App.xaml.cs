@@ -1,7 +1,9 @@
-﻿using FirstLab.src.back_end.data;
+﻿using FirstLab.src;
+using FirstLab.src.back_end.data;
 using FirstLab.src.back_end.errorHandling;
 using FirstLab.src.back_end.factories.factoryImplementations;
 using FirstLab.src.back_end.factories.factoryInterfaces;
+using FirstLab.src.front_end;
 using FirstLab.XAML;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +30,8 @@ public partial class App : Application
                 services.AddSingleton<LogsView>();
                 services.AddSingleton<FlashcardOptions>();
                 services.AddSingleton<IFactoryContainer, FactoryContainer>();
+                services.AddSingleton<IPlayWindowService, PlayWindowService>();
+                services.AddSingleton<IFlashcardOptionsService, FlashcardOptionsService>();
                 services.AddTransient<DataContext>();
 
             })
