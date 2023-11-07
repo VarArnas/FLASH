@@ -1,5 +1,4 @@
-﻿using FirstLab.src.back_end.data;
-using FirstLab;
+﻿using FirstLab;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using FirstLab.src.models;
 
 namespace FirstLabTesting
 {

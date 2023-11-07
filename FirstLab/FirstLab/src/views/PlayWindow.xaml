@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="FirstLab.XAML.PlayWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:FirstLab.XAML"
+    mc:Ignorable="d"
+    Height="450" Width="800">
+    <Grid>
+        <Button Click="DisplayFlashcard"
+        Content="Next flashcard"
+        HorizontalAlignment="Left"
+        Margin="257,325,0,0"
+        VerticalAlignment="Top"
+        Width="81"
+        Background="Green"
+            Foreground="Red">
+        </Button>
+
+        <TextBox Name="questionTextBox"
+         HorizontalAlignment="Left"
+         VerticalAlignment="Top"  
+         Height="90"
+         Margin="236,86,0,0"
+         TextWrapping="Wrap"
+         Text="{Binding SelectedItem.FlashcardQuestion, ElementName=ListBoxFlashcards}"
+         Width="232"
+                 TextAlignment="Center"
+                 IsReadOnly="True">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="LightBlue" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="5" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <TextBox Name="answerTextBox"
+         VerticalAlignment="Top"
+         Margin="236,225,0,0"
+         TextWrapping="Wrap"
+         Text="{Binding SelectedItem.FlashcardAnswer, ElementName=ListBoxFlashcards}" Width="232" HorizontalAlignment="Left" Height="59"
+                 TextAlignment="Center"
+                 IsReadOnly="True">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="LightBlue" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="5" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <Button Click="DisplayAnswer"
+        Content="Show answer"
+        HorizontalAlignment="Center"
+        Margin="0,325,0,0"
+        VerticalAlignment="Top"
+        Width="80"
+        Background="Green"
+            Foreground="Red">
+        </Button>
+
+        <TextBox Name="timerTextBox"
+         Margin="532,184,0,0"
+         TextWrapping="Wrap"
+         Text=""
+         Width="53"
+                 TextAlignment="Center"
+                 IsReadOnly="True">
+
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="Purple" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="VerticalAlignment" Value="Top" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="SelectionBrush" Value="Red" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <ToggleButton Click="HighlightText" Name="HighlightButton" Content="Highlight" HorizontalAlignment="Left" Margin="114,325,0,0" VerticalAlignment="Top" Width="98"/>
+        <ToggleButton Click="ItalicText" Name="ItalicButton" Content="Italic" HorizontalAlignment="Left" Margin="114,300,0,0" VerticalAlignment="Top" Width="98"/>
+        <ToggleButton Click="ChangeTextSize" Name="UpTextButton" Content="Increase text size" HorizontalAlignment="Left" Margin="114,250,0,0" VerticalAlignment="Top" Width="98"/>
+        <ToggleButton Click="ChangeTextSize" Name="DecTextButton" Content="Decrease text size" HorizontalAlignment="Left" Margin="114,275,0,0" VerticalAlignment="Top"/>
+
+        <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Center" Margin="-100,300,0,0"
+                   TextWrapping="Wrap"
+                   VerticalAlignment="Center"
+                   TextAlignment="Center" Foreground="White"
+                   FontFamily="Fonts/#Dosis"
+                   FontWeight="Medium"
+                   FontSize="20"
+                   Text=""/>
+        <TextBox Name="nameTextBox"
+ HorizontalAlignment="Left"
+ Margin="292,35,0,0"
+ TextWrapping="Wrap"
+ Text=""
+ VerticalAlignment="Top"
+ Width="120"
+         TextAlignment="Center"
+         IsReadOnly="True">
+
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="Purple" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="VerticalAlignment" Value="Top" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="SelectionBrush" Value="Red" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+    </Grid>
+</UserControl>
+

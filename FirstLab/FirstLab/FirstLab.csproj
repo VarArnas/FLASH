@@ -15,31 +15,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Images\deleteBtn2.png" />
-    <None Remove="Images\deleteSet_Button.png" />
-    <None Remove="Images\editBtn5.png" />
-    <None Remove="Images\playBtn6.png" />
-    <None Remove="Images\plusBtn.png" />
-    <None Remove="Images\SaveSet_Button.png" />
+    <None Remove="src\views\Images\deleteBtn2.png" />
+    <None Remove="src\views\Images\deleteSet_Button.png" />
+    <None Remove="src\views\Images\editBtn5.png" />
+    <None Remove="src\views\Images\playBtn6.png" />
+    <None Remove="src\views\Images\plusBtn.png" />
+    <None Remove="src\views\Images\SaveSet_Button.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\deleteBtn2.png">
+    <Content Include="src\views\Images\deleteBtn2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\deleteSet_Button.png">
+    <Content Include="src\views\Images\deleteSet_Button.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\editBtn5.png">
+    <Content Include="src\views\Images\editBtn5.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\playBtn6.png">
+    <Content Include="src\views\Images\playBtn6.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\plusBtn.png">
+    <Content Include="src\views\Images\plusBtn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\SaveSet_Button.png">
+    <Content Include="src\views\Images\SaveSet_Button.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
