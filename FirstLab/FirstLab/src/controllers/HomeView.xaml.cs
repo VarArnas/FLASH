@@ -9,6 +9,8 @@ public partial class HomeView : UserControl
 
     public FlashcardOptions flashcardOptionsView;
 
+    public FlashcardEvaluator flashcardEvaluatorView;
+
     public HomeView(FlashcardOptions flashcardOptionsView)
     {
         InitializeComponent();
@@ -23,5 +25,10 @@ public partial class HomeView : UserControl
     private void Flashcards_Clicked(object sender, RoutedEventArgs e)
     {
         ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsView);
+    }
+
+    private void Evaluator_Clicked(object sender, RoutedEventArgs e)
+    {
+        ViewsUtils.ChangeWindow("Answer evaluator", flashcardEvaluatorView);
     }
 }
