@@ -29,6 +29,11 @@ public partial class FlashcardCustomization : UserControl
         this.PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 
+    private void UserControl_Loaded(object sender, RoutedEventArgs e)
+    {
+        ListBoxFlashcards.Focus();
+    }
+
     private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, IFlashcardCustomizationService controllerService, FlashcardSet? flashcardSet = null)
     {
         this.controllerService = controllerService;

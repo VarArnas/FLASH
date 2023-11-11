@@ -40,6 +40,12 @@ public partial class PlayWindow : UserControl
         this.PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 
+    private void UserControl_Loaded(object sender, RoutedEventArgs e)
+    {
+        questionTextBox.Focus();
+        switchDisplay = true;
+    }
+
     private void InitializePlayWindowFields(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService controllerService)
     {
         _controllerService = controllerService;
@@ -88,40 +94,48 @@ public partial class PlayWindow : UserControl
 
     private void DisplayFlashcard()
     {
-        if (!isFunctioning)
+        lock (lockObject)
         {
-            try
+            if (switchDisplay)
             {
-                counter = _controllerService.SetTheCounter(currentFlashcardIndex, flashcardSet);
-            }
-            catch (CustomNullException ex)
-            {
-                if (!_controllerService.IsIndexOverBounds(currentFlashcardIndex, flashcardSet))
+                switchDisplay = false;
+
+                if (!isFunctioning)
                 {
-                    _controllerService.HandleNullTimer(ex, flashcardSet, currentFlashcardIndex);
-                    counter = _controllerService.SetTheCounter(currentFlashcardIndex, flashcardSet);
+                    try
+                    {
+                        counter = _controllerService.SetTheCounter(currentFlashcardIndex, flashcardSet);
+                    }
+                    catch (CustomNullException ex)
+                    {
+                        if (!_controllerService.IsIndexOverBounds(currentFlashcardIndex, flashcardSet))
+                        {
+                            _controllerService.HandleNullTimer(ex, flashcardSet, currentFlashcardIndex);
+                            counter = _controllerService.SetTheCounter(currentFlashcardIndex, flashcardSet);
+                        }
+                        else
+                        {
+                            _controllerService.LogCustomException($"Error. All flashcards have been displayed");
+                        }
+                    }
+
+                    try
+                    {
+                        DisplayFlashcard(currentFlashcardIndex);
+                    }
+                    catch (CustomNullException ex)
+                    {
+                        _controllerService.HandleNullColor(ex, flashcardSet, currentFlashcardIndex);
+                        DisplayFlashcard(currentFlashcardIndex);
+                    }
+
+                    currentFlashcardIndex++;
+
+                    if (currentFlashcardIndex <= flashcardSet.Flashcards!.Count)
+                    {
+                        InitTimer();
+                    }
                 }
-                else
-                {
-                    _controllerService.LogCustomException($"Error. All flashcards have been displayed");
-                }
-            }
-
-            try
-            {
-                DisplayFlashcard(currentFlashcardIndex);
-            }
-            catch (CustomNullException ex)
-            {
-                _controllerService.HandleNullColor(ex, flashcardSet, currentFlashcardIndex);
-                DisplayFlashcard(currentFlashcardIndex);
-            }
-
-            currentFlashcardIndex++;
-
-            if (currentFlashcardIndex <= flashcardSet.Flashcards!.Count)
-            {
-                InitTimer();
             }
         }
     }
@@ -132,14 +146,22 @@ public partial class PlayWindow : UserControl
 
     private void DisplayAnswer(object? sender = null, RoutedEventArgs? e = null)
     {
-        try
+        lock (lockObject)
         {
+            if(!switchDisplay)
+            {
+                try
+                {
+                    answerTextBox.Text = flashcardSet.Flashcards![currentFlashcardIndex - 1].FlashcardAnswer;
+                }
+                catch
+                {
+                    _controllerService.LogCustomException($"Error displaying flashcard answer");
+                }
+            }
+
+            switchDisplay = true;
             isFunctioning = false;
-            answerTextBox.Text = flashcardSet.Flashcards![currentFlashcardIndex - 1].FlashcardAnswer;
-        }
-        catch
-        {
-            _controllerService.LogCustomException($"Error displaying flashcard answer");
         }
     }
 
@@ -222,17 +244,14 @@ public partial class PlayWindow : UserControl
     {
         switch (e.Key)
         {
-            case Key.Space:
-                switchDisplay = !switchDisplay;
-                if (switchDisplay)
-                {
-                    DisplayFlashcard();
-                }
-                else
-                {
-                    DisplayAnswer();
-                }
+            case Key.A:
+                DisplayFlashcard();
+                break;
+
+            case Key.D:
+                DisplayAnswer();
                 break;
         }
     }
+
 }
