@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using FirstLab.src.models;
+using FirstLab.src.models.DTOs;
 
 namespace FirstLabTesting
 {
@@ -45,7 +46,7 @@ namespace FirstLabTesting
             await db.SaveChangesAsync();
         }
 
-        public static async Task RemoveFlashcardSetAsync(FlashcardSet flashcardSet, MockDataContext dbContext)
+        public static async Task RemoveFlashcardSetAsync(FlashcardSetDTO flashcardSet, MockDataContext dbContext)
         {
             var db = dbContext;
             var flashcardSetWithFlashcards = await db.FlashcardSets
@@ -59,13 +60,13 @@ namespace FirstLabTesting
             }
         }
 
-        public static async Task<ObservableCollection<FlashcardSet>> GetAllFlashcardSetsAsync(MockDataContext dbContext)
+        public static async Task<ObservableCollection<FlashcardSetDTO>> GetAllFlashcardSetsAsync(MockDataContext dbContext)
         {
             var db = dbContext;
             var flashcardSets = await db.FlashcardSets
                     .Include(fs => fs.Flashcards)
                     .ToListAsync();
-            var collection = new ObservableCollection<FlashcardSet>(flashcardSets);
+            var collection = new ObservableCollection<FlashcardSetDTO>(flashcardSets);
             return collection;
         }
     }
