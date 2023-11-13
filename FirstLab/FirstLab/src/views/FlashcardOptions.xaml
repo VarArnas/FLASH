@@ -21,7 +21,7 @@
             <Grid Grid.Row="0"
                   Background="#FFC7891B">
                 <TextBox Name="searchBox" Padding="10,0,0,0" HorizontalAlignment="Left" Margin="75,0,0,0" FontFamily="Fonts/#Dosis" TextWrapping="Wrap"
-                         Text="search..." VerticalAlignment="Center"
+                         Text="search..." VerticalAlignment="Center" Cursor="Hand"
                          VerticalContentAlignment="Center" Width="210" Height="30"
                          GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" FontSize="14">
                         <TextBox.Style>
@@ -75,7 +75,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Button  Grid.Column="0"
+                                    <Button  Grid.Column="0" Cursor="Hand"
                                                      Click="PlayButton_Click" Width="35" Height="35"
                                                      Margin="5" Background="#FFCEC81C">
                                         <Button.Template>
@@ -98,7 +98,7 @@
                                             </ControlTemplate>
                                         </Button.Template>
                                     </Button>
-                                    <Button Grid.Column="1"
+                                    <Button Grid.Column="1" Cursor="Hand"
                                                     Click="DeleteButton_Click" Width="35" Height="35"
                                                     Margin="5" Background="#FFCEC81C">
                                         <Button.Template>
@@ -121,7 +121,7 @@
                                             </ControlTemplate>
                                         </Button.Template>
                                     </Button>
-                                    <Button Grid.Column="2" Content="Edit"
+                                    <Button Grid.Column="2" Content="Edit" Cursor="Hand"
                                                     Click="EditButton_Click" Width="35" Height="35"
                                                     Margin="5" Background="#FFCEC81C">
                                         <Button.Template>
@@ -173,7 +173,7 @@
             </Border>
             <Button Grid.Row="2" Content="New Set" FontFamily="Fonts/#Dosis" FontWeight="Medium"
                     Foreground="White" Width="101" Margin="536,0,0,0" FontSize="13"
-                    Height="42" Click="NewSet_Click">
+                    Height="42" Click="NewSet_Click" Cursor="Hand">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border Name="Border" Background="#FF9236BF" BorderThickness="1">

@@ -64,7 +64,7 @@
 
             <StackPanel Grid.Row="1">
                 <Button  Name="HomeButton" Content="Home"
-                         Foreground="white"
+                         Foreground="white" Cursor="Hand"
                          FontWeight="Light"
                          FontFamily="Fonts/#Dosis"
                          Height="40" FontSize="15"
@@ -93,7 +93,7 @@
                 </Button>
                 <Button  Content="Logs"
                          Foreground="white"
-                         FontWeight="Light"
+                         FontWeight="Light" Cursor="Hand"
                          FontFamily="Fonts/#Dosis"
                          Height="40" FontSize="15"
                          Margin="0, 0, 0 ,0"
@@ -122,7 +122,7 @@
                 <StackPanel Height="240" />
                 <StackPanel VerticalAlignment="Bottom">
                     <Button Content="About" 
-                 Foreground="white"
+                 Foreground="white" Cursor="Hand"
                  FontWeight="Light"
                  FontFamily="Fonts/#Dosis"
                  Height="40" FontSize="15">
@@ -151,7 +151,7 @@
                  Foreground="white"
                  FontWeight="Light"
                  FontFamily="Fonts/#Dosis"
-                 Height="40" FontSize="15"
+                 Height="40" FontSize="15" Cursor="Hand"
                  Click="CloseWindow_Click">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">

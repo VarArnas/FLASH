@@ -51,9 +51,9 @@ public partial class MenuWindow : Window
         }
     }
 
-    private void ReturnToHomeView_Click(object sender, RoutedEventArgs e)
+    public void ReturnToHomeView_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-       if(contentControl.Content is PlayWindow)
+       if(sender is PlayWindow)
        {
             playWindowEndTime = DateTime.Now;
             logsView.CalculateAndCreateLog(homeView.flashcardOptionsView.playWindowStartTime, playWindowEndTime, homeView.flashcardOptionsView.flashcardSet);

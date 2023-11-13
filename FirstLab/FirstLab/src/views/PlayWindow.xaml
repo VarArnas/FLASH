@@ -1,125 +1,343 @@
-﻿<UserControl x:Class="FirstLab.XAML.PlayWindow"
+﻿<Window x:Class="FirstLab.XAML.PlayWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:FirstLab.XAML"
     mc:Ignorable="d"
-    Height="450" Width="800"
-    Loaded="UserControl_Loaded">
-    <Grid>
-        <Button Click="DisplayFlashcard"
-        Content="Next flashcard"
-        HorizontalAlignment="Left"
-        Margin="257,325,0,0"
-        VerticalAlignment="Top"
-        Width="81"
-        Background="Green"
-            Foreground="Red">
-        </Button>
+    Loaded="UserControl_Loaded"
+    Title="PlayWindow" Height="450" Width="800"
+    WindowStyle="None"
+    Background="Transparent"
+    AllowsTransparency="True"
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="NoResize">
 
-        <TextBox Name="questionTextBox"
-         HorizontalAlignment="Left"
-         VerticalAlignment="Top"  
-         Height="90"
-         Margin="236,86,0,0"
-         TextWrapping="Wrap"
-         Text="{Binding SelectedItem.FlashcardQuestion, ElementName=ListBoxFlashcards}"
-         Width="232"
-                 TextAlignment="Center"
-                 IsReadOnly="True">
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Background" Value="LightBlue" />
-                    <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="HorizontalAlignment" Value="Center" />
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                    <Setter Property="Padding" Value="5" />
-                </Style>
-            </TextBox.Style>
-        </TextBox>
+    <Window.Resources>
+        <Style x:Key="PopOutBorderStyle" TargetType="Border">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.05" ScaleY="1.05" CenterX="0.5" CenterY="0.5"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect ShadowDepth="5" BlurRadius="10" Opacity="0.7" Direction="0"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Storyboard x:Key="SlideInAnimation">
+            <ThicknessAnimation Duration="0:0:0.3" 
+                            From="739,126,41,154"  To="719,126,61,154"
+                            Storyboard.TargetProperty="Margin" 
+                            Storyboard.TargetName="ButtonsPanel" 
+                            DecelerationRatio=".9"/>
+            <ThicknessAnimation Duration="0:0:0.3"
+                            From="759, 126, 21, 154" To="739,126,41,154"
+                            Storyboard.TargetProperty="Margin"
+                            Storyboard.TargetName="SlidePanelButton"
+                            DecelerationRatio=".9"/>
+            <DoubleAnimation Duration="0:0:0.3"
+                         To="0"
+                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                         Storyboard.TargetName="SlidePanelButtonImage" />
+        </Storyboard>
+        <Storyboard x:Key="SlideOutAnimation">
+            <ThicknessAnimation Duration="0:0:0.3" 
+                            From="719,126,61,154" To="739,126,41,154" 
+                            Storyboard.TargetProperty="Margin" 
+                            Storyboard.TargetName="ButtonsPanel" 
+                            DecelerationRatio=".9"/>
+            <ThicknessAnimation Duration="0:0:0.3"
+                From="739,126,41,154"  To="759, 126, 21, 154"
+                Storyboard.TargetProperty="Margin"
+                Storyboard.TargetName="SlidePanelButton"
+                DecelerationRatio=".9"/>
+            <DoubleAnimation Duration="0:0:0.3"
+                         To="180"
+                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                         Storyboard.TargetName="SlidePanelButtonImage" />
+        </Storyboard>
+    </Window.Resources>
 
-        <TextBox Name="answerTextBox"
-         VerticalAlignment="Top"
-         Margin="236,225,0,0"
-         TextWrapping="Wrap"
-         Text="{Binding SelectedItem.FlashcardAnswer, ElementName=ListBoxFlashcards}" Width="232" HorizontalAlignment="Left" Height="59"
-                 TextAlignment="Center"
-                 IsReadOnly="True">
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Background" Value="LightBlue" />
-                    <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="HorizontalAlignment" Value="Center" />
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                    <Setter Property="Padding" Value="5" />
-                </Style>
-            </TextBox.Style>
-        </TextBox>
 
-        <Button Click="DisplayAnswer"
-        Content="Show answer"
-        HorizontalAlignment="Center"
-        Margin="0,325,0,0"
-        VerticalAlignment="Top"
-        Width="80"
-        Background="Green"
-            Foreground="Red">
-        </Button>
+    <Border Background="#FF7236FF"
+            CornerRadius="20">
+        <Grid>
 
-        <TextBox Name="timerTextBox"
-         Margin="532,184,0,0"
-         TextWrapping="Wrap"
-         Text=""
-         Width="53"
-                 TextAlignment="Center"
-                 IsReadOnly="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="360"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Background" Value="Purple" />
-                    <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="HorizontalAlignment" Value="Left" />
-                    <Setter Property="VerticalAlignment" Value="Top" />
-                    <Setter Property="Padding" Value="5" />
-                    <Setter Property="SelectionBrush" Value="Red" />
-                </Style>
-            </TextBox.Style>
-        </TextBox>
-        <ToggleButton Click="HighlightText" Name="HighlightButton" Content="Highlight" HorizontalAlignment="Left" Margin="114,325,0,0" VerticalAlignment="Top" Width="98"/>
-        <ToggleButton Click="ItalicText" Name="ItalicButton" Content="Italic" HorizontalAlignment="Left" Margin="114,300,0,0" VerticalAlignment="Top" Width="98"/>
-        <ToggleButton Click="ChangeTextSize" Name="UpTextButton" Content="Increase text size" HorizontalAlignment="Left" Margin="114,250,0,0" VerticalAlignment="Top" Width="98"/>
-        <ToggleButton Click="ChangeTextSize" Name="DecTextButton" Content="Decrease text size" HorizontalAlignment="Left" Margin="114,275,0,0" VerticalAlignment="Top"/>
+            <Border Background="#FF482F82"
+                    Grid.Row="0" CornerRadius="20, 20, 0, 0"
+                    MouseDown="MovingWindow"/>
 
-        <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Center" Margin="-100,300,0,0"
-                   TextWrapping="Wrap"
-                   VerticalAlignment="Center"
-                   TextAlignment="Center" Foreground="White"
-                   FontFamily="Fonts/#Dosis"
-                   FontWeight="Medium"
-                   FontSize="20"
-                   Text=""/>
-        <TextBox Name="nameTextBox"
- HorizontalAlignment="Left"
- Margin="292,35,0,0"
- TextWrapping="Wrap"
- Text=""
- VerticalAlignment="Top"
- Width="120"
-         TextAlignment="Center"
-         IsReadOnly="True">
+            <Button Grid.Row="2" Margin="361,16,0,0" Click="DisplayFlashcard"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Width="60"
+                        Height="30"
+                        Background="Green"
+                        BorderThickness="0" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" Background="{TemplateBinding Background}"
+                                    BorderBrush="#FF5332A0"
+                                    BorderThickness="2"                            
+                                    CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF246724" TargetName="Border"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <Image Source="images/nextLogo.png"/>
+            </Button>
 
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Background" Value="Purple" />
-                    <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="HorizontalAlignment" Value="Left" />
-                    <Setter Property="VerticalAlignment" Value="Top" />
-                    <Setter Property="Padding" Value="5" />
-                    <Setter Property="SelectionBrush" Value="Red" />
-                </Style>
-            </TextBox.Style>
-        </TextBox>
-    </Grid>
-</UserControl>
+            <Grid Grid.Row="0">
+                <TextBlock Name="NameOFApp" TextWrapping="Wrap" Grid.Column="0" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="white"
+                           Text="FLASH"
+                           FontWeight="Medium"
+                           FontFamily="Fonts/#Dosis" Margin="48.5,0,0,0" FontSize="18"
+                           Padding="0, 3.5, 0, 0"/>
+            </Grid>
+
+        
+
+            <Grid Grid.Row="1">
+
+                <StackPanel Orientation="Vertical" x:Name="ButtonsPanel"
+                            Background="#FFAB75FD" Margin="719,116,61,164" UseLayoutRounding="False">
+                    <ToggleButton Click="HighlightText" Name="HighlightButton" HorizontalAlignment="Left"
+                                  VerticalAlignment="Top" Width="20" Height="20"
+                                  BorderThickness="0" Cursor="Hand">
+                        <ToggleButton.Template>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border Name="Border" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF4F3E69" TargetName="Border"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="#FF4F3E69" TargetName="Border"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </ToggleButton.Template>
+                        <Image Source="images/BoldLogo.png"/>
+                    </ToggleButton>
+
+                    <ToggleButton Click="ItalicText" Name="ItalicButton" HorizontalAlignment="Left"
+                                  VerticalAlignment="Top" Width="20" Height="20"
+                                  Background="Transparent"
+                                  BorderThickness="0" Cursor="Hand">
+                        <ToggleButton.Template>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border Name="Border" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF4F3E69" TargetName="Border"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="#FF4F3E69" TargetName="Border"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </ToggleButton.Template>
+                        <Image Source="images/ItalicLogo.png"/>
+                    </ToggleButton>
+
+                    <Button Click="ChangeTextSize" Name="UpTextButton" HorizontalAlignment="Left"
+                            VerticalAlignment="Top" Width="20" Height="20"
+                            Background="Transparent"
+                            BorderThickness="0" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Name="Border" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF4F3E69" TargetName="Border"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Image Source="images/IncreaseLogo.png"/>
+                    </Button>
+
+                    <Button Click="ChangeTextSize" Name="DecTextButton" HorizontalAlignment="Left"
+                            VerticalAlignment="Top" Width="20" Height="20"
+                            Background="Transparent"
+                            BorderThickness="0" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Name="Border" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF4F3E69" TargetName="Border"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Image Source="images/DecreaseLogo.png"/>
+                    </Button>
+                </StackPanel>
+
+                <Border x:Name="SlidePanelButton" Margin="739,116,41,164" CornerRadius="0, 7, 7, 0" Background="#FFAB75FD"
+        MouseLeftButtonDown="SlidePanelButton_Click" Cursor="Hand">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.75"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Image x:Name="SlidePanelButtonImage" Source="images/nextLogo.png">
+                        <Image.RenderTransform>
+                            <RotateTransform Angle="0" CenterX="10" CenterY="10"/>
+                        </Image.RenderTransform>
+                    </Image>
+                </Border>
+
+                <TextBox Name="timerTextBox" HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Margin="371,10,390,300"
+                         TextWrapping="Wrap"
+                         Text=""
+                         Width="54"
+                         TextAlignment="Center"
+                         IsReadOnly="True"
+                         BorderThickness="0"
+                         FontFamily="fonts/#Dosis"
+                         FontSize="37"
+                         Background="Transparent"
+                         Foreground="White"
+                         FontWeight="Medium">
+                </TextBox>
+
+                <Border x:Name="QuestionBorder" Margin="40,88,60,28" Background="LightBlue"
+                        CornerRadius="20" BorderThickness="1" Visibility="Visible"
+                        MouseLeftButtonDown="DisplayAnswer" Style="{StaticResource PopOutBorderStyle}"
+                        Cursor="Hand" Grid.ColumnSpan="2">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
+                    </Border.Effect>
+                    <Border.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    </Border.RenderTransform>
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.005" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.005" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="5" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="2" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
+                    <TextBox Name="questionTextBox"
+                             HorizontalAlignment="Center"
+                             VerticalContentAlignment="Center"  
+                             Height="235"         
+                             TextWrapping="Wrap"
+                             Text=""
+                             Width="690"
+                             TextAlignment="Center"
+                             IsReadOnly="True"
+                             BorderThickness="0"
+                             Background="Transparent"
+                             IsHitTestVisible="False"/>
+                </Border>
+
+
+                <Border x:Name="AnswerBorder" Background="LightBlue"
+                        CornerRadius="20" BorderThickness="1" Visibility="Visible"
+                        Margin="40,88,60,28" Style="{StaticResource PopOutBorderStyle}"
+                        MouseLeftButtonDown="DisplayAnswer" Cursor="Hand" Grid.ColumnSpan="2">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
+                    </Border.Effect>
+                    <Border.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    </Border.RenderTransform>
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.005" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.005" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="2" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
+                    <TextBox x:Name="answerTextBox"
+                         TextWrapping="Wrap"
+                         Text=""
+                         Width="690" Height="235"
+                         HorizontalAlignment="Center"
+                         VerticalContentAlignment="Center" 
+                         TextAlignment="Center"
+                         IsReadOnly="True"
+                         BorderThickness="0"
+                         IsHitTestVisible="False"
+                         Background="Transparent">
+                    </TextBox>
+                </Border>
+
+                <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Center"
+                           TextWrapping="Wrap" TextAlignment="Center"     
+                           VerticalAlignment="Center"
+                           FontFamily="Fonts/#Dosis"
+                           FontWeight="SemiBold"
+                           Foreground="white"
+                           FontSize="20"
+                           Text=""
+                           Margin="361,340,380,0"/>
+            </Grid>
+            <Ellipse Name="breathingEllipse" HorizontalAlignment="Left" Height="25" Margin="14,0,0,0" Stroke="#FF6AC720" VerticalAlignment="Center" Width="25" StrokeThickness="3"/>
+        </Grid>
+    </Border>
+</Window>
 

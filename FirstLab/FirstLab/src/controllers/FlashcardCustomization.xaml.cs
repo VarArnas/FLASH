@@ -26,12 +26,11 @@ public partial class FlashcardCustomization : UserControl
         InitializeComponent();
         InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, controllerService, flashcardSet);
         CheckIfEditingOrNew(flashcardSet);
-        this.PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
+    private void UserControl_Loaded(object? sender = null, RoutedEventArgs? e = null)
     {
-        ListBoxFlashcards.Focus();
+        QuestionTextBox.Focus();
     }
 
     private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, IFlashcardCustomizationService controllerService, FlashcardSet? flashcardSet = null)
@@ -41,13 +40,14 @@ public partial class FlashcardCustomization : UserControl
         this.factoryContainer = factoryContainer;
         this.flashcardSet = flashcardSet ?? factoryContainer.CreateObject<FlashcardSet>();
         DataContext = this.flashcardSet;
+        this.PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 
     private async void CheckIfEditingOrNew(FlashcardSet? flashcardSet)
     {
         if (flashcardSet == null)
         {
-            IsQestionOrAnswer(false, false);
+            AddFlashcard_Click();
         }
         else
         {
@@ -77,11 +77,11 @@ public partial class FlashcardCustomization : UserControl
             QuestionRadioButton.IsChecked = true;
             QuestionTextBox.Visibility = Visibility.Visible;
             QuestionTextBox.IsEnabled = true;
-            QuestionTextBox.Focus();
             AnswerBorder.Visibility = Visibility.Collapsed;
             AnswerRadioButton.Visibility = Visibility.Visible;
             ColorBox.Visibility= Visibility.Visible;
             timerListBox.Visibility = Visibility.Visible;
+            QuestionTextBox.Focus();
         }
         else if(!question && answer)
         {
@@ -94,7 +94,7 @@ public partial class FlashcardCustomization : UserControl
         }
     }
 
-    private void AddFlashcard_Click(object sender, RoutedEventArgs e)
+    private void AddFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
     {
         int index = controllerService.AddFlashcard(flashcardSet);
         ListBoxFlashcards.Items.Refresh();

@@ -16,7 +16,7 @@
                         FontWeight="DemiBold"
                         Foreground="White"
                         Background="#FFC7891B"
-                        Click="Flashcards_Clicked">
+                        Click="Flashcards_Clicked" Cursor="Hand">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Name="Border" Background="{TemplateBinding Background}"
@@ -40,7 +40,7 @@
                         Foreground="White"
                         Background="#FF249C99"
                         Margin="20, 0, 0, 0"
-                        Click="Evaluator_Clicked">>
+                        Click="Evaluator_Clicked" Cursor="Hand">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Name="Border" Background="{TemplateBinding Background}"
