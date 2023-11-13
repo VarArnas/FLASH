@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 
-namespace FirstLab.src.controllers.services;
+namespace FirstLab.src.services;
 
 public class PlayWindowService : IPlayWindowService
 {

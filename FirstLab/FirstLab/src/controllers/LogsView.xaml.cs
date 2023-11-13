@@ -12,35 +12,28 @@ public partial class LogsView : UserControl
 {
     public ObservableCollection<FlashcardSetLog> flashcardSetsLogs = new ObservableCollection<FlashcardSetLog>();
 
-    private TimeSpan duration;
+    ILogsViewService _ifLogsViewService;
 
-    IFactoryContainer factoryContainer;
-
-    ILogsViewService controllerService;
-
-    public LogsView(IFactoryContainer factoryContainer, ILogsViewService controllerService)
+    public LogsView(ILogsViewService ifLogsViewService)
     {
         InitializeComponent();
-        InitializeLogsFields(factoryContainer, controllerService);
+        InitializeLogsFields(ifLogsViewService);
     }
 
-    private async void InitializeLogsFields(IFactoryContainer factoryContainer, ILogsViewService controllerService)
+    private async void InitializeLogsFields(ILogsViewService ifLogsViewService)
     {
-        this.controllerService = controllerService;
-        this.factoryContainer = factoryContainer;
-        await controllerService.RetrieveLogs(flashcardSetsLogs);
+        _ifLogsViewService = ifLogsViewService;
+        await _ifLogsViewService.RetrieveLogs(flashcardSetsLogs);
         LogsItemsControl.ItemsSource = flashcardSetsLogs;
     }
 
     public async void CalculateAndCreateLog(DateTime playWindowStartTime, DateTime playWindowEndTime, FlashcardSet flashcardSet)
     {
-        duration = playWindowEndTime - playWindowStartTime;
-        var log = factoryContainer.CreateLog(flashcardSet.FlashcardSetName, playWindowStartTime, (int)duration.TotalSeconds);
-        await controllerService.AddLog(log, flashcardSetsLogs);
+        await _ifLogsViewService.CreateLogAndSave(flashcardSet, playWindowStartTime, playWindowEndTime, flashcardSetsLogs);
     }
 
     private async void ClearLogs_Click(object sender, RoutedEventArgs e)
     {
-        await controllerService.ClearLogs(flashcardSetsLogs);
+        await _ifLogsViewService.ClearLogs(flashcardSetsLogs);
     }
 }

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="636"
              Background="Transparent"
-             Loaded="UserControl_Loaded">
+             Loaded="FlashcardCustmization_Loaded">
     <UserControl.Resources>
         <local:ColorStringToBrushConverter x:Key="ColorConverter"/>
         <x:Array x:Key="ColorNames" Type="sys:String"

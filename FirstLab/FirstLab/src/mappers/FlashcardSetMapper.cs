@@ -1,18 +1,22 @@
 ﻿using FirstLab.src.interfaces;
-using FirstLab.src.models;
 using FirstLab.src.models.DTOs;
+using FirstLab.src.models;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace FirstLab.src.utilities;
+namespace FirstLab.src.mappers;
 
-public static class DTOsAndModelsUtils
+public class FlashcardSetMapper : IFlashcardSetMapper
 {
-    public static IFactoryContainer factoryContainer;
+    IFactoryContainer _factoryContainer;
 
-    public static FlashcardSetDTO TransformFlashcardSetToDTO(FlashcardSet flashcardSet)
+    public FlashcardSetMapper(IFactoryContainer factoryContainer)
     {
-        FlashcardSetDTO set = factoryContainer.CreateObject<FlashcardSetDTO>();
+        _factoryContainer = factoryContainer;
+    }
+    public FlashcardSetDTO TransformFlashcardSetToDTO(FlashcardSet flashcardSet)
+    {
+        FlashcardSetDTO set = _factoryContainer!.CreateObject<FlashcardSetDTO>();
 
         set.FlashcardSetName = flashcardSet.FlashcardSetName;
 
@@ -29,9 +33,9 @@ public static class DTOsAndModelsUtils
         return set;
     }
 
-    public static FlashcardSet TransformDTOtoFlashcardSet(FlashcardSetDTO dto)
+    public FlashcardSet TransformDTOtoFlashcardSet(FlashcardSetDTO dto)
     {
-        FlashcardSet set = factoryContainer.CreateObject<FlashcardSet>();
+        FlashcardSet set = _factoryContainer!.CreateObject<FlashcardSet>();
 
         set.FlashcardSetName = dto.FlashcardSetName;
 
@@ -46,20 +50,5 @@ public static class DTOsAndModelsUtils
             }));
 
         return set;
-    }
-
-    public static FlashcardSetLog TransformDTOtoFlashcardSetLog(FlashcardSetLogDTO dto)
-    {
-        FlashcardSetLog log = factoryContainer.CreateLog(dto.PlayedSetsName, dto.Date, dto.Duration);
-        return log;
-    }
-
-    public static FlashcardSetLogDTO TransformFlashcardSetLogtoDTO(FlashcardSetLog log)
-    {
-        FlashcardSetLogDTO dto = factoryContainer.CreateObject<FlashcardSetLogDTO>();
-        dto.PlayedSetsName = log.PlayedSetsName;
-        dto.Date = log.Date;
-        dto.Duration = log.Duration;
-        return dto;
     }
 }

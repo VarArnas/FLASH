@@ -1,8 +1,6 @@
 ﻿using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.utilities;
-using FirstLab.XAML;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -12,34 +10,26 @@ namespace FirstLab;
 
 public partial class FlashcardOptions : UserControl
 {
-    private FlashcardCustomization flashcardCustomizationview;
-
-    private PlayWindow playWindowReference;
-
-    public ObservableCollection<FlashcardSet> flashcardSets = new ObservableCollection<FlashcardSet>();
+    public ObservableCollection<FlashcardSet> flashcardSets = new();
 
     public DateTime playWindowStartTime;
 
     public FlashcardSet flashcardSet;
 
-    IFactoryContainer factoryContainer;
+    IFlashcardOptionsService _ifFlashcardOptionsService;
 
-    IFlashcardOptionsService _controllerService;
-
-    public FlashcardOptions(IFactoryContainer factoryContainer, IServiceProvider serviceProvider, IFlashcardOptionsService controllerService)
+    public FlashcardOptions(IServiceProvider serviceProvider, IFlashcardOptionsService ifFlashcardOptionsService)
     {
         InitializeComponent();
-        controllerService.InitializeDatabase(serviceProvider);
-        controllerService.InitializeUtilities();
-        InitializeOptionsFields(factoryContainer, controllerService);
+        ifFlashcardOptionsService.InitializeDatabase(serviceProvider);
+        InitializeOptionsFields(ifFlashcardOptionsService);
     }
 
-    private async void InitializeOptionsFields(IFactoryContainer factoryContainer, IFlashcardOptionsService controllerService)
+    private async void InitializeOptionsFields(IFlashcardOptionsService ifFlashcardOptionsService)
     {
-        _controllerService = controllerService;
-        await _controllerService.InitializeFlashcardSets(flashcardSets);
+        _ifFlashcardOptionsService = ifFlashcardOptionsService;
+        await _ifFlashcardOptionsService.InitializeFlashcardSets(flashcardSets);
         flashcardSetsControl.ItemsSource = flashcardSets;
-        this.factoryContainer = factoryContainer;
     }
 
     private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -54,33 +44,29 @@ public partial class FlashcardOptions : UserControl
 
     private void PlayButton_Click(object sender, RoutedEventArgs e)
     {
-        playWindowReference = factoryContainer.CreateWindow<PlayWindow>((FlashcardSet)flashcardSetsControl.SelectedItem);
-        ViewsUtils.menuWindowReference!.Hide();
-        playWindowReference.Show();
+        _ifFlashcardOptionsService.LaunchPlayWindow((FlashcardSet)flashcardSetsControl.SelectedItem);
         InitializeTimeForLog();
+    }
+
+    private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+    {
+        await _ifFlashcardOptionsService.RemoveFlashcardSet((FlashcardSet)flashcardSetsControl.SelectedItem, flashcardSets);
+        flashcardSetsControl.Items.Refresh();
+    }
+
+    private void EditButton_Click(object sender, RoutedEventArgs e)
+    {
+        _ifFlashcardOptionsService.GoToFlashcardCustomization((FlashcardSet)flashcardSetsControl.SelectedItem);
+    }
+
+    private void NewSet_Click(object sender, RoutedEventArgs e)
+    {
+        _ifFlashcardOptionsService.GoToFlashcardCustomization();
     }
 
     private void InitializeTimeForLog()
     {
         playWindowStartTime = DateTime.Now;
         flashcardSet = (FlashcardSet)flashcardSetsControl.SelectedItem;
-    }
-
-    private async void DeleteButton_Click(object sender, RoutedEventArgs e)
-    {
-        await _controllerService.RemoveFlashcardSet((FlashcardSet)flashcardSetsControl.SelectedItem, flashcardSets);
-        flashcardSetsControl.Items.Refresh();
-    }
-
-    private void EditButton_Click(object sender, RoutedEventArgs e)
-    {
-        flashcardCustomizationview = factoryContainer.CreateWindow<FlashcardCustomization>((FlashcardSet)flashcardSetsControl.SelectedItem);
-        ViewsUtils.ChangeWindow("Customization", flashcardCustomizationview);
-    }
-
-    private void NewSet_Click(object sender, RoutedEventArgs e)
-    {
-        flashcardCustomizationview = factoryContainer.CreateWindow<FlashcardCustomization>();
-        ViewsUtils.ChangeWindow("Customization", flashcardCustomizationview);
     }
 }

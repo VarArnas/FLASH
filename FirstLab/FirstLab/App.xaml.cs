@@ -1,7 +1,8 @@
-﻿using FirstLab.src.controllers.services;
-using FirstLab.src.data;
+﻿using FirstLab.src.data;
 using FirstLab.src.factories;
 using FirstLab.src.interfaces;
+using FirstLab.src.mappers;
+using FirstLab.src.services;
 using FirstLab.XAML;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +29,9 @@ public partial class App : Application
                 services.AddSingleton<ILogsViewService, LogsViewService>();
                 services.AddSingleton<IFlashcardCustomizationService, FlashcardCustomizationService>();
                 services.AddTransient<DataContext>();
+                services.AddSingleton<IFlashcardSetLogMapper,FlashcardSetLogMapper>();
+                services.AddSingleton<IFlashcardSetMapper,FlashcardSetMapper>();
+                services.AddSingleton<IMenuWindowService, MenuWindowService>();
 
             })
             .Build();

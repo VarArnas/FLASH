@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,23 +20,25 @@ public partial class FlashcardCustomization : UserControl
 
     IFactoryContainer factoryContainer;
 
-    IFlashcardCustomizationService controllerService;
+    IFlashcardCustomizationService _ifFlashcardCustomizationService;
 
-    public FlashcardCustomization(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, IFlashcardCustomizationService controllerService, FlashcardSet? flashcardSet = null)
+    public FlashcardCustomization(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer,
+        IFlashcardCustomizationService ifFlashcardCustomizationService, FlashcardSet? flashcardSet = null)
     {
         InitializeComponent();
-        InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, controllerService, flashcardSet);
+        InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, ifFlashcardCustomizationService, flashcardSet);
         CheckIfEditingOrNew(flashcardSet);
     }
 
-    private void UserControl_Loaded(object? sender = null, RoutedEventArgs? e = null)
+    private void FlashcardCustmization_Loaded(object? sender = null, RoutedEventArgs? e = null)
     {
         QuestionTextBox.Focus();
     }
 
-    private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer, IFlashcardCustomizationService controllerService, FlashcardSet? flashcardSet = null)
+    private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer,
+        IFlashcardCustomizationService ifFlashcardCustomizationService, FlashcardSet? flashcardSet = null)
     {
-        this.controllerService = controllerService;
+        _ifFlashcardCustomizationService = ifFlashcardCustomizationService;
         this.flashcardOptionsReference = flashcardOptionsReference;
         this.factoryContainer = factoryContainer;
         this.flashcardSet = flashcardSet ?? factoryContainer.CreateObject<FlashcardSet>();
@@ -51,7 +54,7 @@ public partial class FlashcardCustomization : UserControl
         }
         else
         {
-            await controllerService.RemoveSetFromDatabase(flashcardSet, flashcardOptionsReference);
+            await _ifFlashcardCustomizationService.RemoveSetFromDatabase(flashcardSet, flashcardOptionsReference);
             ListBoxFlashcards.SelectedIndex = flashcardSet.Flashcards!.Count - 1;
             NameOfSet = flashcardSet.FlashcardSetName;
         }
@@ -96,7 +99,7 @@ public partial class FlashcardCustomization : UserControl
 
     private void AddFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        int index = controllerService.AddFlashcard(flashcardSet);
+        int index = _ifFlashcardCustomizationService.AddFlashcard(flashcardSet);
         ListBoxFlashcards.Items.Refresh();
         ListBoxFlashcards.SelectedIndex = index;
         IsQestionOrAnswer(true, false);
@@ -109,7 +112,7 @@ public partial class FlashcardCustomization : UserControl
 
     private void DeleteFlashcard_Click(object sender, RoutedEventArgs e)
     {
-        int oldIndex = controllerService.DeleteFlashcard(ListBoxFlashcards.SelectedIndex, flashcardSet);
+        int oldIndex = _ifFlashcardCustomizationService.DeleteFlashcard(ListBoxFlashcards.SelectedIndex, flashcardSet);
         ListBoxFlashcards.Items.Refresh();
         ListBoxFlashcards.SelectedIndex = (oldIndex - 1 < 0) ? 0 : oldIndex - 1;
     }
@@ -125,12 +128,12 @@ public partial class FlashcardCustomization : UserControl
         {
             NameOfSet = FlashcardSetNameBox.Text;
             FlashcardSetNameBox.Text = NameOfSet.Capitalize();
-            controllerService.SaveFlashcardSetName(NameOfSet.Capitalize(), flashcardSet);
+            _ifFlashcardCustomizationService.SaveFlashcardSetName(NameOfSet.Capitalize(), flashcardSet);
         }
         else
         {
             FlashcardSetNameBox.Text = NameOfSet;
-            controllerService.SaveFlashcardSetName(NameOfSet!, flashcardSet);
+            _ifFlashcardCustomizationService.SaveFlashcardSetName(NameOfSet!, flashcardSet);
         }
     }
 
@@ -151,17 +154,17 @@ public partial class FlashcardCustomization : UserControl
         ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
     }
 
-    private async void SaveFlashcards()
+    private async Task SaveFlashcards()
     {
         if (IsFlashcardSetCorrect())
         {
-            await controllerService.SaveToDatabase(flashcardSet, flashcardOptionsReference);
+            await _ifFlashcardCustomizationService.SaveToDatabase(flashcardSet, flashcardOptionsReference);
             ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
         }
     }
     private async void SaveFlashcardSet_Click(object sender, RoutedEventArgs e)
     {
-        SaveFlashcards();
+        await SaveFlashcards();
     }
 
     private void ColorBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

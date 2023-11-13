@@ -5,15 +5,18 @@ using FirstLab.src.data;
 using FirstLab.src.models;
 using FirstLab.src.models.DTOs;
 
-namespace FirstLab.src.controllers.services;
+namespace FirstLab.src.services;
 
 public class FlashcardCustomizationService : IFlashcardCustomizationService
 {
     IFactoryContainer _factoryContainer;
 
-    public FlashcardCustomizationService(IFactoryContainer factoryContainer)
+    IFlashcardSetMapper _ifFlashcardSetMapper;
+
+    public FlashcardCustomizationService(IFactoryContainer factoryContainer, IFlashcardSetMapper ifFlashcardSetMapper)
     {
         _factoryContainer = factoryContainer;
+        _ifFlashcardSetMapper = ifFlashcardSetMapper;
     }
 
     public async Task RemoveSetFromDatabase(FlashcardSet flashcardSet, FlashcardOptions flashcardOptionsReference)
@@ -54,7 +57,7 @@ public class FlashcardCustomizationService : IFlashcardCustomizationService
     {
         flashcardOptionsReference.flashcardSets.Add(flashcardSet);
 
-        FlashcardSetDTO dto = DTOsAndModelsUtils.TransformFlashcardSetToDTO(flashcardSet);
+        FlashcardSetDTO dto = _ifFlashcardSetMapper.TransformFlashcardSetToDTO(flashcardSet);
         await DatabaseRepository.AddAsync(dto);
     }
 }
