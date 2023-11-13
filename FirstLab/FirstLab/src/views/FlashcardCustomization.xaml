@@ -20,14 +20,14 @@
         </x:Array>
         <x:Array x:Key="Times" Type="sys:String"
          xmlns:sys="clr-namespace:System;assembly=mscorlib">
-            <sys:String>3 seconds</sys:String>
-            <sys:String>5 seconds</sys:String>
-            <sys:String>10 seconds</sys:String>
-            <sys:String>15 seconds</sys:String>
-            <sys:String>30 seconds</sys:String>
+            <sys:String>3</sys:String>
+            <sys:String>5</sys:String>
+            <sys:String>10</sys:String>
+            <sys:String>15</sys:String>
+            <sys:String>30</sys:String>
         </x:Array>
     </UserControl.Resources>
-    
+
     <Border Background="#FFC7891B"
             CornerRadius="0, 0, 20, 0">
         <Grid>
@@ -44,11 +44,24 @@
 
             <!-- ^^Create the layout for the view^^-->
 
-            <Border Grid.Row="0" Grid.Column="1"
-                    Background="#FF8160CC">
-
-
+            <Border Grid.Row="0"
+                    Background="#FF8160CC" Grid.ColumnSpan="2" Margin="99,-1,1,1">
             </Border>
+
+            <Border Grid.Row ="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0"
+                    CornerRadius="10" 
+                    Margin="46,325,226,7" Background="#FF623294"/>
+            <Image Grid.Row ="0" Margin="17,326,392,12" Source="images/timerLogo.png"
+                   Grid.Column="1"
+                   Visibility="Visible"/>
+
+            <Border Grid.Row ="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0"
+                    CornerRadius="10" x:Name="BorderofColors" 
+                    Margin="260,324,20,8" Background="#FF623294"/>
+            <Image Grid.Row ="0" Margin="233,326,177,12" Source="images/colorLogo.png"
+                   Grid.Column="1"
+                   Visibility="Visible"/>
+
 
             <ListBox Name="ListBoxFlashcards" Grid.Row="0" Background="#FFD8D88E" Grid.Column="0" Margin="0,20,0,0"
                      ItemsSource="{Binding Flashcards}" SelectionChanged="ListBoxFlashcards_SelectionChanged"
@@ -66,7 +79,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Background="{TemplateBinding Background}"
+                                    <Border Cursor="Hand" Background="{TemplateBinding Background}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding BorderThickness}">
                                         <ContentPresenter />
@@ -95,34 +108,51 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ListBox Name="ColorBox" Grid.Column="2" Margin="0,0,0,264" Background="#FFD8D88E"
+            <ListBox Name="ColorBox" Grid.Column="1" Margin="265,322,25,6" Background="Transparent"
                      SelectedValue="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards}"
-                     SelectionChanged="ColorBox_SelectionChanged">
+                     SelectionChanged="ColorBox_SelectionChanged"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
+                     BorderThickness="0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
                 <ListBox.ItemsSource>
                     <Binding Source="{StaticResource ColorNames}" />
                 </ListBox.ItemsSource>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" />
+                        <Border Cursor="Hand" Width="15" Height="15" CornerRadius="10"
+                                Background="{Binding Converter={StaticResource ColorConverter}}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                BorderThickness="0">
+                            <TextBlock Text="{Binding}" Visibility="Collapsed"/>
+                        </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
-                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Margin" Value="4, 0, 4, 0"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                                        <ContentPresenter />
+                                    <Border x:Name="OuterBorder"  Width="20" Height="20" Background="Transparent"
+                                            CornerRadius="10"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#FFAFAF77"/>
+                                            <Setter TargetName="OuterBorder" Property="Background" Value="#FF8160CC"/>
                                         </Trigger>
                                         <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="#FFB54BCE" />
+                                            <Setter TargetName="OuterBorder" Property="Background" Value="Transparent"/>
+                                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="LightGreen"/>
+                                            <Setter TargetName="OuterBorder" Property="BorderThickness" Value="2"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -132,24 +162,48 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
 
-            <Button  Margin="0,0,50,340" Width="50" Height="20"
+            <Button  Cursor="Hand" Margin="0,0,50,340" Width="50" Height="20"
                      Grid.Row="0" Grid.Column="0"
                      Click="AddFlashcard_Click" Background="Transparent"
                      BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF946614" TargetName="Border"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
                 <Image Source="images/plusBtn.png" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Width="20" Height="20"/>
             </Button>
-            <Button Margin="50,0,0,340" Width="50"  Height="20"
+            <Button Cursor="Hand" Margin="50,0,0,340" Width="50"  Height="20"
                     Grid.Row="0" Grid.Column="0"
                     Click="DeleteFlashcard_Click" Background="Transparent" 
                     BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF946614" TargetName="Border"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
                 <Image Source="images/deleteBtn2.png" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Width="15" Height="15"/>
             </Button>
 
             <Grid Grid.Row="0" Grid.Column="1">
 
-                <Border Margin="30" Name="QuestionBorder" Visibility="Visible"                      
+                <Border Margin="30,12,30,48" Name="QuestionBorder" Visibility="Visible"                      
                         BorderBrush="DarkBlue" BorderThickness="1"
                         Background="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards, Converter={StaticResource ColorConverter}}"
                         CornerRadius="10">
@@ -165,7 +219,7 @@
                     <!-- Bind the selected items (which is a flashcard) question property to the textBox to 
                     display it-->
                 </Border>
-                <Border Margin="30" Name="AnswerBorder" Visibility="Collapsed"
+                <Border Margin="30,12,30,48" Name="AnswerBorder" Visibility="Collapsed"
                         Background="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards, Converter={StaticResource ColorConverter}}"
                         BorderBrush="DarkGreen" BorderThickness="1"
                         CornerRadius="10">
@@ -185,16 +239,16 @@
             </Grid>
 
 
-            <RadioButton GroupName="Question/Answer" Name="QuestionRadioButton" Height="20" Margin="8,205,2,135"
+            <RadioButton Cursor="Hand" GroupName="Question/Answer" Name="QuestionRadioButton" Height="20" Margin="8,133,2,207"
                          Grid.Row="0" Grid.Column="2" Content="Question"
                          Click="QuestionAnswerRadioButton_Click" IsChecked="True" FontFamily="Fonts/#Dosis"
                          FontWeight="DemiBold" FontSize="14"/>
-            <RadioButton GroupName="Question/Answer" Name="AnswerRadioButton" Height="20" Margin="8,238,2,102" Grid.Row="0"
+            <RadioButton Cursor="Hand" GroupName="Question/Answer" Name="AnswerRadioButton" Height="20" Margin="8,211,2,129" Grid.Row="0"
                          Grid.Column="2" Content="Answer" Click="QuestionAnswerRadioButton_Click" FontFamily="Fonts/#Dosis"
                          FontWeight="DemiBold" FontSize="14"/>
 
 
-            <Button Click="SaveFlashcardSet_Click"
+            <Button Cursor="Hand" Click="SaveFlashcardSet_Click"
                     Background="green" Margin="50, 0,0,0"
                     BorderThickness="0"
                     Grid.Row="1" Grid.Column="2">
@@ -216,7 +270,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button Click="DeleteFlashcardSet_Click"
+            <Button Cursor="Hand" Click="DeleteFlashcardSet_Click"
                     Background="red" Margin="0, 0,50,0"
                     BorderThickness="0"
                     Grid.Row="1" Grid.Column="2">
@@ -237,7 +291,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <TextBox Name="FlashcardSetNameBox" Grid.Row="1" Grid.Column="1"
+            <TextBox Cursor="Hand" Name="FlashcardSetNameBox" Grid.Row="1" Grid.Column="1"
                      TextAlignment="Left" Margin="5,5,7,5"
                      Padding="10,5,0,0"
                      FontFamily="Fonts/#Dosis" TextWrapping="Wrap"
@@ -272,12 +326,12 @@
                 </TextBox.Style>
             </TextBox>
 
-            <RadioButton GroupName="Capitalized/Normal" Grid.Row="1" Grid.Column="0"
+            <RadioButton Cursor="Hand" GroupName="Capitalized/Normal" Grid.Row="1" Grid.Column="0"
                          Content="Capitalize" FontFamily="Fonts/#Dosis"
                          FontSize="10" Margin="15,4,0,0" Click="CapitalizedNormalNameButton_Click"
                          FontWeight="Medium" Padding="4,2.3,0,0"
                          Name="CapitalizeButton"/>
-            <RadioButton GroupName="Capitalized/Normal" Grid.Row="1" Grid.Column="0"
+            <RadioButton Cursor="Hand" GroupName="Capitalized/Normal" Grid.Row="1" Grid.Column="0"
                          Content="Normalize" IsChecked="True" Click="CapitalizedNormalNameButton_Click"
                          FontFamily="Fonts/#Dosis" FontSize="10"
                          FontWeight="Medium" Padding="4,2,0,0"
@@ -293,34 +347,50 @@
                               TextWrapping="Wrap" IsReadOnly="True"
                               BorderThickness="0" Cursor="Arrow" Height="70"/>
             </ScrollViewer>
-            <ListBox Name="timerListBox" Grid.Column="2" Margin="0,106,0,160" Background="#FFD8D88E"
+            <ListBox Name="timerListBox" Grid.Column="1" Margin="46,327,226,9" Background="Transparent"
                      SelectedValue="{Binding SelectedItem.FlashcardTimer, ElementName=ListBoxFlashcards}"
-                     SelectionChanged="TimerListBox_SelectionChanged">
+                     SelectionChanged="TimerListBox_SelectionChanged"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                     BorderThickness="0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
                 <ListBox.ItemsSource>
                     <Binding Source="{StaticResource Times}" />
                 </ListBox.ItemsSource>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" />
+                        <TextBlock x:Name="textBlockOfTimer" Text="{Binding}"
+                                   FontFamily="fonts/#Dosis" 
+                                   FontWeight="SemiBold"
+                                   FontSize="11"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
-                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Margin" Value="4, 0, 4, 0"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Background="{TemplateBinding Background}"
+                                    <Border Cursor="Hand" x:Name="OuterBorder"  Width="22" Height="22" Background="Transparent"
+                                            CornerRadius="10"
                                             BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}">
-                                        <ContentPresenter />
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#FFAFAF77"/>
+                                            <Setter TargetName="OuterBorder" Property="Background" Value="#FF8160CC"/>
                                         </Trigger>
                                         <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="#FFB54BCE" />
+                                            <Setter TargetName="OuterBorder" Property="Background" Value="Transparent"/>
+                                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="LightGreen"/>
+                                            <Setter TargetName="OuterBorder" Property="BorderThickness" Value="2"/>
+
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>

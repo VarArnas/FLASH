@@ -8,12 +8,15 @@ using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.exceptions;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
+using FirstLab.src.utilities;
+using System.Windows.Shapes;
 
 namespace FirstLab.XAML;
 
 public delegate void ActionDelegates();
 
-public partial class PlayWindow : UserControl
+public partial class PlayWindow : Window
 {
     private FlashcardSet flashcardSet;
 
@@ -29,6 +32,8 @@ public partial class PlayWindow : UserControl
 
     private ActionDelegates setTimer, showAnswer;
 
+    private bool isPanelVisible = true;
+
     IPlayWindowService _controllerService;
 
     public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService controllerService)
@@ -37,13 +42,23 @@ public partial class PlayWindow : UserControl
         InitializePlayWindowFields(flashcardSet, factoryContainer, controllerService);
         InitializeDelegates();
         controllerService.ShuffleFlashcards(this.flashcardSet!.Flashcards!);
-        this.PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-        questionTextBox.Focus();
+
+        QuestionBorder.Visibility = Visibility.Visible;
+        AnswerBorder.Visibility = Visibility.Collapsed;
+        timerTextBox.Focus();
         switchDisplay = true;
+
+        DoubleAnimation opacityAnimation = new DoubleAnimation();
+        opacityAnimation.From = 1.0;
+        opacityAnimation.To = 0.1;
+        opacityAnimation.Duration = TimeSpan.FromSeconds(2);
+        opacityAnimation.AutoReverse = true;
+        opacityAnimation.RepeatBehavior = RepeatBehavior.Forever;
+        breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, opacityAnimation);
     }
 
     private void InitializePlayWindowFields(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService controllerService)
@@ -52,14 +67,14 @@ public partial class PlayWindow : UserControl
         lockObject = factoryContainer.CreateObject<object>();
         this.flashcardSet = _controllerService.CloneFlashcardSet(flashcardSet);
         flashcardDesign = factoryContainer.CreateDesign(false, false, 5, 5);
-        nameTextBox.Text = flashcardSet.FlashcardSetName;
+        this.PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 
     private void InitializeDelegates()
     {
         setTimer = () =>
         {
-            timerTextBox.Text = counter.ToString();
+            timerTextBox.Text = counter.ToString() + "s";
         };
 
         showAnswer = () =>
@@ -84,15 +99,17 @@ public partial class PlayWindow : UserControl
         questionTextBox.Text = flashcardSet.Flashcards![index].FlashcardQuestion;
         try
         {
-            questionTextBox.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardSet.Flashcards![index].FlashcardColor!)!;
+            QuestionBorder.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardSet.Flashcards![index].FlashcardColor!)!;
+            AnswerBorder.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcardSet.Flashcards![index].FlashcardColor!)!;
+            QuestionBorder.Visibility = Visibility.Visible;
+            AnswerBorder.Visibility = Visibility.Collapsed;
         }
         catch (Exception ex)
         {
             _controllerService.ThrowCustomException($"No default color has been selected", ex);
         }
     }
-
-    private void DisplayFlashcard()
+    private void DisplayFlashcard(object? sender = null, RoutedEventArgs? e = null)
     {
         lock (lockObject)
         {
@@ -139,10 +156,6 @@ public partial class PlayWindow : UserControl
             }
         }
     }
-    private void DisplayFlashcard(object? sender = null, RoutedEventArgs? e = null)
-    {
-        DisplayFlashcard();
-    }
 
     private void DisplayAnswer(object? sender = null, RoutedEventArgs? e = null)
     {
@@ -152,7 +165,9 @@ public partial class PlayWindow : UserControl
             {
                 try
                 {
-                    answerTextBox.Text = flashcardSet.Flashcards![currentFlashcardIndex - 1].FlashcardAnswer;
+                   answerTextBox.Text = flashcardSet.Flashcards![currentFlashcardIndex - 1].FlashcardAnswer;
+                   QuestionBorder.Visibility = Visibility.Collapsed;
+                   AnswerBorder.Visibility = Visibility.Visible;
                 }
                 catch
                 {
@@ -164,7 +179,6 @@ public partial class PlayWindow : UserControl
             isFunctioning = false;
         }
     }
-
     private void ChangeText(bool isHighlighted, bool isItalic)
     {
         flashcardDesign.IsHighlighted = isHighlighted;
@@ -198,8 +212,6 @@ public partial class PlayWindow : UserControl
 
         questionTextBox.FontSize += sizeChange;
         answerTextBox.FontSize += sizeChange;
-        UpTextButton.IsChecked = increaseSize;
-        DecTextButton.IsChecked = !increaseSize;
     }
 
     private void InitTimer()
@@ -223,7 +235,7 @@ public partial class PlayWindow : UserControl
                 }
 
                 counter--;
-
+                
                 Dispatcher.Invoke(setTimer);
             }
             finally
@@ -251,7 +263,34 @@ public partial class PlayWindow : UserControl
             case Key.D:
                 DisplayAnswer();
                 break;
+
+            case Key.Escape:
+                CloseCommand();
+                break;
         }
+    }
+
+    private void CloseCommand()
+    {
+        ViewsUtils.menuWindowReference!.ReturnToHomeView_Click(this);
+        this.Close();
+        ViewsUtils.menuWindowReference!.Show();
+    }
+
+    private void MovingWindow(object sender, MouseButtonEventArgs e)
+    {
+        if (e.LeftButton == MouseButtonState.Pressed)
+        {
+            DragMove();
+        }
+    }
+
+    private void SlidePanelButton_Click(object sender, RoutedEventArgs e)
+    {
+        isPanelVisible = !isPanelVisible;
+        var storyboardName = isPanelVisible ? "SlideInAnimation" : "SlideOutAnimation";
+        var storyboard = (Storyboard)Resources[storyboardName];
+        storyboard.Begin();
     }
 
 }

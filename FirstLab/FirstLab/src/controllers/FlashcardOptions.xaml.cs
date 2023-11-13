@@ -2,6 +2,7 @@
 using FirstLab.src.models;
 using FirstLab.src.utilities;
 using FirstLab.XAML;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -54,7 +55,8 @@ public partial class FlashcardOptions : UserControl
     private void PlayButton_Click(object sender, RoutedEventArgs e)
     {
         playWindowReference = factoryContainer.CreateWindow<PlayWindow>((FlashcardSet)flashcardSetsControl.SelectedItem);
-        ViewsUtils.ChangeWindow("Play", playWindowReference);
+        ViewsUtils.menuWindowReference!.Hide();
+        playWindowReference.Show();
         InitializeTimeForLog();
     }
 
