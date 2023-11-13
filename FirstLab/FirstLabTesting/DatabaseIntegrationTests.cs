@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FirstLab;
 using FirstLab.src.models;
+using FirstLab.src.models.DTOs;
 
 namespace FirstLabTesting
 {
@@ -28,7 +29,7 @@ namespace FirstLabTesting
         public async Task AddAsync_ShouldAddEntityToDatabase()
         {
             // Arrange
-            var flashcardSet = new FlashcardSet { FlashcardSetName = "Set1"};
+            var flashcardSet = new FlashcardSetDTO { FlashcardSetName = "Set1"};
 
             // Act
             await MockDatabaseRepository.AddAsync(flashcardSet, _dbContext);
@@ -44,7 +45,7 @@ namespace FirstLabTesting
         public async void RemoveFlashcardSetAsync_ShouldRemoveEntityFromDatabase()
         {
             // Arrange
-            var flashcardSet = new FlashcardSet { FlashcardSetName = "Set2" };
+            var flashcardSet = new FlashcardSetDTO { FlashcardSetName = "Set2" };
 
             // Act
             await MockDatabaseRepository.AddAsync(flashcardSet, _dbContext);
@@ -59,12 +60,12 @@ namespace FirstLabTesting
         public async void RemoveAsync_ShouldRemoveEntityFromDatabase()
         {
             // Arrange
-            var flashcard = new Flashcard { FlashcardName = "flashcard"};
+            var flashcard = new FlashcardDTO { FlashcardName = "flashcard"};
 
             // Act
             await MockDatabaseRepository.AddAsync(flashcard, _dbContext);
             await MockDatabaseRepository.RemoveAsync(flashcard, _dbContext);
-            var retrievedEntities = await MockDatabaseRepository.GetAllAsync<Flashcard>(_dbContext);
+            var retrievedEntities = await MockDatabaseRepository.GetAllAsync<FlashcardDTO>(_dbContext);
 
             // Assert
             Assert.DoesNotContain(flashcard, retrievedEntities);
@@ -75,15 +76,15 @@ namespace FirstLabTesting
         public async void GetAllAsync_ShouldReturnAllEntitiesOfSpecifiedType()
         {
             // Arrange
-            var flashcard1 = new Flashcard { FlashcardName = "flashcard1" };
-            var flashcard2 = new Flashcard { FlashcardName = "flashcard2" };
-            var flashcard3 = new Flashcard { FlashcardName = "flashcard3" };
+            var flashcard1 = new FlashcardDTO { FlashcardName = "flashcard1" };
+            var flashcard2 = new FlashcardDTO { FlashcardName = "flashcard2" };
+            var flashcard3 = new FlashcardDTO { FlashcardName = "flashcard3" };
 
             // Act
             await MockDatabaseRepository.AddAsync(flashcard1, _dbContext);
             await MockDatabaseRepository.AddAsync(flashcard2, _dbContext);
             await MockDatabaseRepository.AddAsync(flashcard3, _dbContext);
-            var retrievedEntities = await MockDatabaseRepository.GetAllAsync<Flashcard>(_dbContext);
+            var retrievedEntities = await MockDatabaseRepository.GetAllAsync<FlashcardDTO>(_dbContext);
 
             // Assert
             Assert.NotEmpty(retrievedEntities);
@@ -97,16 +98,16 @@ namespace FirstLabTesting
         public async void RemoveAllAsync_ShouldRemoveAllEntitiesOfSpecifiedType()
         {
             // Arrange
-            var flashcard1 = new Flashcard { FlashcardName = "flashcard1" };
-            var flashcard2 = new Flashcard { FlashcardName = "flashcard2" };
-            var flashcard3 = new Flashcard { FlashcardName = "flashcard3" };
+            var flashcard1 = new FlashcardDTO { FlashcardName = "flashcard1" };
+            var flashcard2 = new FlashcardDTO { FlashcardName = "flashcard2" };
+            var flashcard3 = new FlashcardDTO { FlashcardName = "flashcard3" };
 
             // Act
             await MockDatabaseRepository.AddAsync(flashcard1, _dbContext);
             await MockDatabaseRepository.AddAsync(flashcard2, _dbContext);
             await MockDatabaseRepository.AddAsync(flashcard3, _dbContext);
-            await MockDatabaseRepository.RemoveAllAsync<Flashcard>(_dbContext);
-            var retrievedEntities = await MockDatabaseRepository.GetAllAsync<Flashcard>(_dbContext);
+            await MockDatabaseRepository.RemoveAllAsync<FlashcardDTO>(_dbContext);
+            var retrievedEntities = await MockDatabaseRepository.GetAllAsync<FlashcardDTO>(_dbContext);
 
             // Assert
             Assert.DoesNotContain(flashcard1, retrievedEntities);
@@ -119,9 +120,9 @@ namespace FirstLabTesting
         public async void GetAllFlashcardSetsAsync_ShouldReturnAllFlashcardSets()
         {
             // Arrange
-            var flashcardSet1 = new FlashcardSet { FlashcardSetName = "flashcardSet1" };
-            var flashcardSet2 = new FlashcardSet { FlashcardSetName = "flashcardSet2" };
-            var flashcardSet3 = new FlashcardSet { FlashcardSetName = "flashcardSet3" };
+            var flashcardSet1 = new FlashcardSetDTO { FlashcardSetName = "flashcardSet1" };
+            var flashcardSet2 = new FlashcardSetDTO { FlashcardSetName = "flashcardSet2" };
+            var flashcardSet3 = new FlashcardSetDTO { FlashcardSetName = "flashcardSet3" };
 
             // Act
             await MockDatabaseRepository.AddAsync(flashcardSet1, _dbContext);

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FirstLab.src.models;
+using FirstLab.src.models.DTOs;
 
 namespace FirstLabTesting
 {
@@ -15,10 +16,10 @@ namespace FirstLabTesting
         { 
         }
 
-        public DbSet<FlashcardSet> FlashcardSets { get; set; }
+        public DbSet<FlashcardSetDTO> FlashcardSets { get; set; }
 
-        public DbSet<Flashcard> Flashcards { get; set; }
+        public DbSet<FlashcardDTO> Flashcards { get; set; }
 
-        public DbSet<FlashcardSetLog> FlashcardsLog { get; set; }
+        public DbSet<FlashcardSetLogDTO> FlashcardsLog { get; set; }
     }
 }
