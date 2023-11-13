@@ -159,7 +159,7 @@ public partial class PlayWindow : Window
 
     private void DisplayAnswer(object? sender = null, RoutedEventArgs? e = null)
     {
-        lock (lockObject)
+        lock (lockObject) //?????????????
         {
             if(!switchDisplay)
             {

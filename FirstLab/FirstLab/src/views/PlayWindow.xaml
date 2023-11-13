@@ -78,9 +78,9 @@
                     Grid.Row="0" CornerRadius="20, 20, 0, 0"
                     MouseDown="MovingWindow"/>
 
-            <Button Grid.Row="2" Margin="361, 10, 379,10" Click="DisplayFlashcard"
+            <Button Grid.Row="2" Margin="361,16,0,0" Click="DisplayFlashcard"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
+                        VerticalAlignment="Top"
                         Width="60"
                         Height="30"
                         Background="Green"
@@ -113,6 +113,8 @@
                            FontFamily="Fonts/#Dosis" Margin="48.5,0,0,0" FontSize="18"
                            Padding="0, 3.5, 0, 0"/>
             </Grid>
+
+        
 
             <Grid Grid.Row="1">
 
@@ -245,6 +247,26 @@
                     <Border.RenderTransform>
                         <ScaleTransform ScaleX="1" ScaleY="1"/>
                     </Border.RenderTransform>
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.005" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.005" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="5" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="2" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
                     <TextBox Name="questionTextBox"
                              HorizontalAlignment="Center"
                              VerticalContentAlignment="Center"  
@@ -270,6 +292,26 @@
                     <Border.RenderTransform>
                         <ScaleTransform ScaleX="1" ScaleY="1"/>
                     </Border.RenderTransform>
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.005" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.005" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="2" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
                     <TextBox x:Name="answerTextBox"
                          TextWrapping="Wrap"
                          Text=""

@@ -21,6 +21,7 @@
     <None Remove="src\views\Images\deleteBtn2.png" />
     <None Remove="src\views\Images\deleteSet_Button.png" />
     <None Remove="src\views\Images\editBtn5.png" />
+    <None Remove="src\views\Images\exitLogo.png" />
     <None Remove="src\views\Images\IncreaseLogo.png" />
     <None Remove="src\views\Images\ItalicLogo.png" />
     <None Remove="src\views\Images\nextLogo.png" />
@@ -47,6 +48,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\views\Images\editBtn5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\views\Images\exitLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\views\Images\IncreaseLogo.png">
