@@ -1,21 +1,26 @@
 ﻿using FirstLab.src.data;
+using FirstLab.src.factories;
 using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.models.DTOs;
 using FirstLab.src.utilities;
+using FirstLab.XAML;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace FirstLab.src.controllers.services;
+namespace FirstLab.src.services;
 
 public class FlashcardOptionsService : IFlashcardOptionsService
 {
     IFactoryContainer _factoryContainer;
 
-    public FlashcardOptionsService(IFactoryContainer factoryContainer)
+    IFlashcardSetMapper _ifFlashcardSetMapper;
+
+    public FlashcardOptionsService(IFactoryContainer factoryContainer, IFlashcardSetMapper ifFlashcardSetMapper)
     {
         _factoryContainer = factoryContainer;
+        _ifFlashcardSetMapper = ifFlashcardSetMapper;
     }
 
     public async Task RemoveFlashcardSet(FlashcardSet selectedSet, ObservableCollection<FlashcardSet> flashcardSets)
@@ -35,13 +40,21 @@ public class FlashcardOptionsService : IFlashcardOptionsService
 
         foreach(var dto in flashcardSetsDTOs)
         {
-            FlashcardSet set = DTOsAndModelsUtils.TransformDTOtoFlashcardSet(dto);
+            FlashcardSet set = _ifFlashcardSetMapper.TransformDTOtoFlashcardSet(dto);
             flashcardSets!.Add(set);
         }
     }
 
-    public void InitializeUtilities()
+    public void GoToFlashcardCustomization(FlashcardSet? flashcardSet = null)
     {
-        DTOsAndModelsUtils.factoryContainer = _factoryContainer;
+        FlashcardCustomization flashcardCustomization = _factoryContainer.CreateWindow<FlashcardCustomization>(flashcardSet);
+        ViewsUtils.ChangeWindow("Customization", flashcardCustomization);
+    }
+
+    public void LaunchPlayWindow(FlashcardSet flashcardSet)
+    {
+        PlayWindow playWindowReference = _factoryContainer.CreateWindow<PlayWindow>(flashcardSet);
+        ViewsUtils.menuWindowReference!.Hide();
+        playWindowReference.Show();
     }
 }

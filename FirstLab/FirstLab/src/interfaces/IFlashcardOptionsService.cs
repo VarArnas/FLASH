@@ -13,5 +13,7 @@ public interface IFlashcardOptionsService
 
     Task InitializeFlashcardSets(ObservableCollection<FlashcardSet> flashcardSets);
 
-    void InitializeUtilities();
+    void GoToFlashcardCustomization(FlashcardSet? flashcardSet = null);
+
+    void LaunchPlayWindow(FlashcardSet flashcardSet);
 }

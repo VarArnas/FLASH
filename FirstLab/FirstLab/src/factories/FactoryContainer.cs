@@ -5,6 +5,7 @@ using FirstLab.src.models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace FirstLab.src.factories;
@@ -51,5 +52,10 @@ public class FactoryContainer : IFactoryContainer
     {
         var constructor = typeof(CustomNullException).GetConstructor(new[] { typeof(string) });
         return (CustomNullException)constructor!.Invoke(new object[] { errorMsg });
+    }
+
+    public QuestionAnswerPropertiesForUI CreateQuestionAnswerProperties(Visibility QuestionBorderVisibility, Visibility AnswerBorderVisibility, bool CheckQuestionRadioButton, bool CheckAnswerRadioButton)
+    {
+        return ActivatorUtilities.CreateInstance<QuestionAnswerPropertiesForUI>(serviceProvider, QuestionBorderVisibility, AnswerBorderVisibility, CheckQuestionRadioButton, CheckAnswerRadioButton);
     }
 }

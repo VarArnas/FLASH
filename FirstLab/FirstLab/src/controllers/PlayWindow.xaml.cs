@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Threading;
 using FirstLab.src.interfaces;
@@ -34,14 +33,14 @@ public partial class PlayWindow : Window
 
     private bool isPanelVisible = true;
 
-    IPlayWindowService _controllerService;
+    IPlayWindowService _ifPlayWindowService;
 
-    public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService controllerService)
+    public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService ifPlayWindowService)
     {
         InitializeComponent();
-        InitializePlayWindowFields(flashcardSet, factoryContainer, controllerService);
+        InitializePlayWindowFields(flashcardSet, factoryContainer, ifPlayWindowService);
         InitializeDelegates();
-        controllerService.ShuffleFlashcards(this.flashcardSet!.Flashcards!);
+        ifPlayWindowService.ShuffleFlashcards(this.flashcardSet!.Flashcards!);
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -61,11 +60,11 @@ public partial class PlayWindow : Window
         breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, opacityAnimation);
     }
 
-    private void InitializePlayWindowFields(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService controllerService)
+    private void InitializePlayWindowFields(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService ifPlayWindowService)
     {
-        _controllerService = controllerService;
+        _ifPlayWindowService = ifPlayWindowService;
         lockObject = factoryContainer.CreateObject<object>();
-        this.flashcardSet = _controllerService.CloneFlashcardSet(flashcardSet);
+        this.flashcardSet = _ifPlayWindowService.CloneFlashcardSet(flashcardSet);
         flashcardDesign = factoryContainer.CreateDesign(false, false, 5, 5);
         this.PreviewKeyDown += UserControl_PreviewKeyDown;
     }
@@ -86,7 +85,7 @@ public partial class PlayWindow : Window
 
     private void DisplayFlashcard(int index)
     {
-        if (!_controllerService.IsIndexOverBounds(index, flashcardSet))
+        if (!_ifPlayWindowService.IsIndexOverBounds(index, flashcardSet))
         {
             SetProperties(index);
             answerTextBox.Clear();
@@ -106,7 +105,7 @@ public partial class PlayWindow : Window
         }
         catch (Exception ex)
         {
-            _controllerService.ThrowCustomException($"No default color has been selected", ex);
+            _ifPlayWindowService.ThrowCustomException($"No default color has been selected", ex);
         }
     }
     private void DisplayFlashcard(object? sender = null, RoutedEventArgs? e = null)
@@ -121,18 +120,18 @@ public partial class PlayWindow : Window
                 {
                     try
                     {
-                        counter = _controllerService.SetTheCounter(currentFlashcardIndex, flashcardSet);
+                        counter = _ifPlayWindowService.SetTheCounter(currentFlashcardIndex, flashcardSet);
                     }
                     catch (CustomNullException ex)
                     {
-                        if (!_controllerService.IsIndexOverBounds(currentFlashcardIndex, flashcardSet))
+                        if (!_ifPlayWindowService.IsIndexOverBounds(currentFlashcardIndex, flashcardSet))
                         {
-                            _controllerService.HandleNullTimer(ex, flashcardSet, currentFlashcardIndex);
-                            counter = _controllerService.SetTheCounter(currentFlashcardIndex, flashcardSet);
+                            _ifPlayWindowService.HandleNullTimer(ex, flashcardSet, currentFlashcardIndex);
+                            counter = _ifPlayWindowService.SetTheCounter(currentFlashcardIndex, flashcardSet);
                         }
                         else
                         {
-                            _controllerService.LogCustomException($"Error. All flashcards have been displayed");
+                            _ifPlayWindowService.LogCustomException($"Error. All flashcards have been displayed");
                         }
                     }
 
@@ -142,7 +141,7 @@ public partial class PlayWindow : Window
                     }
                     catch (CustomNullException ex)
                     {
-                        _controllerService.HandleNullColor(ex, flashcardSet, currentFlashcardIndex);
+                        _ifPlayWindowService.HandleNullColor(ex, flashcardSet, currentFlashcardIndex);
                         DisplayFlashcard(currentFlashcardIndex);
                     }
 
@@ -171,7 +170,7 @@ public partial class PlayWindow : Window
                 }
                 catch
                 {
-                    _controllerService.LogCustomException($"Error displaying flashcard answer");
+                    _ifPlayWindowService.LogCustomException($"Error displaying flashcard answer");
                 }
             }
 

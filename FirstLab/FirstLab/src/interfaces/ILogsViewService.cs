@@ -1,4 +1,5 @@
 ﻿using FirstLab.src.models;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -11,5 +12,10 @@ namespace FirstLab.src.interfaces
         Task RetrieveLogs(ObservableCollection<FlashcardSetLog> logs);
 
         Task ClearLogs(ObservableCollection<FlashcardSetLog> logs);
+
+        TimeSpan CalculateLog(DateTime playWindowStartTime, DateTime playWindowEndTime);
+
+        Task CreateLogAndSave(FlashcardSet flashcardSet, DateTime playWindowStartTime, DateTime playWindowEndTime,
+        ObservableCollection<FlashcardSetLog> flashcardSetsLogs);
     }
 }
