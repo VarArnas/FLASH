@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Threading;
 using FirstLab.src.interfaces;
@@ -11,7 +10,6 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using FirstLab.src.utilities;
 using System.Windows.Shapes;
-using FirstLab.src.services;
 
 namespace FirstLab.XAML;
 

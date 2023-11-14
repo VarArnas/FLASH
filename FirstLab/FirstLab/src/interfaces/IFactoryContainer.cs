@@ -4,6 +4,7 @@ using System;
 using FirstLab.src.errorHandling;
 using FirstLab.src.models;
 using FirstLab.src.exceptions;
+using System.Windows;
 
 namespace FirstLab.src.interfaces;
 
@@ -20,4 +21,6 @@ public interface IFactoryContainer
     T CreateObject<T>() where T : class, new();
 
     CustomNullException CreateException(string errorMsg);
+
+    QuestionAnswerPropertiesForUI CreateQuestionAnswerProperties(Visibility QuestionBorderVisibility, Visibility AnswerBorderVisibility, bool CheckQuestionRadioButton, bool CheckAnswerRadioButton);
 }

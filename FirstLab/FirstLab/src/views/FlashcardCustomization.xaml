@@ -27,6 +27,14 @@
             <sys:String>30</sys:String>
         </x:Array>
     </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding Key="Left" Command="{Binding YourLeftKeyCommand}" />
+        <KeyBinding Key="Right" Command="{Binding YourRightKeyCommand}" />
+        <KeyBinding Key="Up" Command="{Binding YourUpKeyCommand}" />
+        <KeyBinding Key="Down" Command="{Binding YourDownKeyCommand}" />
+        <KeyBinding Key="Enter" Command="{Binding YourEnterKeyCommand}" />
+        <KeyBinding Key="Escape" Command="{Binding YourEscapeKeyCommand}" />
+    </UserControl.InputBindings>
 
     <Border Background="#FFC7891B"
             CornerRadius="0, 0, 20, 0">
@@ -229,7 +237,7 @@
                     <TextBox Name="AnswerTextBox" Background="Transparent" BorderThickness="0"
                              Padding="5" VerticalContentAlignment="Center" HorizontalAlignment="center"
                              FontFamily="Fonts/#Dosis" FontSize="12" FontWeight="Medium"
-                             IsEnabled="False"
+                             IsEnabled="True"
                              TextWrapping="Wrap" Margin="30, 30, 30, 30"
                              AcceptsReturn="true" Foreground="#FF232323"
                              Text="{Binding SelectedItem.FlashcardAnswer, ElementName=ListBoxFlashcards}"/>
