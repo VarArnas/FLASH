@@ -1,11 +1,8 @@
-﻿using FirstLab.src.data;
-using FirstLab.src.factories;
-using FirstLab.src.interfaces;
+﻿using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.models.DTOs;
 using FirstLab.src.utilities;
 using FirstLab.XAML;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -15,34 +12,35 @@ public class FlashcardOptionsService : IFlashcardOptionsService
 {
     IFactoryContainer _factoryContainer;
 
-    IFlashcardSetMapper _ifFlashcardSetMapper;
+    IFlashcardSetMapper _flashcardSetMapper;
 
-    public FlashcardOptionsService(IFactoryContainer factoryContainer, IFlashcardSetMapper ifFlashcardSetMapper)
+    IDatabaseRepository _databaseRepository;
+
+    public FlashcardOptionsService(IFactoryContainer factoryContainer, IFlashcardSetMapper flashcardSetMapper, IDatabaseRepository databaseRepository)
     {
         _factoryContainer = factoryContainer;
-        _ifFlashcardSetMapper = ifFlashcardSetMapper;
+        _flashcardSetMapper = flashcardSetMapper;
+        _databaseRepository = databaseRepository;
     }
 
     public async Task RemoveFlashcardSet(FlashcardSet selectedSet, ObservableCollection<FlashcardSet> flashcardSets)
     {
-        await DatabaseRepository.RemoveFlashcardSetAsync(selectedSet.FlashcardSetName);
+        await _databaseRepository.RemoveFlashcardSetAsync(selectedSet.FlashcardSetName);
         flashcardSets.Remove(selectedSet);
     }
 
-    public void InitializeDatabase(IServiceProvider serviceProvider)
+    public async Task<ObservableCollection<FlashcardSet>> InitializeFlashcardSets()
     {
-        DatabaseRepository.serviceProvider = serviceProvider;
-    }
-
-    public async Task InitializeFlashcardSets(ObservableCollection<FlashcardSet>? flashcardSets)
-    {
-        ObservableCollection<FlashcardSetDTO> flashcardSetsDTOs = await DatabaseRepository.GetAllFlashcardSetsAsync();
+        ObservableCollection<FlashcardSetDTO> flashcardSetsDTOs = await _databaseRepository.GetAllFlashcardSetsAsync();
+        var flashcardSets = new ObservableCollection<FlashcardSet>();
 
         foreach(var dto in flashcardSetsDTOs)
         {
-            FlashcardSet set = _ifFlashcardSetMapper.TransformDTOtoFlashcardSet(dto);
+            FlashcardSet set = _flashcardSetMapper.TransformDTOtoFlashcardSet(dto);
             flashcardSets!.Add(set);
         }
+
+        return flashcardSets;
     }
 
     public void GoToFlashcardCustomization(FlashcardSet? flashcardSet = null)

@@ -9,9 +9,7 @@ public interface IFlashcardOptionsService
 {
     Task RemoveFlashcardSet(FlashcardSet selectedSet, ObservableCollection<FlashcardSet> flashcardSets);
 
-    void InitializeDatabase(IServiceProvider serviceProvider);
-
-    Task InitializeFlashcardSets(ObservableCollection<FlashcardSet> flashcardSets);
+    Task<ObservableCollection<FlashcardSet>> InitializeFlashcardSets();
 
     void GoToFlashcardCustomization(FlashcardSet? flashcardSet = null);
 

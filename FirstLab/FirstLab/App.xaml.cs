@@ -3,6 +3,7 @@ using FirstLab.src.factories;
 using FirstLab.src.interfaces;
 using FirstLab.src.mappers;
 using FirstLab.src.services;
+using FirstLab.src.utilities;
 using FirstLab.XAML;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,7 +33,7 @@ public partial class App : Application
                 services.AddSingleton<IFlashcardSetLogMapper,FlashcardSetLogMapper>();
                 services.AddSingleton<IFlashcardSetMapper,FlashcardSetMapper>();
                 services.AddSingleton<IMenuWindowService, MenuWindowService>();
-
+                services.AddSingleton<IDatabaseRepository, DatabaseRepository>();
             })
             .Build();
     }

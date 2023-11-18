@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Loaded="UserControl_Loaded"
+    Loaded="PlayWindow_Loaded"
     Title="PlayWindow" Height="450" Width="800"
     WindowStyle="None"
     Background="Transparent"
@@ -78,7 +78,7 @@
                     Grid.Row="0" CornerRadius="20, 20, 0, 0"
                     MouseDown="MovingWindow"/>
 
-            <Button Grid.Row="2" Margin="361,16,0,0" Click="DisplayFlashcard"
+            <Button Grid.Row="2" Margin="361,16,0,0" Click="DisplayFlashcard_Click"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Width="60"
@@ -114,13 +114,13 @@
                            Padding="0, 3.5, 0, 0"/>
             </Grid>
 
-        
+
 
             <Grid Grid.Row="1">
 
                 <StackPanel Orientation="Vertical" x:Name="ButtonsPanel"
                             Background="#FFAB75FD" Margin="719,116,61,164" UseLayoutRounding="False">
-                    <ToggleButton Click="HighlightText" Name="HighlightButton" HorizontalAlignment="Left"
+                    <ToggleButton Click="HighlightText_Click" Name="HighlightButton" HorizontalAlignment="Left"
                                   VerticalAlignment="Top" Width="20" Height="20"
                                   BorderThickness="0" Cursor="Hand">
                         <ToggleButton.Template>
@@ -141,7 +141,7 @@
                         <Image Source="images/BoldLogo.png"/>
                     </ToggleButton>
 
-                    <ToggleButton Click="ItalicText" Name="ItalicButton" HorizontalAlignment="Left"
+                    <ToggleButton Click="ItalicText_Click" Name="ItalicButton" HorizontalAlignment="Left"
                                   VerticalAlignment="Top" Width="20" Height="20"
                                   Background="Transparent"
                                   BorderThickness="0" Cursor="Hand">
@@ -163,7 +163,7 @@
                         <Image Source="images/ItalicLogo.png"/>
                     </ToggleButton>
 
-                    <Button Click="ChangeTextSize" Name="UpTextButton" HorizontalAlignment="Left"
+                    <Button Click="ChangeTextSize_Click" Name="UpTextButton" HorizontalAlignment="Left"
                             VerticalAlignment="Top" Width="20" Height="20"
                             Background="Transparent"
                             BorderThickness="0" Cursor="Hand">
@@ -182,7 +182,7 @@
                         <Image Source="images/IncreaseLogo.png"/>
                     </Button>
 
-                    <Button Click="ChangeTextSize" Name="DecTextButton" HorizontalAlignment="Left"
+                    <Button Click="ChangeTextSize_Click" Name="DecTextButton" HorizontalAlignment="Left"
                             VerticalAlignment="Top" Width="20" Height="20"
                             Background="Transparent"
                             BorderThickness="0" Cursor="Hand">
@@ -221,12 +221,12 @@
                     </Image>
                 </Border>
 
-                <TextBox Name="timerTextBox" HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         Margin="371,10,390,300"
+                <TextBox Name="timerTextBox" HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="355,20,0,0"
                          TextWrapping="Wrap"
                          Text=""
-                         Width="150"
+                         Width="72"
                          TextAlignment="Center"
                          IsReadOnly="True"
                          BorderThickness="0"
@@ -239,7 +239,7 @@
 
                 <Border x:Name="QuestionBorder" Margin="40,88,60,28" Background="LightBlue"
                         CornerRadius="20" BorderThickness="1" Visibility="Visible"
-                        MouseLeftButtonDown="DisplayAnswer" Style="{StaticResource PopOutBorderStyle}"
+                        MouseLeftButtonDown="DisplayAnswer_Click" Style="{StaticResource PopOutBorderStyle}"
                         Cursor="Hand" Grid.ColumnSpan="2">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
@@ -283,9 +283,9 @@
 
 
                 <Border x:Name="AnswerBorder" Background="LightBlue"
-                        CornerRadius="20" BorderThickness="1" Visibility="Visible"
+                        CornerRadius="20" BorderThickness="1" Visibility="Collapsed"
                         Margin="40,88,60,28" Style="{StaticResource PopOutBorderStyle}"
-                        MouseLeftButtonDown="DisplayAnswer" Cursor="Hand" Grid.ColumnSpan="2">
+                        MouseLeftButtonDown="DisplayAnswer_Click" Cursor="Hand" Grid.ColumnSpan="2">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
                     </Border.Effect>

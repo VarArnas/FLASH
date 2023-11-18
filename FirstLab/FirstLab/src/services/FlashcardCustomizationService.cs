@@ -16,18 +16,21 @@ public class FlashcardCustomizationService : IFlashcardCustomizationService
 {
     IFactoryContainer _factoryContainer;
 
-    IFlashcardSetMapper _ifFlashcardSetMapper;
+    IFlashcardSetMapper _flashcardSetMapper;
 
-    public FlashcardCustomizationService(IFactoryContainer factoryContainer, IFlashcardSetMapper ifFlashcardSetMapper)
+    IDatabaseRepository _databaseRepository;
+
+    public FlashcardCustomizationService(IFactoryContainer factoryContainer, IFlashcardSetMapper flashcardSetMapper, IDatabaseRepository databaseRepository)
     {
         _factoryContainer = factoryContainer;
-        _ifFlashcardSetMapper = ifFlashcardSetMapper;
+        _flashcardSetMapper = flashcardSetMapper;
+        _databaseRepository = databaseRepository;
     }
 
     public async Task RemoveSetFromDatabase(FlashcardSet flashcardSet, FlashcardOptions flashcardOptionsReference)
     {
         flashcardOptionsReference.flashcardSets.Remove(flashcardSet);
-        await DatabaseRepository.RemoveFlashcardSetAsync(flashcardSet.FlashcardSetName);
+        await _databaseRepository.RemoveFlashcardSetAsync(flashcardSet.FlashcardSetName);
     }
 
     public int AddFlashcard(FlashcardSet flashcardSet)
@@ -62,8 +65,8 @@ public class FlashcardCustomizationService : IFlashcardCustomizationService
     {
         flashcardOptionsReference.flashcardSets.Add(flashcardSet);
 
-        FlashcardSetDTO dto = _ifFlashcardSetMapper.TransformFlashcardSetToDTO(flashcardSet);
-        await DatabaseRepository.AddAsync(dto);
+        FlashcardSetDTO dto = _flashcardSetMapper.TransformFlashcardSetToDTO(flashcardSet);
+        await _databaseRepository.AddAsync(dto);
     }
 
     public QuestionAnswerPropertiesForUI ChangeQuestionAnswerProperties(bool question, bool answer)
@@ -115,7 +118,7 @@ public class FlashcardCustomizationService : IFlashcardCustomizationService
 
     public int CanYouChangeFlashcards(int currentIndex, FlashcardSet flashcardSet, int direction)
     {
-        if (currentIndex >= 0 && currentIndex < flashcardSet.Flashcards.Count)
+        if (currentIndex >= 0 && currentIndex < flashcardSet.Flashcards!.Count)
         {
             int newIndex = currentIndex + direction;
             if (newIndex >= 0 && newIndex < flashcardSet.Flashcards.Count)
