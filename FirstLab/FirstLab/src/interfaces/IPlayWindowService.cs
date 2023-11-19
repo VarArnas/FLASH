@@ -22,7 +22,7 @@ public interface IPlayWindowService
 
     void HandleNullColor(CustomNullException ex, FlashcardSet flashcardSet, int flashcardIndex);
 
-    void HandleNullTimer(CustomNullException ex, FlashcardSet flashcardSet, int flashcardIndex);
+    void HandleNullTimer(CustomNullException ex);
 
     DoubleAnimation SetAnimation();
 
