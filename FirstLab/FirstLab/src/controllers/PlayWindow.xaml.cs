@@ -47,7 +47,7 @@ public partial class PlayWindow : Window
         _playWindowService = playWindowService;
         this.flashcardSet = _playWindowService.CloneFlashcardSet(flashcardSet);
         flashcardDesign = factoryContainer.CreateDesign(isItalic, isBold, incrementTextBy, decrementTextBy);
-        DataContext = this;
+        DataContext = this.flashcardSet;
         PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 
@@ -57,6 +57,8 @@ public partial class PlayWindow : Window
         {
             _playWindowService.CreateCounter(ref counter, currentFlashcardIndex, flashcardSet);
             var properties = _playWindowService.GetQuestionAnswerProperties(true, false, currentFlashcardIndex, flashcardSet);
+            Storyboard slideInStoryboard = FindResource("BounceEffectAnimation") as Storyboard;
+            slideInStoryboard?.Begin();
             MapQuestionAnswerProperties(properties);
             _playWindowService.TryToIncrementCurrentIndex(ref currentFlashcardIndex, flashcardSet);
             QuestionBorder.MouseLeftButtonDown += DisplayAnswer_Click;

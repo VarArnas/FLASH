@@ -47,32 +47,63 @@
         </Storyboard>
         <Storyboard x:Key="SlideOutAnimation">
             <ThicknessAnimation Duration="0:0:0.3" 
-                            From="693,20,27,0" To="693,40,27,-20"
-                            Storyboard.TargetProperty="Margin" 
-                            Storyboard.TargetName="ButtonsPanel" 
-                            DecelerationRatio=".9"/>
+                                From="693,20,27,0" To="693,40,27,-20"
+                                Storyboard.TargetProperty="Margin" 
+                                Storyboard.TargetName="ButtonsPanel" 
+                                DecelerationRatio=".9"/>
             <ThicknessAnimation Duration="0:0:0.3"
-                From="693,0,27,340"  To="693,20,27,320"
-                Storyboard.TargetProperty="Margin"
-                Storyboard.TargetName="SlidePanelButton"
-                DecelerationRatio=".9"/>
+                                From="693,0,27,340"  To="693,20,27,320"
+                                Storyboard.TargetProperty="Margin"
+                                Storyboard.TargetName="SlidePanelButton"
+                                DecelerationRatio=".9"/>
             <DoubleAnimation Duration="0:0:0.3"
-                         To="270"
-                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                         Storyboard.TargetName="SlidePanelButtonImage"/>
+                             To="270"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                             Storyboard.TargetName="SlidePanelButtonImage"/>
         </Storyboard>
         <Storyboard x:Key="FlipQuestionOutAnimation">
             <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
-                     Storyboard.TargetName="QuestionBorder"
-                     From="1" To="0" Duration="0:0:0.1" />
+                             Storyboard.TargetName="QuestionBorder"
+                             From="1" To="0" Duration="0:0:0.1" />
         </Storyboard>
 
         <Storyboard x:Key="FlipAnswerInAnimation">
             <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
-                     Storyboard.TargetName="AnswerBorder"
-                     From="0" To="1" Duration="0:0:0.1" />
+                             Storyboard.TargetName="AnswerBorder"
+                             From="0" To="1" Duration="0:0:0.1" />
         </Storyboard>
-    </Window.Resources>
+
+        <Storyboard x:Key="BounceEffectAnimation">
+            <ThicknessAnimation Duration="0:0:0.15" From="-680,67,800,49" To="110,67,10,49"
+                                Storyboard.TargetProperty="Margin"
+                                Storyboard.TargetName="QuestionBorder"
+                                BeginTime="0:0:0"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="30,67,90,49"
+                                Storyboard.TargetProperty="Margin"
+                                Storyboard.TargetName="QuestionBorder"
+                                BeginTime="0:0:0.15"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="80,67,40,49"
+                                Storyboard.TargetProperty="Margin"
+                                Storyboard.TargetName="QuestionBorder"
+                                BeginTime="0:0:0.25"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="40,67,80,49"
+                                Storyboard.TargetProperty="Margin"
+                                Storyboard.TargetName="QuestionBorder"
+                                BeginTime="0:0:0.35"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="70,67,50,49"
+                                Storyboard.TargetProperty="Margin"
+                                Storyboard.TargetName="QuestionBorder"
+                                BeginTime="0:0:0.45"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="50,67,70,49"
+                                Storyboard.TargetProperty="Margin"
+                                Storyboard.TargetName="QuestionBorder"
+                                BeginTime="0:0:0.55"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="60,67,60,49"
+                                Storyboard.TargetProperty="Margin"
+                                Storyboard.TargetName="QuestionBorder"
+                                BeginTime="0:0:0.65"/>
+        </Storyboard>
+    </Window.Resources> 
 
 
 
@@ -357,6 +388,7 @@
             <Ellipse Name="breathingEllipse" HorizontalAlignment="Left" Height="25"
                      Margin="14,0,0,0" Stroke="#FF6AC720" VerticalAlignment="Center" Width="25"
                      StrokeThickness="3"/>
+            <ListBox Visibility="Collapsed"  Grid.Row="2" ItemsSource="{Binding Flashcards}" Margin="-27,132,27,-132"/>
         </Grid>
     </Border>
 </Window>
