@@ -1,5 +1,6 @@
 ﻿using FirstLab.src.interfaces;
 using FirstLab.src.models;
+using FirstLab.src.services;
 using FirstLab.src.utilities;
 using System;
 using System.Collections.ObjectModel;
@@ -16,6 +17,8 @@ public partial class FlashcardOptions : UserControl
 
     public FlashcardSet flashcardSet;
 
+    public ObservableCollection<String> flashcardSetsDifficulties;
+
     IFlashcardOptionsService _ifFlashcardOptionsService;
 
     public FlashcardOptions(IServiceProvider serviceProvider, IFlashcardOptionsService ifFlashcardOptionsService)
@@ -30,6 +33,7 @@ public partial class FlashcardOptions : UserControl
         _ifFlashcardOptionsService = ifFlashcardOptionsService;
         await _ifFlashcardOptionsService.InitializeFlashcardSets(flashcardSets);
         flashcardSetsControl.ItemsSource = flashcardSets;
+        flashcardSetsDifficulties = _ifFlashcardOptionsService.CalculateFlashcardSetDifficulties(flashcardSets);
     }
 
     private void TextBox_GotFocus(object sender, RoutedEventArgs e)

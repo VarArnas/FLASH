@@ -13,6 +13,8 @@ public interface IFlashcardOptionsService
 
     Task InitializeFlashcardSets(ObservableCollection<FlashcardSet> flashcardSets);
 
+    ObservableCollection<String> CalculateFlashcardSetDifficulties(ObservableCollection<FlashcardSet> flashcardSets);
+
     void GoToFlashcardCustomization(FlashcardSet? flashcardSet = null);
 
     void LaunchPlayWindow(FlashcardSet flashcardSet);
