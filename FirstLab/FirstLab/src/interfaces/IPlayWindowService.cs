@@ -8,7 +8,7 @@ namespace FirstLab.src.interfaces;
 
 public interface IPlayWindowService
 {
-    int FindCounter(int ind, FlashcardSet flashcardSet);
+    int FindCounter(Flashcard flashcard);
 
     void ShuffleFlashcards(ObservableCollection<Flashcard> flashcards);
 
@@ -18,15 +18,13 @@ public interface IPlayWindowService
 
     void LogCustomException(string message);
 
-    bool IsIndexOverBounds(int index, FlashcardSet flashcardSet);
-
-    void HandleNullColor(CustomNullException ex, FlashcardSet flashcardSet, int flashcardIndex);
+    void HandleNullColor(CustomNullException ex, Flashcard flashcard);
 
     void HandleNullTimer(CustomNullException ex);
 
     DoubleAnimation SetAnimation();
 
-    TextAndBorderPropertiesPlayWindow SetQuestionOrAnswerProperties(bool question, bool answer, int currentFlashcardIndex, FlashcardSet flashcardSet);
+    TextAndBorderPropertiesPlayWindow SetQuestionOrAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet);
 
     TextModificationProperties SetTextProperties(bool isHighlighted, bool isItalic);
 
@@ -34,10 +32,14 @@ public interface IPlayWindowService
 
     string SetSlidePanelAnimation();
 
-    void TryToIncrementCurrentIndex(ref int currentIndex, FlashcardSet flashcardSet);
+    void CreateCounter(ref int counter, Flashcard flashcard);
 
-    void CreateCounter(ref int counter, int ind, FlashcardSet flashcardSet);
+    TextAndBorderPropertiesPlayWindow GetQuestionAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet);
 
-    TextAndBorderPropertiesPlayWindow GetQuestionAnswerProperties(bool question, bool answer, int currentFlashcardIndex, FlashcardSet flashcardSet);
+    bool isLastIndex(int index, FlashcardSet flashcardSet);
+
+    bool isFirstOrZeroIndex(int index);
+
+    int CheckIfPreviousOrNext(bool isPreviousFlashcardNeeded, int index, FlashcardSet flashcardSet, bool isStart);
 
 }

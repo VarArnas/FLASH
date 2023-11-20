@@ -16,16 +16,19 @@ public partial class PlayWindow : Window
 {
     private FlashcardSet flashcardSet;
 
+    private Flashcard currentFlashcard;
+
     private FlashcardDesign flashcardDesign;
 
-    private int currentFlashcardIndex = 0, counter, incrementTextBy = 5, decrementTextBy = 5;
+    private int counter, incrementTextBy = 5, decrementTextBy = 5;
 
-    private bool isFunctioning = false, isItalic = false, isBold = false;
+    private bool isAnswerDisplayed = true, isItalic = false, isBold = false, isStart = true;
 
     IPlayWindowService _playWindowService;
 
     private CancellationTokenSource cancellationTokenSource;
 
+    Storyboard? storyboard;
 
     public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService playWindowService)
     {
@@ -37,8 +40,6 @@ public partial class PlayWindow : Window
     private void PlayWindow_Loaded(object sender, RoutedEventArgs e)
     {
         timerTextBox.Focus();
-        QuestionBorder.MouseLeftButtonDown -= DisplayAnswer_Click;
-        AnswerBorder.MouseLeftButtonDown -= DisplayAnswer_Click;
         breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, _playWindowService.SetAnimation());
     }
 
@@ -47,35 +48,48 @@ public partial class PlayWindow : Window
         _playWindowService = playWindowService;
         this.flashcardSet = _playWindowService.CloneFlashcardSet(flashcardSet);
         flashcardDesign = factoryContainer.CreateDesign(isItalic, isBold, incrementTextBy, decrementTextBy);
-        DataContext = this;
+        DataContext = this.flashcardSet;
+        HiddenFlashcardSetListBox.SelectedIndex = 0;
         PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 
-    private void DisplayFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
+    private void DisplayPreviousFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        if (!isFunctioning && (currentFlashcardIndex != flashcardSet.Flashcards!.Count() || currentFlashcardIndex == 0))
+        if(!_playWindowService.isFirstOrZeroIndex(HiddenFlashcardSetListBox.SelectedIndex))
+            DisplayFlashcard(true);
+    }
+
+    private void DisplayNextFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
+    {
+        if(!_playWindowService.isLastIndex(HiddenFlashcardSetListBox.SelectedIndex, flashcardSet))
+            DisplayFlashcard(false);
+    }
+
+    private void DisplayFlashcard(bool isPreviousFlashcardNeeded)
+    {
+        if(isAnswerDisplayed)
         {
-            _playWindowService.CreateCounter(ref counter, currentFlashcardIndex, flashcardSet);
-            var properties = _playWindowService.GetQuestionAnswerProperties(true, false, currentFlashcardIndex, flashcardSet);
-            MapQuestionAnswerProperties(properties);
-            _playWindowService.TryToIncrementCurrentIndex(ref currentFlashcardIndex, flashcardSet);
-            QuestionBorder.MouseLeftButtonDown += DisplayAnswer_Click;
-            AnswerBorder.MouseLeftButtonDown += DisplayAnswer_Click;
-            if(counter != 0)
+            HiddenFlashcardSetListBox.SelectedIndex = _playWindowService.CheckIfPreviousOrNext(isPreviousFlashcardNeeded, HiddenFlashcardSetListBox.SelectedIndex, flashcardSet, isStart);
+            storyboard = isPreviousFlashcardNeeded ? FindResource("BounceEffectAnimationOut") as Storyboard : FindResource("BounceEffectAnimation") as Storyboard;
+            SetStatesForQuestion();
+            currentFlashcard = (Flashcard)HiddenFlashcardSetListBox.SelectedItem;
+            _playWindowService.CreateCounter(ref counter, currentFlashcard);
+            storyboard!.Begin();
+            MapQuestionAnswerProperties(_playWindowService.GetQuestionAnswerProperties(true, false, currentFlashcard, flashcardSet));
+
+            if (!_playWindowService.isFirstOrZeroIndex(counter))
                 InitTimer();
-            else
-                isFunctioning = true;
         }
     }
 
     private void DisplayAnswer_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        cancellationTokenSource?.Cancel();
-        var properties = _playWindowService.SetQuestionOrAnswerProperties(false, true, currentFlashcardIndex, flashcardSet);
-        QuestionBorder.MouseLeftButtonDown -= DisplayAnswer_Click;
-        AnswerBorder.MouseLeftButtonDown -= DisplayAnswer_Click;
-        isFunctioning = false;
-        FlashcardAnimation(properties);
+        if(!isAnswerDisplayed)
+        {
+            cancellationTokenSource?.Cancel();
+            FlashcardAnimation(_playWindowService.SetQuestionOrAnswerProperties(false, true, currentFlashcard, flashcardSet));
+            isAnswerDisplayed = true;
+        }
     }
 
     private void HighlightText_Click(object sender, RoutedEventArgs e)
@@ -110,16 +124,19 @@ public partial class PlayWindow : Window
         switch (e.Key)
         {
             case Key.A:
-                DisplayFlashcard_Click();
+                DisplayPreviousFlashcard_Click();
                 break;
 
             case Key.D:
-                if (isFunctioning)
-                    DisplayAnswer_Click();
+                DisplayNextFlashcard_Click();
                 break;
 
             case Key.Escape:
                 CloseCommand();
+                break;
+
+            case Key.Space:
+                DisplayAnswer_Click();
                 break;
         }
     }
@@ -165,7 +182,6 @@ public partial class PlayWindow : Window
 
     private void Countdown(CancellationToken cancellationToken)
     {
-        isFunctioning = true;
         while (counter > 0)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -209,5 +225,18 @@ public partial class PlayWindow : Window
             scaleTransform.ScaleX = 1;
         else
             QuestionBorder.RenderTransform = new ScaleTransform(1, 1);
+    }
+
+    private void SetStatesForQuestion()
+    {
+        isAnswerDisplayed = false;
+        isStart = false;
+        timerTextBox.Text = string.Empty;
+    }
+
+    private void Button_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Space)
+            e.Handled = true;
     }
 }
