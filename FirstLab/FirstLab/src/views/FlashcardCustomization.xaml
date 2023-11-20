@@ -12,10 +12,10 @@
         <local:ColorStringToBrushConverter x:Key="ColorConverter"/>
         <x:Array x:Key="ColorNames" Type="sys:String"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib">
-            <sys:String>Red</sys:String>
+            <sys:String>IndianRed</sys:String>
             <sys:String>Green</sys:String>
             <sys:String>Yellow</sys:String>
-            <sys:String>Blue</sys:String>
+            <sys:String>RoyalBlue</sys:String>
             <sys:String>Orange</sys:String>
         </x:Array>
         <x:Array x:Key="Times" Type="sys:String"
@@ -142,6 +142,7 @@
                 </ListBox.ItemTemplate>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
+                        <EventSetter Event="PreviewMouseDown" Handler="ListBoxItem_PreviewMouseDown"/>
                         <Setter Property="Margin" Value="4, 0, 4, 0"/>
                         <Setter Property="Template">
                             <Setter.Value>
@@ -379,6 +380,7 @@
                 </ListBox.ItemTemplate>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
+                        <EventSetter Event="PreviewMouseDown" Handler="ListBoxItem_PreviewMouseDown"/>
                         <Setter Property="Margin" Value="4, 0, 4, 0"/>
                         <Setter Property="Template">
                             <Setter.Value>

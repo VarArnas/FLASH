@@ -136,6 +136,15 @@ public partial class FlashcardCustomization : UserControl
         }
     }
 
+    private void ListBoxItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is ListBoxItem listBoxItem)
+        {
+            listBoxItem.IsSelected = !listBoxItem.IsSelected;
+            e.Handled = true; // Prevents the default selection behavior
+        }
+    }
+
     private void NavigateFlashcards(int direction)
     {
         ListBoxFlashcards.SelectedIndex = _flashcardCustomizationService.CanYouChangeFlashcards(ListBoxFlashcards.SelectedIndex, flashcardSet, direction);

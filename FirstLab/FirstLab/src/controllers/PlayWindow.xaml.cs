@@ -8,6 +8,7 @@ using FirstLab.src.utilities;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Linq;
+using System.Windows.Media;
 
 namespace FirstLab.XAML;
 
@@ -24,6 +25,7 @@ public partial class PlayWindow : Window
     IPlayWindowService _playWindowService;
 
     private CancellationTokenSource cancellationTokenSource;
+
 
     public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService playWindowService)
     {
@@ -59,7 +61,10 @@ public partial class PlayWindow : Window
             _playWindowService.TryToIncrementCurrentIndex(ref currentFlashcardIndex, flashcardSet);
             QuestionBorder.MouseLeftButtonDown += DisplayAnswer_Click;
             AnswerBorder.MouseLeftButtonDown += DisplayAnswer_Click;
-            InitTimer();
+            if(counter != 0)
+                InitTimer();
+            else
+                isFunctioning = true;
         }
     }
 
@@ -67,10 +72,10 @@ public partial class PlayWindow : Window
     {
         cancellationTokenSource?.Cancel();
         var properties = _playWindowService.SetQuestionOrAnswerProperties(false, true, currentFlashcardIndex, flashcardSet);
-        MapQuestionAnswerProperties(properties);
         QuestionBorder.MouseLeftButtonDown -= DisplayAnswer_Click;
         AnswerBorder.MouseLeftButtonDown -= DisplayAnswer_Click;
         isFunctioning = false;
+        FlashcardAnimation(properties);
     }
 
     private void HighlightText_Click(object sender, RoutedEventArgs e)
@@ -98,6 +103,56 @@ public partial class PlayWindow : Window
     private void SlidePanelButton_Click(object sender, RoutedEventArgs e)
     {
         ((Storyboard)Resources[_playWindowService.SetSlidePanelAnimation()]).Begin();
+    }
+
+    private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case Key.A:
+                DisplayFlashcard_Click();
+                break;
+
+            case Key.D:
+                if (isFunctioning)
+                    DisplayAnswer_Click();
+                break;
+
+            case Key.Escape:
+                CloseCommand();
+                break;
+        }
+    }
+
+    private void CloseCommand()
+    {
+        cancellationTokenSource?.Cancel();
+        ViewsUtils.menuWindowReference!.ReturnToHomeView_Click(this);
+        this.Close();
+        ViewsUtils.menuWindowReference!.Show();
+    }
+
+    private void ChangeQuestionAnswerTextProperties(bool isHighlighted, bool isItalic)
+    {
+        var textProperties = _playWindowService.SetTextProperties(isHighlighted, isItalic);
+        flashcardDesign.IsHighlighted = textProperties.HighlightBtn;
+        flashcardDesign.IsItalic = textProperties.ItalicBtn;
+        HighlightButton.IsChecked = textProperties.HighlightBtn;
+        ItalicButton.IsChecked = textProperties.ItalicBtn;
+        questionTextBox.FontWeight = textProperties.QuestionAnswerTextWeight;
+        answerTextBox.FontWeight = textProperties.QuestionAnswerTextWeight;
+        questionTextBox.FontStyle = textProperties.QuestionAnswerTextStyle;
+        answerTextBox.FontStyle = textProperties.QuestionAnswerTextStyle;
+    }
+
+    private void MapQuestionAnswerProperties(TextAndBorderPropertiesPlayWindow properties)
+    {
+        flashcardNumberTextBlock.Text = properties.FlashcardNumberText;
+        QuestionBorder.Background = properties.BorderColor;
+        AnswerBorder.Background = properties.BorderColor;
+        QuestionBorder.Visibility = properties.QuestionBorderVisibility;
+        AnswerBorder.Visibility = properties.AnswerBorderVisibility;
+        (QuestionBorder.Visibility == Visibility.Visible ? questionTextBox : answerTextBox).Text = properties.QuestionAnswerText;
     }
 
     private void InitTimer()
@@ -128,52 +183,31 @@ public partial class PlayWindow : Window
         timerTextBox.Text = counter.ToString() + "s";
     }
 
-    private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
+    private void FlashcardAnimation(TextAndBorderPropertiesPlayWindow properties)
     {
-        switch (e.Key)
+        var flipQuestionOutStoryboard = FindResource("FlipQuestionOutAnimation") as Storyboard;
+        var flipAnswerInStoryboard = FindResource("FlipAnswerInAnimation") as Storyboard;
+
+        flipQuestionOutStoryboard!.Completed += (s, args) =>
         {
-            case Key.A:
-                DisplayFlashcard_Click();
-                break;
+            MapQuestionAnswerProperties(properties);
+            flipAnswerInStoryboard!.Begin();
+        };
 
-            case Key.D:
-                if (isFunctioning)
-                    DisplayAnswer_Click();
-                break;
+        flipAnswerInStoryboard!.Completed += (s, args) =>
+        {
+            flipQuestionOutStoryboard.Stop();
+            Dispatcher.Invoke(RevertScaleOfQuestion);
+        };
 
-            case Key.Escape:
-                CloseCommand();
-                break;
-        }
+        flipQuestionOutStoryboard!.Begin();
     }
 
-    private void CloseCommand()
+    private void RevertScaleOfQuestion()
     {
-        ViewsUtils.menuWindowReference!.ReturnToHomeView_Click(this);
-        this.Close();
-        ViewsUtils.menuWindowReference!.Show();
-    }
-
-    private void ChangeQuestionAnswerTextProperties(bool isHighlighted, bool isItalic)
-    {
-        var textProperties = _playWindowService.SetTextProperties(isHighlighted, isItalic);
-        flashcardDesign.IsHighlighted = textProperties.HighlightBtn;
-        flashcardDesign.IsItalic = textProperties.ItalicBtn;
-        HighlightButton.IsChecked = textProperties.HighlightBtn;
-        ItalicButton.IsChecked = textProperties.ItalicBtn;
-        questionTextBox.FontWeight = textProperties.QuestionAnswerTextWeight;
-        answerTextBox.FontWeight = textProperties.QuestionAnswerTextWeight;
-        questionTextBox.FontStyle = textProperties.QuestionAnswerTextStyle;
-        answerTextBox.FontStyle = textProperties.QuestionAnswerTextStyle;
-    }
-
-    private void MapQuestionAnswerProperties(TextAndBorderPropertiesPlayWindow properties)
-    {
-        flashcardNumberTextBlock.Text = properties.FlashcardNumberText;
-        QuestionBorder.Background = properties.BorderColor;
-        AnswerBorder.Background = properties.BorderColor;
-        QuestionBorder.Visibility = properties.QuestionBorderVisibility;
-        AnswerBorder.Visibility = properties.AnswerBorderVisibility;
-        (QuestionBorder.Visibility == Visibility.Visible ? questionTextBox : answerTextBox).Text = properties.QuestionAnswerText;
+        if (QuestionBorder.RenderTransform is ScaleTransform scaleTransform)
+            scaleTransform.ScaleX = 1;
+        else
+            QuestionBorder.RenderTransform = new ScaleTransform(1, 1);
     }
 }

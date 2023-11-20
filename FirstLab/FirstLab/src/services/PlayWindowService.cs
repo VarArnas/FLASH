@@ -95,8 +95,8 @@ public class PlayWindowService : IPlayWindowService
         }
         catch (CustomNullException ex)
         {
-            HandleNullTimer(ex, flashcardSet, ind);
-            counter = FindCounter(ind, flashcardSet);
+            HandleNullTimer(ex);
+            counter = 0;
         }
     }
 
@@ -167,10 +167,9 @@ public class PlayWindowService : IPlayWindowService
         flashcardSet.Flashcards![flashcardIndex].FlashcardColor = ex.defaultColor;
     }
 
-    public void HandleNullTimer(CustomNullException ex, FlashcardSet flashcardSet, int flashcardIndex)
+    public void HandleNullTimer(CustomNullException ex)
     {
         CustomNullException.LogException(ex);
-        flashcardSet.Flashcards![flashcardIndex].FlashcardTimer = ex.defaultTime;
     }
 
     public TextModificationProperties SetTextProperties(bool isHighlighted, bool isItalic)
