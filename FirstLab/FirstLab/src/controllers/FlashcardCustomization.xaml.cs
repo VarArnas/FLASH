@@ -45,7 +45,9 @@ public partial class FlashcardCustomization : UserControl
         if (!_flashcardCustomizationService.CheckIfEditingAndRemoveTheOldFlashcardSet(flashcardSet, flashcardOptionsReference, NameOfSet))
             AddFlashcard_Click();
         else
+        {
             ListBoxFlashcards.SelectedIndex = flashcardSet!.Flashcards!.Count - 1;
+        }
     }
 
     private void AddFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)

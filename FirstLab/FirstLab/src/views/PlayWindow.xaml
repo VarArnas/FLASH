@@ -30,17 +30,17 @@
             </Style.Triggers>
         </Style>
         <Storyboard x:Key="SlideInAnimation">
-            <ThicknessAnimation Duration="0:0:0.3" 
+            <ThicknessAnimation Duration="0:0:0.2" 
                             From="693,40,27,-20"  To="693,20,27,0"
                             Storyboard.TargetProperty="Margin" 
                             Storyboard.TargetName="ButtonsPanel" 
                             DecelerationRatio=".9"/>
-            <ThicknessAnimation Duration="0:0:0.3"
+            <ThicknessAnimation Duration="0:0:0.2"
                             From="693,20,27,320" To="693,0,27,340"
                             Storyboard.TargetProperty="Margin"
                             Storyboard.TargetName="SlidePanelButton"
                             DecelerationRatio=".9"/>
-            <DoubleAnimation Duration="0:0:0.3"
+            <DoubleAnimation Duration="0:0:0.2"
                              To="90"
                              Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
                              Storyboard.TargetName="SlidePanelButtonImage"/>
@@ -103,7 +103,39 @@
                                 Storyboard.TargetName="QuestionBorder"
                                 BeginTime="0:0:0.65"/>
         </Storyboard>
-    </Window.Resources> 
+
+
+        <Storyboard x:Key="BounceEffectAnimationOut">
+            <ThicknessAnimation Duration="0:0:0.15" From="800,67,-640,49" To="10,67,110,49"
+                        Storyboard.TargetProperty="Margin"
+                        Storyboard.TargetName="QuestionBorder"
+                        BeginTime="0:0:0"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="90,67,30,49"
+                        Storyboard.TargetProperty="Margin"
+                        Storyboard.TargetName="QuestionBorder"
+                        BeginTime="0:0:0.15"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="40,67,80,49"
+                        Storyboard.TargetProperty="Margin"
+                        Storyboard.TargetName="QuestionBorder"
+                        BeginTime="0:0:0.25"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="80,67,40,49"
+                        Storyboard.TargetProperty="Margin"
+                        Storyboard.TargetName="QuestionBorder"
+                        BeginTime="0:0:0.35"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="50,67,70,49"
+                        Storyboard.TargetProperty="Margin"
+                        Storyboard.TargetName="QuestionBorder"
+                        BeginTime="0:0:0.45"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="70,67,50,49"
+                        Storyboard.TargetProperty="Margin"
+                        Storyboard.TargetName="QuestionBorder"
+                        BeginTime="0:0:0.55"/>
+            <ThicknessAnimation Duration="0:0:0.1" To="60,67,60,49"
+                        Storyboard.TargetProperty="Margin"
+                        Storyboard.TargetName="QuestionBorder"
+                        BeginTime="0:0:0.65"/>
+        </Storyboard>
+    </Window.Resources>
 
 
 
@@ -122,7 +154,8 @@
 
                 <ToggleButton Click="HighlightText_Click" Name="HighlightButton" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Width="20" Height="20"
-                              BorderThickness="0" Cursor="Hand">
+                              BorderThickness="0" Cursor="Hand"
+                              PreviewKeyDown="Button_PreviewKeyDown">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
                             <Border Name="Border" Background="Transparent">
@@ -144,7 +177,8 @@
                 <ToggleButton Click="ItalicText_Click" Name="ItalicButton" HorizontalAlignment="Left"
                   VerticalAlignment="Top" Width="20" Height="20"
                   Background="Transparent"
-                  BorderThickness="0" Cursor="Hand">
+                  BorderThickness="0" Cursor="Hand"
+                              PreviewKeyDown="Button_PreviewKeyDown">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
                             <Border Name="Border" Background="Transparent">
@@ -166,7 +200,8 @@
                 <Button Click="ChangeTextSize_Click" Name="UpTextButton" HorizontalAlignment="Left"
             VerticalAlignment="Top" Width="20" Height="20"
             Background="Transparent"
-            BorderThickness="0" Cursor="Hand">
+            BorderThickness="0" Cursor="Hand"
+                        PreviewKeyDown="Button_PreviewKeyDown">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Name="Border" Background="Transparent">
@@ -185,7 +220,8 @@
                 <Button Click="ChangeTextSize_Click" Name="DecTextButton" HorizontalAlignment="Left"
             VerticalAlignment="Top" Width="20" Height="20"
             Background="Transparent"
-            BorderThickness="0" Cursor="Hand">
+            BorderThickness="0" Cursor="Hand"
+                        PreviewKeyDown="Button_PreviewKeyDown">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Name="Border" Background="Transparent">
@@ -345,7 +381,7 @@
                     </TextBox>
                 </Border>
 
-                <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Left"
+                <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Center"
                            TextWrapping="Wrap" TextAlignment="Center"     
                            VerticalAlignment="Top"
                            FontFamily="Fonts/#Dosis"
@@ -354,41 +390,78 @@
                            FontSize="20"
                            Width="100"
                            Text=""
-                           Margin="359,326,0,0"/>
+                           Margin="0,326,0,0"/>
             </Grid>
 
             <Grid Grid.Row="2">
-                <Border Background="#FF482F82" CornerRadius="0, 0, 20, 20">
-                    <Button Margin="380,11,0,0" Click="DisplayFlashcard_Click"
+                <Border Background="#FF482F82" CornerRadius="0, 0, 20, 20"/>
+
+                <Button Margin="330,10 ,0 ,0" Click="DisplayPreviousFlashcard_Click"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Width="60"
                         Height="30"
                         Background="Green"
-                        BorderThickness="0" Cursor="Hand">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Name="Border" Background="{TemplateBinding Background}"
-                                    BorderBrush="#FF5332A0"
+                        BorderThickness="0" Cursor="Hand"
+                        Name="GoBackAFlashcardBtn">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Border" Background="{TemplateBinding Background}"
+                                    BorderBrush="#FF482F82"
                                     BorderThickness="2"                            
                                     CornerRadius="10">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#FF246724" TargetName="Border"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                        <Image Source="images/nextLogo.png"/>
-                    </Button>
-                </Border>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF246724" TargetName="Border"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Image Source="/src/views/Images/nextLogo.png" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="180"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </Button>
+
+                <Button Margin="407,0,0,0" Click="DisplayNextFlashcard_Click"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Width="60"
+                        Height="30"
+                        Background="Green"
+                        BorderThickness="0" Cursor="Hand"
+                        Name="GoForwardAFlashcardBtn">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Border" Background="{TemplateBinding Background}"
+                                        BorderBrush="#FF482F82"
+                                        BorderThickness="2"                            
+                                        CornerRadius="10">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF246724" TargetName="Border"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Image Source="/src/views/Images/nextLogo.png"/>
+                </Button>
             </Grid>
+
             <Ellipse Name="breathingEllipse" HorizontalAlignment="Left" Height="25"
                      Margin="14,0,0,0" Stroke="#FF6AC720" VerticalAlignment="Center" Width="25"
                      StrokeThickness="3"/>
-            <ListBox Visibility="Collapsed"  Grid.Row="2" ItemsSource="{Binding Flashcards}" Margin="-27,132,27,-132"/>
+            <ListBox Visibility="Collapsed" Name="HiddenFlashcardSetListBox"  Grid.Row="2" ItemsSource="{Binding Flashcards}" Margin="-27,132,27,-132"/>
         </Grid>
     </Border>
 </Window>

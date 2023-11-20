@@ -23,6 +23,20 @@ public class PlayWindowService : IPlayWindowService
         _factoryContainer = factoryContainer;
     }
 
+    public int CheckIfPreviousOrNext(bool isPreviousFlashcardNeeded, int index, FlashcardSet flashcardSet, bool isStart)
+    {
+        if (isPreviousFlashcardNeeded)
+            if (!isFirstOrZeroIndex(index))
+                return --index;
+            else
+                return index;
+        else
+            if (!isLastIndex(index, flashcardSet) && !isStart)
+                return ++index;
+            else
+                return index;
+    }
+
     public DoubleAnimation SetAnimation()
     {
         DoubleAnimation opacityAnimation = new DoubleAnimation();
@@ -34,12 +48,11 @@ public class PlayWindowService : IPlayWindowService
         return opacityAnimation;
     }
 
-    public TextAndBorderPropertiesPlayWindow SetQuestionOrAnswerProperties(bool question, bool answer, int currentFlashcardIndex, FlashcardSet flashcardSet)
+    public TextAndBorderPropertiesPlayWindow SetQuestionOrAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet)
     {
         bool isQuestion = question && !answer;
-        int index = isQuestion ? currentFlashcardIndex : currentFlashcardIndex - 1;
-        var flashcard = flashcardSet.Flashcards![index]!;
-        string flashcardNumber = $"{index + 1}/{flashcardSet.Flashcards!.Count}";
+        int flashcardIndex = flashcardSet!.Flashcards!.IndexOf(flashcardSet!.Flashcards!.FirstOrDefault(fc => fc.FlashcardName == flashcard.FlashcardName)!);
+        string flashcardNumber = $"{ flashcardIndex + 1}/{flashcardSet.Flashcards!.Count}";
         string text = isQuestion ? flashcard.FlashcardQuestion! : flashcard.FlashcardAnswer!;
         SolidColorBrush? borderColor = null;
 
@@ -58,13 +71,13 @@ public class PlayWindowService : IPlayWindowService
     }
 
 
-    public int FindCounter(int ind, FlashcardSet flashcardSet)
+    public int FindCounter(Flashcard flashcard)
     {
         string? selectedTime = null;
         int counter = 0;
         try
         {
-            selectedTime = flashcardSet.Flashcards![ind].FlashcardTimer!.ToString();
+            selectedTime = flashcard.FlashcardTimer!.ToString();
         }
         catch (Exception ex)
         {
@@ -87,11 +100,11 @@ public class PlayWindowService : IPlayWindowService
         return counter;
     }
 
-    public void CreateCounter(ref int counter, int ind, FlashcardSet flashcardSet)
+    public void CreateCounter(ref int counter, Flashcard flashcard)
     {
         try
         {
-            counter = FindCounter(ind, flashcardSet);
+            counter = FindCounter(flashcard);
         }
         catch (CustomNullException ex)
         {
@@ -100,17 +113,17 @@ public class PlayWindowService : IPlayWindowService
         }
     }
 
-    public TextAndBorderPropertiesPlayWindow GetQuestionAnswerProperties(bool question, bool answer, int currentFlashcardIndex, FlashcardSet flashcardSet)
+    public TextAndBorderPropertiesPlayWindow GetQuestionAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet)
     {
         try
         {
-            var properties = SetQuestionOrAnswerProperties(true, false, currentFlashcardIndex, flashcardSet);
+            var properties = SetQuestionOrAnswerProperties(true, false, flashcard, flashcardSet);
             return properties;
         }
         catch (CustomNullException ex)
         {
-            HandleNullColor(ex, flashcardSet, currentFlashcardIndex);
-            var properties = SetQuestionOrAnswerProperties(true, false, currentFlashcardIndex, flashcardSet);
+            HandleNullColor(ex, flashcard);
+            var properties = SetQuestionOrAnswerProperties(true, false, flashcard, flashcardSet);
             return properties;
         }
     }
@@ -150,21 +163,10 @@ public class PlayWindowService : IPlayWindowService
         CustomNullException.LogException(displayError);
     }
 
-    public void TryToIncrementCurrentIndex(ref int currentIndex, FlashcardSet flashcardSet)
-    {
-        if (!IsIndexOverBounds(currentIndex, flashcardSet))
-            currentIndex++;
-    }
-
-    public bool IsIndexOverBounds(int index, FlashcardSet flashcardSet)
-    {
-        return !(index >= 0 && (index < flashcardSet.Flashcards!.Count() || index == 0));
-    }
-
-    public void HandleNullColor(CustomNullException ex, FlashcardSet flashcardSet, int flashcardIndex)
+    public void HandleNullColor(CustomNullException ex, Flashcard flashcard)
     {
         CustomNullException.LogException(ex);
-        flashcardSet.Flashcards![flashcardIndex].FlashcardColor = ex.defaultColor;
+        flashcard.FlashcardColor = ex.defaultColor;
     }
 
     public void HandleNullTimer(CustomNullException ex)
@@ -190,5 +192,15 @@ public class PlayWindowService : IPlayWindowService
     {
         isPanelVisible = !isPanelVisible;
         return isPanelVisible ? "SlideInAnimation" : "SlideOutAnimation";
+    }
+
+    public bool isLastIndex(int index, FlashcardSet flashcardSet)
+    {
+        return !(index != flashcardSet.Flashcards!.Count() - 1);
+    }
+
+    public bool isFirstOrZeroIndex(int index)
+    {
+        return !(index != 0);
     }
 }
