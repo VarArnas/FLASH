@@ -10,6 +10,7 @@
              Loaded="FlashcardCustmization_Loaded">
     <UserControl.Resources>
         <local:ColorStringToBrushConverter x:Key="ColorConverter"/>
+        <local:ColorToDifficultyMessageConverter x:Key="ToDifficultyConverter"/>
         <x:Array x:Key="ColorNames" Type="sys:String"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib">
             <sys:String>Red</sys:String>
@@ -137,6 +138,9 @@
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 BorderThickness="0">
                             <TextBlock Text="{Binding}" Visibility="Collapsed"/>
+                            <Border.ToolTip>
+                                <ToolTip Content="{Binding Converter={StaticResource ToDifficultyConverter}}"/>
+                            </Border.ToolTip>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

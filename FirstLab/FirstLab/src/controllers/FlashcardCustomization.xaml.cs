@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.utilities;
@@ -145,11 +146,31 @@ public partial class FlashcardCustomization : UserControl
 
     private void IsQestionOrAnswer(bool question, bool answer)
     {
-        QuestionAnswerPropertiesForUI model = _ifFlashcardCustomizationService.ChangeQuestionAnswerProperties(question, answer);
+        var model = _ifFlashcardCustomizationService.ChangeQuestionAnswerProperties(question, answer);
         QuestionBorder.Visibility = model._QuestionBorderVisibility;
         AnswerBorder.Visibility = model._AnswerBorderVisibility;
         QuestionRadioButton.IsChecked = model._CheckQuestionRadioButton;
         AnswerRadioButton.IsChecked = model._CheckAnswerRadioButton;
         (question ? QuestionTextBox : AnswerTextBox).Focus();
+    }
+
+    private static string ConvertColorToDifficulty(object value)
+    {
+        string difficulty = "Medium";
+        if (value is SolidColorBrush colorBrush)
+        {
+            if (colorBrush.Color == Colors.Red)
+                difficulty = "Very easy";
+            else if (colorBrush.Color == Colors.Green)
+                difficulty = "Easy";
+            else if (colorBrush.Color == Colors.Yellow)
+                difficulty = "Medium";
+            else if (colorBrush.Color == Colors.Blue)
+                difficulty = "Hard";
+            else if (colorBrush.Color == Colors.Orange)
+                difficulty = "Very hard";
+        }
+
+        return difficulty;
     }
 }

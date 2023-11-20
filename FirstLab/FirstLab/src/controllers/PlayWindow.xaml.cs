@@ -66,6 +66,7 @@ public partial class PlayWindow : Window
         lockObject = factoryContainer.CreateObject<object>();
         this.flashcardSet = _ifPlayWindowService.CloneFlashcardSet(flashcardSet);
         flashcardDesign = factoryContainer.CreateDesign(false, false, 5, 5);
+        difficultyField.Text += flashcardSet.FlashcardSetDifficulty;
         this.PreviewKeyDown += UserControl_PreviewKeyDown;
     }
 

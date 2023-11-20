@@ -46,15 +46,14 @@ public class FlashcardOptionsService : IFlashcardOptionsService
         }
     }
 
-    public ObservableCollection<String> CalculateFlashcardSetDifficulties(ObservableCollection<FlashcardSet> flashcardSets)
+    public ObservableCollection<FlashcardSet> CalculateFlashcardSetDifficulties(ObservableCollection<FlashcardSet> flashcardSets)
     {
-        ObservableCollection<String> difficulties = new ObservableCollection<String>();
         foreach(var flashcardSet in flashcardSets)
         {
-            difficulties.Add(CalculateDifficultyOfFlashcardSet(flashcardSet));
+            flashcardSet.FlashcardSetDifficulty = CalculateDifficultyOfFlashcardSet(flashcardSet);
         }
 
-        return difficulties;
+        return flashcardSets;
     }
     
     public string CalculateDifficultyOfFlashcardSet(FlashcardSet set)
@@ -70,23 +69,23 @@ public class FlashcardOptionsService : IFlashcardOptionsService
             {
                 switch (flashcard.FlashcardColor)
                 {
-                    case "red":
+                    case "Red":
                         score += 1;
                         break;
 
-                    case "green":
+                    case "Green":
                         score += 2;
                         break;
 
-                    case "yellow":
+                    case "Yellow":
                         score += 3;
                         break;
 
-                    case "blue":
+                    case "Blue":
                         score += 4;
                         break;
 
-                    case "orange":
+                    case "Orange":
                         score += 5;
                         break;
                 }

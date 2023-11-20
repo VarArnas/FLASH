@@ -222,19 +222,19 @@
                 </Border>
 
                 <TextBox Name="timerTextBox" HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         Margin="371,10,390,300"
-                         TextWrapping="Wrap"
-                         Text=""
-                         Width="150"
-                         TextAlignment="Center"
-                         IsReadOnly="True"
-                         BorderThickness="0"
-                         FontFamily="fonts/#Dosis"
-                         FontSize="29"
-                         Background="Transparent"
-                         Foreground="White"
-                         FontWeight="Medium">
+                        VerticalAlignment="Center"
+                        Margin="371,10,390,300"
+                        TextWrapping="Wrap"
+                        Text=""
+                        Width="150"
+                        TextAlignment="Center"
+                        IsReadOnly="True"
+                        BorderThickness="0"
+                        FontFamily="fonts/#Dosis"
+                        FontSize="29"
+                        Background="Transparent"
+                        Foreground="White"
+                        FontWeight="Medium">   
                 </TextBox>
 
                 <Border x:Name="QuestionBorder" Margin="40,88,60,28" Background="LightBlue"
@@ -335,6 +335,37 @@
                            FontSize="20"
                            Text=""
                            Margin="361,340,380,0"/>
+                <TextBox Name="difficultyField"
+                         HorizontalAlignment="Left" 
+                         Height="34" 
+                         Margin="60,18,0,0" 
+                         TextWrapping="Wrap" 
+                         Text="Set's difficulty: " 
+                         VerticalAlignment="Top" 
+                         Width="150"
+                        TextAlignment="Center"
+                        IsReadOnly="True"
+                        BorderThickness="0"
+                        FontFamily="fonts/#Dosis"
+                        FontSize="16"
+                        Background="Transparent"
+                        Foreground="Black"
+                        FontWeight="Medium"/>
+                <!--<TextBox HorizontalAlignment="Left" 
+                         Height="34" 
+                         Margin="527,18,0,0" 
+                         TextWrapping="Wrap" 
+                         Text="Flashcard's difficulty: " 
+                         VerticalAlignment="Top"
+                         TextAlignment="Center"
+                        IsReadOnly="True"
+                        BorderThickness="0"
+                        FontFamily="fonts/#Dosis"
+                        FontSize="16"
+                        Background="Transparent"
+                        Foreground="Black"
+                        FontWeight="Medium"
+                        Width="170"/>-->
             </Grid>
             <Ellipse Name="breathingEllipse" HorizontalAlignment="Left" Height="25" Margin="14,0,0,0" Stroke="#FF6AC720" VerticalAlignment="Center" Width="25" StrokeThickness="3"/>
         </Grid>
