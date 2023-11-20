@@ -5,6 +5,7 @@ using FirstLab.src.errorHandling;
 using FirstLab.src.models;
 using FirstLab.src.exceptions;
 using System.Windows;
+using System.Windows.Media;
 
 namespace FirstLab.src.interfaces;
 
@@ -23,4 +24,10 @@ public interface IFactoryContainer
     CustomNullException CreateException(string errorMsg);
 
     QuestionAnswerPropertiesForUI CreateQuestionAnswerProperties(Visibility QuestionBorderVisibility, Visibility AnswerBorderVisibility, bool CheckQuestionRadioButton, bool CheckAnswerRadioButton);
+
+    TextAndBorderPropertiesPlayWindow CreateTextAndBorderPropertiesPlayWindow(string FlashcardNumberText, string QuestionText,
+        SolidColorBrush? BorderColor, Visibility QuestionBorderVisibility, Visibility AnswerBorderVisibility);
+
+    TextModificationProperties CreateTextModificationProperties(bool HighlightBtn, bool ItalicBtn, FontWeight QuestionAnswerTextWeight, FontStyle QuestionAnswerTextStyle);
+
 }

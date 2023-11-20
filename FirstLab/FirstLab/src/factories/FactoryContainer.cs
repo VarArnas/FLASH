@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace FirstLab.src.factories;
 
@@ -57,5 +58,16 @@ public class FactoryContainer : IFactoryContainer
     public QuestionAnswerPropertiesForUI CreateQuestionAnswerProperties(Visibility QuestionBorderVisibility, Visibility AnswerBorderVisibility, bool CheckQuestionRadioButton, bool CheckAnswerRadioButton)
     {
         return ActivatorUtilities.CreateInstance<QuestionAnswerPropertiesForUI>(serviceProvider, QuestionBorderVisibility, AnswerBorderVisibility, CheckQuestionRadioButton, CheckAnswerRadioButton);
+    }
+
+    public TextAndBorderPropertiesPlayWindow CreateTextAndBorderPropertiesPlayWindow(string FlashcardNumberText, string QuestionText,
+        SolidColorBrush? BorderColor, Visibility QuestionBorderVisibility, Visibility AnswerBorderVisibility)
+    {
+        return ActivatorUtilities.CreateInstance<TextAndBorderPropertiesPlayWindow>(serviceProvider, FlashcardNumberText, QuestionText, BorderColor, QuestionBorderVisibility!, AnswerBorderVisibility!);
+    }
+
+    public TextModificationProperties CreateTextModificationProperties(bool HighlightBtn, bool ItalicBtn, FontWeight QuestionAnswerTextWeight, FontStyle QuestionAnswerTextStyle)
+    {
+        return ActivatorUtilities.CreateInstance<TextModificationProperties>(serviceProvider, HighlightBtn, ItalicBtn, QuestionAnswerTextWeight, QuestionAnswerTextStyle);
     }
 }

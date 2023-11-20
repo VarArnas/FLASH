@@ -12,41 +12,39 @@ public partial class MenuWindow : Window
 
     private LogsView logsView;
 
-    private IMenuWindowService _ifMenuWindowService;
+    private IMenuWindowService _menuWindowService;
 
-    public MenuWindow(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer, IMenuWindowService ifMenuWindowService)
+    public MenuWindow(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer, IMenuWindowService menuWindowService)
     {
         InitializeComponent();
-        InitializeMenuFields(homeView,logsView, factoryContainer, ifMenuWindowService);
+        InitializeMenuFields(homeView,logsView, factoryContainer, menuWindowService);
         InitializeAnimation();
     }
 
     private void InitializeMenuFields(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer,
-        IMenuWindowService ifMenuWindowService)
+        IMenuWindowService menuWindowService)
     {
         this.homeView = homeView;
-        _ifMenuWindowService = ifMenuWindowService;
+        _menuWindowService = menuWindowService;
         contentControl.Content = homeView;
         this.logsView = logsView;
-        _ifMenuWindowService.InitializeViewsUtils(this);
+        _menuWindowService.InitializeViewsUtils(this);
     }
 
     private void InitializeAnimation()
     {
-        breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, _ifMenuWindowService.CreateElipseAnimation());
+        breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, _menuWindowService.CreateElipseAnimation());
     }
 
     private void MovingWindow(object sender, MouseButtonEventArgs e)
     {
         if(e.LeftButton == MouseButtonState.Pressed)
-        {
             DragMove();
-        }
     }
 
     public void ReturnToHomeView_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        _ifMenuWindowService.CheckSenderOfTheButtonAndChangeView(sender, logsView, homeView, "Menu");
+        _menuWindowService.CheckSenderOfTheButtonAndChangeView(sender, logsView, homeView, "Menu");
     }
 
     private void CloseWindow_Click(object sender, RoutedEventArgs e)
@@ -56,6 +54,6 @@ public partial class MenuWindow : Window
 
     private void AccessLogs_Click(object sender, RoutedEventArgs e)
     {
-        _ifMenuWindowService.CheckSenderOfTheButtonAndChangeView(sender, logsView, homeView, "Logs");
+        _menuWindowService.CheckSenderOfTheButtonAndChangeView(sender, logsView, homeView, "Logs");
     }
 }

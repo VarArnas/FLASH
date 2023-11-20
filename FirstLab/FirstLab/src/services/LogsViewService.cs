@@ -14,34 +14,40 @@ public class LogsViewService : ILogsViewService
 
     IFactoryContainer _factoryContainer;
 
-    public LogsViewService(IFlashcardSetLogMapper ifFLashcardSetLogMapper, IFactoryContainer factoryContainer)
+    IDatabaseRepository _databaseRepository;
+
+    public LogsViewService(IFlashcardSetLogMapper fLashcardSetLogMapper, IFactoryContainer factoryContainer, IDatabaseRepository databaseRepository)
     {
-        _flashcardSetLogMapper = ifFLashcardSetLogMapper;
+        _flashcardSetLogMapper = fLashcardSetLogMapper;
         _factoryContainer = factoryContainer;
+        _databaseRepository = databaseRepository;
     }
 
     public async Task AddLog(FlashcardSetLog log, ObservableCollection<FlashcardSetLog>? flashcardSetsLogs)
     {
         FlashcardSetLogDTO dto = _flashcardSetLogMapper.TransformFlashcardSetLogtoDTO(log);
         flashcardSetsLogs!.Insert(0, log);
-        await DatabaseRepository.AddAsync(dto);
+        await _databaseRepository.AddAsync(dto);
     }
 
-    public async Task RetrieveLogs(ObservableCollection<FlashcardSetLog> logs)
+    public async Task<ObservableCollection<FlashcardSetLog>> RetrieveLogs()
     {
-        ObservableCollection<FlashcardSetLogDTO> dtos = await DatabaseRepository.GetAllAsync<FlashcardSetLogDTO>();
+        ObservableCollection<FlashcardSetLogDTO> dtos = await _databaseRepository.GetAllAsync<FlashcardSetLogDTO>();
+        var logs = new ObservableCollection<FlashcardSetLog>();
 
         foreach (var dto in dtos)
         {
             FlashcardSetLog log = _flashcardSetLogMapper.TransformDTOtoFlashcardSetLog(dto);
             logs.Add(log);
         }
+
+        return logs;
     }
 
     public async Task ClearLogs(ObservableCollection<FlashcardSetLog> logs)
     {
         logs.Clear();
-        await DatabaseRepository.RemoveAllAsync<FlashcardSetLogDTO>();
+        await _databaseRepository.RemoveAllAsync<FlashcardSetLogDTO>();
     }
 
     public async Task CreateLogAndSave(FlashcardSet flashcardSet, DateTime playWindowStartTime, DateTime playWindowEndTime,
