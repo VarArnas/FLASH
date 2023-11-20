@@ -13,7 +13,7 @@ namespace FirstLab;
 
 public partial class FlashcardOptions : UserControl
 {
-    public ObservableCollection<FlashcardSet> flashcardSets = new();
+    public ObservableCollection<FlashcardSet> flashcardSets;
 
     public ObservableCollection<FlashcardSet> FlashcardSets
     {
@@ -32,21 +32,20 @@ public partial class FlashcardOptions : UserControl
 
     public FlashcardSet flashcardSet;
 
-    IFlashcardOptionsService _ifFlashcardOptionsService;
+    IFlashcardOptionsService _flashcardOptionsService;
 
-    public FlashcardOptions(IServiceProvider serviceProvider, IFlashcardOptionsService ifFlashcardOptionsService)
+    public FlashcardOptions(IFlashcardOptionsService flashcardOptionsService)
     {
         InitializeComponent();
-        ifFlashcardOptionsService.InitializeDatabase(serviceProvider);
-        InitializeOptionsFields(ifFlashcardOptionsService);
+        InitializeOptionsFields(flashcardOptionsService);
     }
 
-    private async void InitializeOptionsFields(IFlashcardOptionsService ifFlashcardOptionsService)
+    private async void InitializeOptionsFields(IFlashcardOptionsService flashcardOptionsService)
     {
-        _ifFlashcardOptionsService = ifFlashcardOptionsService;
-        await _ifFlashcardOptionsService.InitializeFlashcardSets(FlashcardSets);
-        FlashcardSets = _ifFlashcardOptionsService.CalculateFlashcardSetDifficulties(FlashcardSets);
-        flashcardSetsControl.ItemsSource = FlashcardSets;
+        _flashcardOptionsService = flashcardOptionsService;
+        flashcardSets = await _flashcardOptionsService.InitializeFlashcardSets();
+        FlashcardSets = _flashcardOptionsService.CalculateFlashcardSetDifficulties(FlashcardSets);
+        flashcardSetsControl.ItemsSource = flashcardSets;
     }
 
     private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -66,31 +65,31 @@ public partial class FlashcardOptions : UserControl
             FlashcardSet flashcardSet = e.NewItems.Cast<FlashcardSet>().First();
             if (flashcardSet != null)
             {
-                flashcardSet.FlashcardSetDifficulty = _ifFlashcardOptionsService.CalculateDifficultyOfFlashcardSet(flashcardSet);
+                flashcardSet.FlashcardSetDifficulty = _flashcardOptionsService.CalculateDifficultyOfFlashcardSet(flashcardSet);
             }
         }
     }
 
     private void PlayButton_Click(object sender, RoutedEventArgs e)
     {
-        _ifFlashcardOptionsService.LaunchPlayWindow((FlashcardSet)flashcardSetsControl.SelectedItem);
+        _flashcardOptionsService.LaunchPlayWindow((FlashcardSet)flashcardSetsControl.SelectedItem);
         InitializeTimeForLog();
     }
 
     private async void DeleteButton_Click(object sender, RoutedEventArgs e)
     {
-        await _ifFlashcardOptionsService.RemoveFlashcardSet((FlashcardSet)flashcardSetsControl.SelectedItem, FlashcardSets);
+        await _flashcardOptionsService.RemoveFlashcardSet((FlashcardSet)flashcardSetsControl.SelectedItem, flashcardSets);
         flashcardSetsControl.Items.Refresh();
     }
 
     private void EditButton_Click(object sender, RoutedEventArgs e)
     {
-        _ifFlashcardOptionsService.GoToFlashcardCustomization((FlashcardSet)flashcardSetsControl.SelectedItem);
+        _flashcardOptionsService.GoToFlashcardCustomization((FlashcardSet)flashcardSetsControl.SelectedItem);
     }
 
     private void NewSet_Click(object sender, RoutedEventArgs e)
     {
-        _ifFlashcardOptionsService.GoToFlashcardCustomization();
+        _flashcardOptionsService.GoToFlashcardCustomization();
     }
 
     private void InitializeTimeForLog()

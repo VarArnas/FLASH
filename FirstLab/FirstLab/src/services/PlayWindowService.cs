@@ -5,7 +5,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
-
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace FirstLab.src.services;
 
@@ -14,18 +16,68 @@ public class PlayWindowService : IPlayWindowService
 
     IFactoryContainer _factoryContainer;
 
+    private bool isPanelVisible = true;
+
     public PlayWindowService(IFactoryContainer factoryContainer)
     { 
         _factoryContainer = factoryContainer;
     }
 
-    public int SetTheCounter(int ind, FlashcardSet flashcardSet)
+    public int CheckIfPreviousOrNext(bool isPreviousFlashcardNeeded, int index, FlashcardSet flashcardSet, bool isStart)
+    {
+        if (isPreviousFlashcardNeeded)
+            if (!isFirstOrZeroIndex(index))
+                return --index;
+            else
+                return index;
+        else
+            if (!isLastIndex(index, flashcardSet) && !isStart)
+                return ++index;
+            else
+                return index;
+    }
+
+    public DoubleAnimation SetAnimation()
+    {
+        DoubleAnimation opacityAnimation = new DoubleAnimation();
+        opacityAnimation.From = 1.0;
+        opacityAnimation.To = 0.1;
+        opacityAnimation.Duration = TimeSpan.FromSeconds(2);
+        opacityAnimation.AutoReverse = true;
+        opacityAnimation.RepeatBehavior = RepeatBehavior.Forever;
+        return opacityAnimation;
+    }
+
+    public TextAndBorderPropertiesPlayWindow SetQuestionOrAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet)
+    {
+        bool isQuestion = question && !answer;
+        int flashcardIndex = flashcardSet!.Flashcards!.IndexOf(flashcardSet!.Flashcards!.FirstOrDefault(fc => fc.FlashcardName == flashcard.FlashcardName)!);
+        string flashcardNumber = $"{ flashcardIndex + 1}/{flashcardSet.Flashcards!.Count}";
+        string text = isQuestion ? flashcard.FlashcardQuestion! : flashcard.FlashcardAnswer!;
+        SolidColorBrush? borderColor = null;
+
+        try
+        {
+            borderColor = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcard.FlashcardColor!)!;
+        }
+        catch (Exception ex)
+        {
+            ThrowCustomException("No default color has been selected", ex);
+        }
+
+        Visibility questionVisibility = isQuestion ? Visibility.Visible : Visibility.Collapsed;
+        Visibility answerVisibility = isQuestion ? Visibility.Collapsed : Visibility.Visible;
+        return _factoryContainer.CreateTextAndBorderPropertiesPlayWindow(flashcardNumber, text, borderColor, questionVisibility, answerVisibility);
+    }
+
+
+    public int FindCounter(Flashcard flashcard)
     {
         string? selectedTime = null;
         int counter = 0;
         try
         {
-            selectedTime = flashcardSet.Flashcards![ind].FlashcardTimer!.ToString();
+            selectedTime = flashcard.FlashcardTimer!.ToString();
         }
         catch (Exception ex)
         {
@@ -46,6 +98,34 @@ public class PlayWindowService : IPlayWindowService
         }
 
         return counter;
+    }
+
+    public void CreateCounter(ref int counter, Flashcard flashcard)
+    {
+        try
+        {
+            counter = FindCounter(flashcard);
+        }
+        catch (CustomNullException ex)
+        {
+            HandleNullTimer(ex);
+            counter = 0;
+        }
+    }
+
+    public TextAndBorderPropertiesPlayWindow GetQuestionAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet)
+    {
+        try
+        {
+            var properties = SetQuestionOrAnswerProperties(true, false, flashcard, flashcardSet);
+            return properties;
+        }
+        catch (CustomNullException ex)
+        {
+            HandleNullColor(ex, flashcard);
+            var properties = SetQuestionOrAnswerProperties(true, false, flashcard, flashcardSet);
+            return properties;
+        }
     }
 
     public void ShuffleFlashcards(ObservableCollection<Flashcard> flashcards)
@@ -83,20 +163,44 @@ public class PlayWindowService : IPlayWindowService
         CustomNullException.LogException(displayError);
     }
 
-    public bool IsIndexOverBounds(int index, FlashcardSet flashcardSet)
-    {
-        return !(index >= 0 && index < flashcardSet.Flashcards!.Count());
-    }
-
-    public void HandleNullColor(CustomNullException ex, FlashcardSet flashcardSet, int flashcardIndex)
+    public void HandleNullColor(CustomNullException ex, Flashcard flashcard)
     {
         CustomNullException.LogException(ex);
-        flashcardSet.Flashcards![flashcardIndex].FlashcardColor = ex.defaultColor;
+        flashcard.FlashcardColor = ex.defaultColor;
     }
 
-    public void HandleNullTimer(CustomNullException ex, FlashcardSet flashcardSet, int flashcardIndex)
+    public void HandleNullTimer(CustomNullException ex)
     {
         CustomNullException.LogException(ex);
-        flashcardSet.Flashcards![flashcardIndex].FlashcardTimer = ex.defaultTime;
+    }
+
+    public TextModificationProperties SetTextProperties(bool isHighlighted, bool isItalic)
+    {
+        FontWeight fontWeight = isHighlighted ? FontWeights.Bold : FontWeights.Normal;
+        FontStyle fontStyle = isItalic ? FontStyles.Italic : FontStyles.Normal;
+
+        return _factoryContainer.CreateTextModificationProperties(isHighlighted, isItalic, fontWeight, fontStyle);
+    }
+
+    public double FindNewTextSize(bool increaseSize, FlashcardDesign flashcardDesign, double presentFontSize)
+    {
+        double sizeChange = increaseSize ? flashcardDesign.IncreaseTextSize : -flashcardDesign.DecreaseTextSize;
+        return presentFontSize += sizeChange; 
+    }
+
+    public string SetSlidePanelAnimation()
+    {
+        isPanelVisible = !isPanelVisible;
+        return isPanelVisible ? "SlideInAnimation" : "SlideOutAnimation";
+    }
+
+    public bool isLastIndex(int index, FlashcardSet flashcardSet)
+    {
+        return !(index != flashcardSet.Flashcards!.Count() - 1);
+    }
+
+    public bool isFirstOrZeroIndex(int index)
+    {
+        return !(index != 0);
     }
 }

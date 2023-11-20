@@ -9,7 +9,7 @@ namespace FirstLab.src.interfaces
     {
         Task AddLog(FlashcardSetLog log, ObservableCollection<FlashcardSetLog>? flashcardSetsLogs);
 
-        Task RetrieveLogs(ObservableCollection<FlashcardSetLog> logs);
+        Task<ObservableCollection<FlashcardSetLog>> RetrieveLogs();
 
         Task ClearLogs(ObservableCollection<FlashcardSetLog> logs);
 

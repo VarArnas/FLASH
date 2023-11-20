@@ -6,7 +6,7 @@ namespace FirstLab.src.utilities;
 
 public class ColorStringToBrushConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type? targetType = null, object? parameter = null, System.Globalization.CultureInfo? culture = null)
     {
         if (value is string colorString)
         {

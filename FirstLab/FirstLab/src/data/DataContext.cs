@@ -2,16 +2,15 @@
 using FirstLab.src.utilities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FirstLab.src.data
+namespace FirstLab.src.data;
+
+public class DataContext : DbContext
 {
-    class DataContext : DbContext
-    {
-        public DbSet<FlashcardSetDTO> FlashcardSets { get; set; }
+    public DbSet<FlashcardSetDTO> FlashcardSets { get; set; }
 
-        public DbSet<FlashcardDTO> Flashcards { get; set; }
+    public DbSet<FlashcardDTO> Flashcards { get; set; }
 
-        public DbSet<FlashcardSetLogDTO> FlashcardsLog { get; set; }
+    public DbSet<FlashcardSetLogDTO> FlashcardsLog { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source = {TextUtils.ReturnDatabaseString()}");
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source = {TextUtils.ReturnDatabaseString()}");
 }

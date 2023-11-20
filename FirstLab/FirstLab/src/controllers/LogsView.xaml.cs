@@ -10,9 +10,9 @@ namespace FirstLab.XAML;
 
 public partial class LogsView : UserControl
 {
-    public ObservableCollection<FlashcardSetLog> flashcardSetsLogs = new ObservableCollection<FlashcardSetLog>();
+    public ObservableCollection<FlashcardSetLog> flashcardSetsLogs;
 
-    ILogsViewService _ifLogsViewService;
+    ILogsViewService _logsViewService;
 
     public LogsView(ILogsViewService ifLogsViewService)
     {
@@ -20,20 +20,20 @@ public partial class LogsView : UserControl
         InitializeLogsFields(ifLogsViewService);
     }
 
-    private async void InitializeLogsFields(ILogsViewService ifLogsViewService)
+    private async void InitializeLogsFields(ILogsViewService logsViewService)
     {
-        _ifLogsViewService = ifLogsViewService;
-        await _ifLogsViewService.RetrieveLogs(flashcardSetsLogs);
+        _logsViewService = logsViewService;
+        flashcardSetsLogs = await _logsViewService.RetrieveLogs();
         LogsItemsControl.ItemsSource = flashcardSetsLogs;
     }
 
     public async void CalculateAndCreateLog(DateTime playWindowStartTime, DateTime playWindowEndTime, FlashcardSet flashcardSet)
     {
-        await _ifLogsViewService.CreateLogAndSave(flashcardSet, playWindowStartTime, playWindowEndTime, flashcardSetsLogs);
+        await _logsViewService.CreateLogAndSave(flashcardSet, playWindowStartTime, playWindowEndTime, flashcardSetsLogs);
     }
 
     private async void ClearLogs_Click(object sender, RoutedEventArgs e)
     {
-        await _ifLogsViewService.ClearLogs(flashcardSetsLogs);
+        await _logsViewService.ClearLogs(flashcardSetsLogs);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -17,13 +16,13 @@ public partial class FlashcardCustomization : UserControl
 
     private string? NameOfSet;
 
-    IFlashcardCustomizationService _ifFlashcardCustomizationService;
+    IFlashcardCustomizationService _flashcardCustomizationService;
 
     public FlashcardCustomization(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer,
-        IFlashcardCustomizationService ifFlashcardCustomizationService, FlashcardSet? flashcardSet = null)
+        IFlashcardCustomizationService flashcardCustomizationService, FlashcardSet? flashcardSet = null)
     {
         InitializeComponent();
-        InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, ifFlashcardCustomizationService, flashcardSet);
+        InitializeCustomizationFields(flashcardOptionsReference, factoryContainer, flashcardCustomizationService, flashcardSet);
         CheckIfEditingOrNew(flashcardSet);
     }
 
@@ -33,9 +32,9 @@ public partial class FlashcardCustomization : UserControl
     }
 
     private void InitializeCustomizationFields(FlashcardOptions flashcardOptionsReference, IFactoryContainer factoryContainer,
-        IFlashcardCustomizationService ifFlashcardCustomizationService, FlashcardSet? flashcardSet = null)
+        IFlashcardCustomizationService flashcardCustomizationService, FlashcardSet? flashcardSet = null)
     {
-        _ifFlashcardCustomizationService = ifFlashcardCustomizationService;
+        _flashcardCustomizationService = flashcardCustomizationService;
         this.flashcardOptionsReference = flashcardOptionsReference;
         this.flashcardSet = flashcardSet ?? factoryContainer.CreateObject<FlashcardSet>();
         DataContext = this.flashcardSet;
@@ -44,15 +43,17 @@ public partial class FlashcardCustomization : UserControl
 
     private void CheckIfEditingOrNew(FlashcardSet? flashcardSet)
     {
-        if (!_ifFlashcardCustomizationService.CheckIfEditingAndRemoveTheOldFlashcardSet(flashcardSet, flashcardOptionsReference, NameOfSet))
+        if (!_flashcardCustomizationService.CheckIfEditingAndRemoveTheOldFlashcardSet(flashcardSet, flashcardOptionsReference, NameOfSet))
             AddFlashcard_Click();
         else
+        {
             ListBoxFlashcards.SelectedIndex = flashcardSet!.Flashcards!.Count - 1;
+        }
     }
 
     private void AddFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        int index = _ifFlashcardCustomizationService.AddFlashcard(flashcardSet);
+        int index = _flashcardCustomizationService.AddFlashcard(flashcardSet);
         ListBoxFlashcards.Items.Refresh();
         ListBoxFlashcards.SelectedIndex = index;
         IsQestionOrAnswer(true, false);
@@ -65,9 +66,9 @@ public partial class FlashcardCustomization : UserControl
 
     private void DeleteFlashcard_Click(object sender, RoutedEventArgs e)    
     {
-        int oldIndex = _ifFlashcardCustomizationService.DeleteFlashcard(ListBoxFlashcards.SelectedIndex, flashcardSet);
+        int oldIndex = _flashcardCustomizationService.DeleteFlashcard(ListBoxFlashcards.SelectedIndex, flashcardSet);
         ListBoxFlashcards.Items.Refresh();
-        ListBoxFlashcards.SelectedIndex = _ifFlashcardCustomizationService.CalculateSelectionIndexAfterDeletion(oldIndex);
+        ListBoxFlashcards.SelectedIndex = _flashcardCustomizationService.CalculateSelectionIndexAfterDeletion(oldIndex);
     }
 
     private void QuestionAnswerRadioButton_Click(object sender, RoutedEventArgs e)
@@ -77,8 +78,8 @@ public partial class FlashcardCustomization : UserControl
 
     private void CapitalizedNormalNameButton_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-       FlashcardSetNameBox.Text = _ifFlashcardCustomizationService.CapitalizeFlashcardSetName(CapitalizeButton.IsChecked, NameOfSet!, FlashcardSetNameBox.Text);
-       _ifFlashcardCustomizationService.SaveFlashcardSetName(FlashcardSetNameBox.Text!, flashcardSet);
+       FlashcardSetNameBox.Text = _flashcardCustomizationService.CapitalizeFlashcardSetName(CapitalizeButton.IsChecked, NameOfSet!, FlashcardSetNameBox.Text);
+        _flashcardCustomizationService.SaveFlashcardSetName(FlashcardSetNameBox.Text!, flashcardSet);
     }
 
     private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -99,7 +100,7 @@ public partial class FlashcardCustomization : UserControl
     }
     private async void SaveFlashcardSet_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        await _ifFlashcardCustomizationService.CheckErrorsAndSaveFlashcard(flashcardSet, FlashcardSetNameBox.Text, errorText,
+        await _flashcardCustomizationService.CheckErrorsAndSaveFlashcard(flashcardSet, FlashcardSetNameBox.Text, errorText,
             flashcardOptionsReference.flashcardSets, flashcardOptionsReference);
     }
 
@@ -138,15 +139,24 @@ public partial class FlashcardCustomization : UserControl
         }
     }
 
+    private void ListBoxItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is ListBoxItem listBoxItem)
+        {
+            listBoxItem.IsSelected = !listBoxItem.IsSelected;
+            e.Handled = true; // Prevents the default selection behavior
+        }
+    }
+
     private void NavigateFlashcards(int direction)
     {
-        ListBoxFlashcards.SelectedIndex = _ifFlashcardCustomizationService.CanYouChangeFlashcards(ListBoxFlashcards.SelectedIndex, flashcardSet, direction);
+        ListBoxFlashcards.SelectedIndex = _flashcardCustomizationService.CanYouChangeFlashcards(ListBoxFlashcards.SelectedIndex, flashcardSet, direction);
         IsQestionOrAnswer(true, false);
     }
 
     private void IsQestionOrAnswer(bool question, bool answer)
     {
-        var model = _ifFlashcardCustomizationService.ChangeQuestionAnswerProperties(question, answer);
+        QuestionAnswerPropertiesForUI model = _flashcardCustomizationService.ChangeQuestionAnswerProperties(question, answer);
         QuestionBorder.Visibility = model._QuestionBorderVisibility;
         AnswerBorder.Visibility = model._AnswerBorderVisibility;
         QuestionRadioButton.IsChecked = model._CheckQuestionRadioButton;

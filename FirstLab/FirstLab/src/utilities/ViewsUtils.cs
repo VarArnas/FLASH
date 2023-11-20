@@ -1,4 +1,5 @@
-﻿namespace FirstLab.src.utilities;
+﻿
+namespace FirstLab.src.utilities;
 
 public class ViewsUtils
 {
@@ -6,7 +7,7 @@ public class ViewsUtils
 
     public static void ChangeWindow<T>(string headerText, T view) where T : class
     {
-        menuWindowReference.ViewsName.Text = headerText;
+        menuWindowReference!.ViewsName.Text = headerText;
         menuWindowReference.contentControl.Content = view;
     }
 }

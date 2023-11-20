@@ -2,12 +2,13 @@
 using FirstLab.src.models;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Animation;
 
 namespace FirstLab.src.interfaces;
 
 public interface IPlayWindowService
 {
-    int SetTheCounter(int ind, FlashcardSet flashcardSet);
+    int FindCounter(Flashcard flashcard);
 
     void ShuffleFlashcards(ObservableCollection<Flashcard> flashcards);
 
@@ -17,10 +18,28 @@ public interface IPlayWindowService
 
     void LogCustomException(string message);
 
-    bool IsIndexOverBounds(int index, FlashcardSet flashcardSet);
+    void HandleNullColor(CustomNullException ex, Flashcard flashcard);
 
-    void HandleNullColor(CustomNullException ex, FlashcardSet flashcardSet, int flashcardIndex);
+    void HandleNullTimer(CustomNullException ex);
 
-    void HandleNullTimer(CustomNullException ex, FlashcardSet flashcardSet, int flashcardIndex);
+    DoubleAnimation SetAnimation();
+
+    TextAndBorderPropertiesPlayWindow SetQuestionOrAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet);
+
+    TextModificationProperties SetTextProperties(bool isHighlighted, bool isItalic);
+
+    double FindNewTextSize(bool increaseSize, FlashcardDesign flashcardDesign, double presentFontSize);
+
+    string SetSlidePanelAnimation();
+
+    void CreateCounter(ref int counter, Flashcard flashcard);
+
+    TextAndBorderPropertiesPlayWindow GetQuestionAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet);
+
+    bool isLastIndex(int index, FlashcardSet flashcardSet);
+
+    bool isFirstOrZeroIndex(int index);
+
+    int CheckIfPreviousOrNext(bool isPreviousFlashcardNeeded, int index, FlashcardSet flashcardSet, bool isStart);
 
 }
