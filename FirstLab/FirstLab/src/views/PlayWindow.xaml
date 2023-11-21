@@ -362,7 +362,7 @@
                            FontSize="20"
                            Width="100"
                            Text=""
-                           IsHitTestVisible="False"/>
+                           IsHitTestVisible="False"
                            Margin="361,340,380,0"/>
               
                 <TextBox Name="difficultyField"
