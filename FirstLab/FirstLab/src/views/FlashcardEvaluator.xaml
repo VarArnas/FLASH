@@ -1,12 +1,17 @@
-﻿<Window x:Class="FirstLab.src.views.FlashcardEvaluator"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FirstLab.src.views"
-        mc:Ignorable="d"
-        Title="FlashcardEvaluator" Height="450" Width="800">
+﻿<UserControl x:Class="FirstLab.FlashcardEvaluator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Height="450" Width="800"
+             Loaded="Evaluator_Loaded">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,143,0,0" Text="Your question" Width="120" Background="Bisque" Name="QuestionTextBox"/>
+        <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,183,0,0" Text="Your answer" Width="120" Background="Bisque" Name="AnswerTextBox"/>
+        <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,241,0,0" Text="Possibility" Width="120" Background="Bisque" x:Name="PossibilityTextBox"/>
     </Grid>
-</Window>
+</UserControl>
