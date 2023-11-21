@@ -9,6 +9,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Linq;
 using System.Windows.Media;
+using System;
 
 namespace FirstLab.XAML;
 
@@ -26,15 +27,25 @@ public partial class PlayWindow : Window
 
     IPlayWindowService _playWindowService;
 
-    private CancellationTokenSource cancellationTokenSource;
-
     Storyboard? storyboard;
+
+    private DispatcherTimer? countdownTimer;
+
 
     public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService playWindowService)
     {
         InitializeComponent();
         InitializePlayWindowFields(flashcardSet, factoryContainer, playWindowService);
         playWindowService.ShuffleFlashcards(this.flashcardSet!.Flashcards!);
+        InitializeTimer();
+
+    }
+
+    private void InitializeTimer()
+    {
+        countdownTimer = new DispatcherTimer();
+        countdownTimer.Interval = TimeSpan.FromSeconds(1);
+        countdownTimer.Tick += CountdownTimer_Tick!;
     }
 
     private void PlayWindow_Loaded(object sender, RoutedEventArgs e)
@@ -67,30 +78,29 @@ public partial class PlayWindow : Window
 
     private void DisplayFlashcard(bool isPreviousFlashcardNeeded)
     {
-        if(isAnswerDisplayed)
-        {
-            HiddenFlashcardSetListBox.SelectedIndex = _playWindowService.CheckIfPreviousOrNext(isPreviousFlashcardNeeded, HiddenFlashcardSetListBox.SelectedIndex, flashcardSet, isStart);
-            storyboard = isPreviousFlashcardNeeded ? FindResource("BounceEffectAnimationOut") as Storyboard : FindResource("BounceEffectAnimation") as Storyboard;
-            SetStatesForQuestion();
-            currentFlashcard = (Flashcard)HiddenFlashcardSetListBox.SelectedItem;
-            _playWindowService.CreateCounter(ref counter, currentFlashcard);
-            storyboard!.Begin();
-            MapQuestionAnswerProperties(_playWindowService.GetQuestionAnswerProperties(true, false, currentFlashcard, flashcardSet));
+        countdownTimer!.Stop();
+        HiddenFlashcardSetListBox.SelectedIndex = _playWindowService.CheckIfPreviousOrNext(isPreviousFlashcardNeeded, HiddenFlashcardSetListBox.SelectedIndex, flashcardSet, isStart);
+        storyboard = isPreviousFlashcardNeeded ? FindResource("BounceEffectAnimationOut") as Storyboard : FindResource("BounceEffectAnimation") as Storyboard;
+        SetStatesForQuestion();
+        currentFlashcard = (Flashcard)HiddenFlashcardSetListBox.SelectedItem;
+        _playWindowService.CreateCounter(ref counter, currentFlashcard);
+        storyboard!.Begin();
+        MapQuestionAnswerProperties(_playWindowService.GetQuestionAnswerProperties(true, false, currentFlashcard, flashcardSet));
 
-            if (!_playWindowService.isFirstOrZeroIndex(counter))
-                InitTimer();
-        }
+        if (!_playWindowService.isFirstOrZeroIndex(counter))
+            InitTimer();
     }
 
     private void DisplayAnswer_Click(object? sender = null, RoutedEventArgs? e = null)
     {
         if(!isAnswerDisplayed)
         {
-            cancellationTokenSource?.Cancel();
             FlashcardAnimation(_playWindowService.SetQuestionOrAnswerProperties(false, true, currentFlashcard, flashcardSet));
             isAnswerDisplayed = true;
+            countdownTimer!.Stop();
         }
     }
+
 
     private void HighlightText_Click(object sender, RoutedEventArgs e)
     {
@@ -143,10 +153,13 @@ public partial class PlayWindow : Window
 
     private void CloseCommand()
     {
-        cancellationTokenSource?.Cancel();
+        StopAndResetTimer();
         ViewsUtils.menuWindowReference!.ReturnToHomeView_Click(this);
-        this.Close();
-        ViewsUtils.menuWindowReference!.Show();
+        if(ViewsUtils.menuWindowReference!.contentControl.Content is HomeView)
+        {
+            ViewsUtils.menuWindowReference!.Show();
+            this.Close();
+        }
     }
 
     private void ChangeQuestionAnswerTextProperties(bool isHighlighted, bool isItalic)
@@ -174,29 +187,34 @@ public partial class PlayWindow : Window
 
     private void InitTimer()
     {
-        cancellationTokenSource?.Cancel();
-        cancellationTokenSource = new CancellationTokenSource();
-        Thread timerThread = new Thread(() => Countdown(cancellationTokenSource.Token));
-        timerThread.Start();
+        UpdateTimerUI();
+        countdownTimer!.Start();
     }
 
-    private void Countdown(CancellationToken cancellationToken)
+    private void CountdownTimer_Tick(object sender, EventArgs e)
     {
-        while (counter > 0)
+        if (counter > 0)
         {
-            if (cancellationToken.IsCancellationRequested)
-                return;
             counter--;
-            Dispatcher.Invoke(UpdateTimerUI);
-            Thread.Sleep(1000);
+            UpdateTimerUI();
         }
-        if (counter == 0 && !cancellationToken.IsCancellationRequested)
-            Dispatcher.Invoke(() => DisplayAnswer_Click());
+        else
+        {
+            countdownTimer!.Stop();
+            DisplayAnswer_Click();
+        }
     }
 
     private void UpdateTimerUI()
     {
         timerTextBox.Text = counter.ToString() + "s";
+    }
+
+    private void StopAndResetTimer()
+    {
+        countdownTimer!.Stop();
+        countdownTimer.Tick -= CountdownTimer_Tick!;
+        countdownTimer = null;
     }
 
     private void FlashcardAnimation(TextAndBorderPropertiesPlayWindow properties)

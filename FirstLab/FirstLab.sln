@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstLab", "FirstLab\FirstL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstLabTesting", "FirstLabTesting\FirstLabTesting.csproj", "{274B6989-C0B2-417D-A3CE-E810CD4303DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstLabService", "FirstLabService\FirstLabService.csproj", "{114C514D-A98F-4282-89CC-2F18D9C38228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstLabService", "FirstLabService\FirstLabService.csproj", "{114C514D-A98F-4282-89CC-2F18D9C38228}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +15,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E0442C3A-DDD5-4E2D-B042-F184C76BC752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0442C3A-DDD5-4E2D-B042-F184C76BC752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0442C3A-DDD5-4E2D-B042-F184C76BC752}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{E0442C3A-DDD5-4E2D-B042-F184C76BC752}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{E0442C3A-DDD5-4E2D-B042-F184C76BC752}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0442C3A-DDD5-4E2D-B042-F184C76BC752}.Release|Any CPU.Build.0 = Release|Any CPU
 		{274B6989-C0B2-417D-A3CE-E810CD4303DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

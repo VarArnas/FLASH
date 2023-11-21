@@ -12,5 +12,5 @@ public class DataContext : DbContext
 
     public DbSet<FlashcardSetLogDTO> FlashcardsLog { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source = {TextUtils.ReturnDatabaseString()}");
+    protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite(@"Data Source = C:\Users\arnas\Desktop\psi\FirstLab\FirstLab\src\data\myDatabase.db");
 }
