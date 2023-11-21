@@ -275,22 +275,6 @@
                     </Image>
                 </Border>
 
-<!--<<<<<<< HEAD
-                <TextBox Name="timerTextBox" HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Margin="371,10,390,300"
-                        TextWrapping="Wrap"
-                        Text=""
-                        Width="150"
-                        TextAlignment="Center"
-                        IsReadOnly="True"
-                        BorderThickness="0"
-                        FontFamily="fonts/#Dosis"
-                        FontSize="29"
-                        Background="Transparent"
-                        Foreground="White"
-                        FontWeight="Medium">   
-=======-->
                 <TextBox Name="timerTextBox" HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Margin="357,15,0,0"
@@ -305,7 +289,6 @@
                          Background="Transparent"
                          Foreground="White"
                          FontWeight="Medium">
-
                 </TextBox>
 
                 <Border x:Name="QuestionBorder" Margin="60,67,60,49" Background="LightBlue"
