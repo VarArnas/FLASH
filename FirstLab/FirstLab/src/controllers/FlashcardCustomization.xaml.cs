@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.utilities;
@@ -162,4 +163,5 @@ public partial class FlashcardCustomization : UserControl
         AnswerRadioButton.IsChecked = model._CheckAnswerRadioButton;
         (question ? QuestionTextBox : AnswerTextBox).Focus();
     }
+
 }

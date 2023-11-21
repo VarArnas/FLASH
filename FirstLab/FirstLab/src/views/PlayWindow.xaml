@@ -390,7 +390,23 @@
                            FontSize="20"
                            Width="100"
                            Text=""
-                           Margin="0,326,0,0"/>
+                           Margin="361,340,380,0"/>
+                <TextBox Name="difficultyField"
+                         HorizontalAlignment="Left" 
+                         Height="34" 
+                         Margin="60,18,0,0" 
+                         TextWrapping="Wrap" 
+                         Text="Set's difficulty: " 
+                         VerticalAlignment="Top" 
+                         Width="150"
+                        TextAlignment="Center"
+                        IsReadOnly="True"
+                        BorderThickness="0"
+                        FontFamily="fonts/#Dosis"
+                        FontSize="14"
+                        Background="Transparent"
+                        Foreground="Black"
+                        FontWeight="Medium"/>
             </Grid>
 
             <Grid Grid.Row="2">

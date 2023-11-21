@@ -7,6 +7,8 @@ public class FlashcardSet : IEquatable<FlashcardSet>
 {
     public string FlashcardSetName { get; set; }
 
+    public string FlashcardSetDifficulty { get; set; }
+
     public ObservableCollection<Flashcard>? Flashcards { get; set; } = new ObservableCollection<Flashcard>();
 
     public bool Equals(FlashcardSet? other)
