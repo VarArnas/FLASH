@@ -18,7 +18,7 @@ namespace FirstLab.src.utilities
             {
                 switch (colorString)
                 {
-                    case "Red":
+                    case "IndianRed":
                         difficulty = "Very easy";
                         break;
 
@@ -30,7 +30,7 @@ namespace FirstLab.src.utilities
                         difficulty = "Medium";
                         break;
 
-                    case "Blue":
+                    case "RoyalBlue":
                         difficulty = "Hard";
                         break;
 
@@ -42,13 +42,13 @@ namespace FirstLab.src.utilities
 
             else if (value is SolidColorBrush colorBrush)
             {
-                if (colorBrush.Color == Colors.Red)
+                if (colorBrush.Color == Colors.IndianRed)
                     difficulty = "Very easy";
                 else if (colorBrush.Color == Colors.Green)
                     difficulty = "Easy";
                 else if (colorBrush.Color == Colors.Yellow)
                     difficulty = "Medium";
-                else if (colorBrush.Color == Colors.Blue)
+                else if (colorBrush.Color == Colors.RoyalBlue)
                     difficulty = "Hard";
                 else if (colorBrush.Color == Colors.Orange)
                     difficulty = "Very hard";

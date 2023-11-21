@@ -68,7 +68,7 @@ public class FlashcardOptionsService : IFlashcardOptionsService
             {
                 switch (flashcard.FlashcardColor)
                 {
-                    case "Red":
+                    case "IndianRed":
                         score += 1;
                         break;
 
@@ -80,7 +80,7 @@ public class FlashcardOptionsService : IFlashcardOptionsService
                         score += 3;
                         break;
 
-                    case "Blue":
+                    case "RoyalBlue":
                         score += 4;
                         break;
 

@@ -420,25 +420,10 @@
                         IsReadOnly="True"
                         BorderThickness="0"
                         FontFamily="fonts/#Dosis"
-                        FontSize="16"
+                        FontSize="14"
                         Background="Transparent"
                         Foreground="Black"
                         FontWeight="Medium"/>
-                <!--<TextBox HorizontalAlignment="Left" 
-                         Height="34" 
-                         Margin="527,18,0,0" 
-                         TextWrapping="Wrap" 
-                         Text="Flashcard's difficulty: " 
-                         VerticalAlignment="Top"
-                         TextAlignment="Center"
-                        IsReadOnly="True"
-                        BorderThickness="0"
-                        FontFamily="fonts/#Dosis"
-                        FontSize="16"
-                        Background="Transparent"
-                        Foreground="Black"
-                        FontWeight="Medium"
-                        Width="170"/>-->
             </Grid>
 
             <Grid Grid.Row="2">

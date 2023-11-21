@@ -164,23 +164,4 @@ public partial class FlashcardCustomization : UserControl
         (question ? QuestionTextBox : AnswerTextBox).Focus();
     }
 
-    private static string ConvertColorToDifficulty(object value)
-    {
-        string difficulty = "Medium";
-        if (value is SolidColorBrush colorBrush)
-        {
-            if (colorBrush.Color == Colors.Red)
-                difficulty = "Very easy";
-            else if (colorBrush.Color == Colors.Green)
-                difficulty = "Easy";
-            else if (colorBrush.Color == Colors.Yellow)
-                difficulty = "Medium";
-            else if (colorBrush.Color == Colors.Blue)
-                difficulty = "Hard";
-            else if (colorBrush.Color == Colors.Orange)
-                difficulty = "Very hard";
-        }
-
-        return difficulty;
-    }
 }
