@@ -75,10 +75,10 @@
                                                    FontSize="12" FontWeight="Medium" FontFamily="Fonts/#Dosis"
                                                    Width="280" TextWrapping="Wrap"/>
                                 <TextBlock Name="difficultyField"  Padding="10, 0, 0, 0" VerticalAlignment="center"
-                                                   HorizontalAlignment="Center" Text="{Binding FlashcardSetDifficulty}"
-                                                   FontSize="12" FontWeight="Medium" FontFamily="Fonts/#Dosis"
-                                                   Width="190" TextWrapping="Wrap" Foreground="{Binding Converter={StaticResource FromDifficultyConverter}}"/>
-
+                                           HorizontalAlignment="Center" Text="{Binding FlashcardSetDifficulty}"
+                                           FontSize="12" FontWeight="Medium" FontFamily="Fonts/#Dosis"
+                                           Width="190" TextWrapping="Wrap"
+                                           Foreground="{Binding FlashcardSetDifficulty,  Converter={StaticResource FromDifficultyConverter}}"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>

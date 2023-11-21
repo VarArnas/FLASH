@@ -36,9 +36,9 @@ public interface IPlayWindowService
 
     TextAndBorderPropertiesPlayWindow GetQuestionAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet);
 
-    bool isLastIndex(int index, FlashcardSet flashcardSet);
+    bool IsLastIndex(int index, FlashcardSet flashcardSet);
 
-    bool isFirstOrZeroIndex(int index);
+    bool IsFirstOrZeroIndex(int index);
 
     int CheckIfPreviousOrNext(bool isPreviousFlashcardNeeded, int index, FlashcardSet flashcardSet, bool isStart);
 

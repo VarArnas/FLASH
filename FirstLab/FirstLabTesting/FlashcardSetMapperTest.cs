@@ -3,11 +3,6 @@ using FirstLab.src.mappers;
 using FirstLab.src.models;
 using FirstLab.src.models.DTOs;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FirstLabTesting
 {
@@ -27,27 +22,29 @@ namespace FirstLabTesting
         {
             // Arrange
             FlashcardSet flashcardSet = new FlashcardSet { FlashcardSetName = "Test" };
-            flashcardSet.Flashcards.Add(new Flashcard
+            var mockedFlashcard = new Flashcard
             {
                 FlashcardName = "a",
                 FlashcardQuestion = "b",
                 FlashcardAnswer = "c",
                 FlashcardColor = "d",
                 FlashcardTimer = "e"
-            });
+            };
+
+            flashcardSet.Flashcards.Add(mockedFlashcard);
 
             // Act
             FlashcardSetDTO flashcardSetDTO = flashcardSetMapper.TransformFlashcardSetToDTO(flashcardSet);
 
             // Assert
             Assert.NotNull(flashcardSetDTO);
-            Assert.Equal("Test", flashcardSetDTO.FlashcardSetName);
+            Assert.Equal(flashcardSet.FlashcardSetName, flashcardSetDTO.FlashcardSetName);
             Assert.NotEmpty(flashcardSetDTO.Flashcards);
             Assert.Collection(flashcardSetDTO.Flashcards,
                 flashcard =>
                 {
                     Assert.IsType<FlashcardDTO>(flashcard);
-                    Assert.Equal("a", flashcard.FlashcardName);
+                    Assert.Equal(mockedFlashcard.FlashcardName, flashcard.FlashcardName);
                     Assert.Equal("b", flashcard.FlashcardQuestion);
                     Assert.Equal("c", flashcard.FlashcardAnswer);
                     Assert.Equal("d", flashcard.FlashcardColor);

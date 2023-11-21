@@ -13,22 +13,6 @@
     ResizeMode="NoResize">
 
     <Window.Resources>
-        <Style x:Key="PopOutBorderStyle" TargetType="Border">
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.05" ScaleY="1.05" CenterX="0.5" CenterY="0.5"/>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect ShadowDepth="5" BlurRadius="10" Opacity="0.7" Direction="0"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
         <Storyboard x:Key="SlideInAnimation">
             <ThicknessAnimation Duration="0:0:0.2" 
                             From="693,40,27,-20"  To="693,20,27,0"
@@ -271,7 +255,7 @@
                         Cursor="Hand" Grid.ColumnSpan="2"
                         RenderTransformOrigin="0.5,0.5">
                     <Border.Effect>
-                        <DropShadowEffect ShadowDepth="9" BlurRadius="10" Opacity="0.7" Direction="270"/>
+                        <DropShadowEffect ShadowDepth="5" BlurRadius="2" Opacity="0.7" Direction="270"/>
                     </Border.Effect>
                     <Border.RenderTransform>
                         <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
@@ -282,7 +266,7 @@
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.045" Duration="0:0:0.1"/>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.045" Duration="0:0:0.1"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="11" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="12" Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -291,7 +275,7 @@
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.03" Duration="0:0:0.1"/>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.03" Duration="0:0:0.1"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="9" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="5" Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -314,7 +298,7 @@
                         MouseLeftButtonDown="DisplayAnswer_Click" Cursor="Hand" Grid.ColumnSpan="2"
                         RenderTransformOrigin="0.5,0.5">
                     <Border.Effect>
-                        <DropShadowEffect ShadowDepth="11" BlurRadius="10" Opacity="0.7" Direction="270"/>
+                        <DropShadowEffect ShadowDepth="5" BlurRadius="2" Opacity="0.7" Direction="270"/>
                     </Border.Effect>
                     <Border.RenderTransform>
                         <ScaleTransform ScaleX="0.3" ScaleY="1.03"/>
@@ -325,7 +309,7 @@
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.045" Duration="0:0:0.1"/>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.045" Duration="0:0:0.1"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="11" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="12" Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -334,7 +318,7 @@
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.03" Duration="0:0:0.1"/>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.03" Duration="0:0:0.1"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="9" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="5" Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
