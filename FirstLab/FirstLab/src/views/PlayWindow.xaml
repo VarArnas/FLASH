@@ -74,66 +74,41 @@
         </Storyboard>
 
         <Storyboard x:Key="BounceEffectAnimation">
-            <ThicknessAnimation Duration="0:0:0.15" From="-680,67,800,49" To="110,67,10,49"
-                                Storyboard.TargetProperty="Margin"
-                                Storyboard.TargetName="QuestionBorder"
-                                BeginTime="0:0:0"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="30,67,90,49"
-                                Storyboard.TargetProperty="Margin"
-                                Storyboard.TargetName="QuestionBorder"
-                                BeginTime="0:0:0.15"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="80,67,40,49"
-                                Storyboard.TargetProperty="Margin"
-                                Storyboard.TargetName="QuestionBorder"
-                                BeginTime="0:0:0.25"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="40,67,80,49"
-                                Storyboard.TargetProperty="Margin"
-                                Storyboard.TargetName="QuestionBorder"
-                                BeginTime="0:0:0.35"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="70,67,50,49"
-                                Storyboard.TargetProperty="Margin"
-                                Storyboard.TargetName="QuestionBorder"
-                                BeginTime="0:0:0.45"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="50,67,70,49"
-                                Storyboard.TargetProperty="Margin"
-                                Storyboard.TargetName="QuestionBorder"
-                                BeginTime="0:0:0.55"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="60,67,60,49"
-                                Storyboard.TargetProperty="Margin"
-                                Storyboard.TargetName="QuestionBorder"
-                                BeginTime="0:0:0.65"/>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin"
+                                      Storyboard.TargetName="QuestionBorder">
+                <EasingThicknessKeyFrame KeyTime="0:0:0" Value="-680,67,800,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.15" Value="110,67,10,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="30,67,90,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.35" Value="80,67,40,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.45" Value="40,67,80,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.55" Value="70,67,50,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.65" Value="50,67,70,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.75" Value="60,67,60,49" />
+
+
+
+
+
+            </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
 
-
         <Storyboard x:Key="BounceEffectAnimationOut">
-            <ThicknessAnimation Duration="0:0:0.15" From="800,67,-640,49" To="10,67,110,49"
-                        Storyboard.TargetProperty="Margin"
-                        Storyboard.TargetName="QuestionBorder"
-                        BeginTime="0:0:0"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="90,67,30,49"
-                        Storyboard.TargetProperty="Margin"
-                        Storyboard.TargetName="QuestionBorder"
-                        BeginTime="0:0:0.15"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="40,67,80,49"
-                        Storyboard.TargetProperty="Margin"
-                        Storyboard.TargetName="QuestionBorder"
-                        BeginTime="0:0:0.25"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="80,67,40,49"
-                        Storyboard.TargetProperty="Margin"
-                        Storyboard.TargetName="QuestionBorder"
-                        BeginTime="0:0:0.35"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="50,67,70,49"
-                        Storyboard.TargetProperty="Margin"
-                        Storyboard.TargetName="QuestionBorder"
-                        BeginTime="0:0:0.45"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="70,67,50,49"
-                        Storyboard.TargetProperty="Margin"
-                        Storyboard.TargetName="QuestionBorder"
-                        BeginTime="0:0:0.55"/>
-            <ThicknessAnimation Duration="0:0:0.1" To="60,67,60,49"
-                        Storyboard.TargetProperty="Margin"
-                        Storyboard.TargetName="QuestionBorder"
-                        BeginTime="0:0:0.65"/>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin"
+                              Storyboard.TargetName="QuestionBorder">
+                <EasingThicknessKeyFrame KeyTime="0:0:0" Value="800,67,-640,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.15" Value="10,67,110,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="90,67,30,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.35" Value="40,67,80,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.45" Value="80,67,40,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.55" Value="50,67,70,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.65" Value="70,67,50,49" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.75" Value="60,67,60,49" />
+
+
+
+
+
+            </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
 
@@ -275,21 +250,20 @@
                     </Image>
                 </Border>
 
-                <TextBox Name="timerTextBox" HorizontalAlignment="Left"
+                <TextBlock Name="timerTextBox" HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Margin="357,15,0,0"
                          TextWrapping="Wrap"
                          Text=""
                          Width="104"
+                         IsHitTestVisible="False"
                          TextAlignment="Center"
-                         IsReadOnly="True"
-                         BorderThickness="0"
                          FontFamily="fonts/#Dosis"
                          FontSize="29"
                          Background="Transparent"
                          Foreground="White"
                          FontWeight="Medium">
-                </TextBox>
+                </TextBlock>
 
                 <Border x:Name="QuestionBorder" Margin="60,67,60,49" Background="LightBlue"
                         CornerRadius="20" BorderThickness="1" Visibility="Visible"
@@ -297,13 +271,22 @@
                         Cursor="Hand" Grid.ColumnSpan="2"
                         RenderTransformOrigin="0.5,0.5">
                     <Border.Effect>
-                        <DropShadowEffect ShadowDepth="3" BlurRadius="10" Opacity="0.7" Direction="270"/>
+                        <DropShadowEffect ShadowDepth="9" BlurRadius="10" Opacity="0.7" Direction="270"/>
                     </Border.Effect>
                     <Border.RenderTransform>
-                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                        <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
                     </Border.RenderTransform>
                     <Border.Triggers>
                         <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.045" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.045" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="11" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.03" Duration="0:0:0.1"/>
@@ -312,28 +295,17 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.1"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.1"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="3" Duration="0:0:0.1"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
                     </Border.Triggers>
-                    <TextBox Name="questionTextBox"
-                             HorizontalAlignment="Center"
-                             VerticalContentAlignment="Center"  
-                             Height="235"         
-                             TextWrapping="Wrap"
-                             Text=""
-                             Width="690"
-                             TextAlignment="Center"
-                             IsReadOnly="True"
-                             BorderThickness="0"
-                             Background="Transparent"
-                             IsHitTestVisible="False"/>
+                    <Grid Height="230" Width="660">
+                        <TextBlock Name="questionTextBox"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Center"
+                                   Text=""
+                                   TextAlignment="Center"
+                                   Background="Transparent"
+                                   IsHitTestVisible="False"/>
+                    </Grid>
                 </Border>
 
                 <Border x:Name="AnswerBorder" Background="LightBlue"
@@ -342,13 +314,22 @@
                         MouseLeftButtonDown="DisplayAnswer_Click" Cursor="Hand" Grid.ColumnSpan="2"
                         RenderTransformOrigin="0.5,0.5">
                     <Border.Effect>
-                        <DropShadowEffect ShadowDepth="3" BlurRadius="10" Opacity="0.7" Direction="270"/>
+                        <DropShadowEffect ShadowDepth="11" BlurRadius="10" Opacity="0.7" Direction="270"/>
                     </Border.Effect>
                     <Border.RenderTransform>
-                        <ScaleTransform ScaleX="0" ScaleY="1"/>
+                        <ScaleTransform ScaleX="0.3" ScaleY="1.03"/>
                     </Border.RenderTransform>
                     <Border.Triggers>
                         <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.045" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.045" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="11" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.03" Duration="0:0:0.1"/>
@@ -357,28 +338,19 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.1"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.1"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="3" Duration="0:0:0.1"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
                     </Border.Triggers>
-                    <TextBox x:Name="answerTextBox"
-                             TextWrapping="Wrap"
-                             Text=""
-                             Width="690" Height="235"
-                             HorizontalAlignment="Center"
-                             VerticalContentAlignment="Center" 
-                             TextAlignment="Center"
-                             IsReadOnly="True"
-                             BorderThickness="0"
-                             IsHitTestVisible="False"
-                             Background="Transparent">
-                    </TextBox>
+                    <Grid Height="230" Width="660">
+                        <TextBlock x:Name="answerTextBox"
+                                  TextWrapping="Wrap"
+                                  Text=""
+                                  HorizontalAlignment="Center"
+                                  TextAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Background="Transparent"
+                                  IsHitTestVisible="False">
+                        </TextBlock>
+                    </Grid>
+           
                 </Border>
 
                 <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Center"
@@ -390,7 +362,8 @@
                            FontSize="20"
                            Width="100"
                            Text=""
-                           Margin="0,326,0,0"/>
+                           Margin="0,326,0,0"
+                           IsHitTestVisible="False"/>
             </Grid>
 
             <Grid Grid.Row="2">
@@ -461,7 +434,8 @@
             <Ellipse Name="breathingEllipse" HorizontalAlignment="Left" Height="25"
                      Margin="14,0,0,0" Stroke="#FF6AC720" VerticalAlignment="Center" Width="25"
                      StrokeThickness="3"/>
-            <ListBox Visibility="Collapsed" Name="HiddenFlashcardSetListBox"  Grid.Row="2" ItemsSource="{Binding Flashcards}" Margin="-27,132,27,-132"/>
+            <ListBox Visibility="Collapsed" Name="HiddenFlashcardSetListBox" 
+                     Grid.Row="2" ItemsSource="{Binding Flashcards}" Margin="-27,132,27,-132"/>
         </Grid>
     </Border>
 </Window>
