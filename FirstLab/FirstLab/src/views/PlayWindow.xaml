@@ -250,9 +250,9 @@
                     </Image>
                 </Border>
 
-                <TextBlock Name="timerTextBox" HorizontalAlignment="Left"
+                <TextBlock Name="timerTextBox" HorizontalAlignment="Center"
                          VerticalAlignment="Top"
-                         Margin="357,15,0,0"
+                         Margin="0,15,0,0"
                          TextWrapping="Wrap"
                          Text=""
                          Width="104"
@@ -350,7 +350,7 @@
                                   IsHitTestVisible="False">
                         </TextBlock>
                     </Grid>
-           
+
                 </Border>
 
                 <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Center"
@@ -363,8 +363,8 @@
                            Width="100"
                            Text=""
                            IsHitTestVisible="False"
-                           Margin="361,340,380,0"/>
-              
+                           Margin="0,330,0,0"/>
+
                 <TextBox Name="difficultyField"
                          HorizontalAlignment="Left" 
                          Height="34" 
