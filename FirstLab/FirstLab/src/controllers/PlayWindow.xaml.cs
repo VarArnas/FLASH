@@ -60,6 +60,7 @@ public partial class PlayWindow : Window
         this.flashcardSet = _playWindowService.CloneFlashcardSet(flashcardSet);
         flashcardDesign = factoryContainer.CreateDesign(isItalic, isBold, incrementTextBy, decrementTextBy);
         DataContext = this.flashcardSet;
+        difficultyField.Text += flashcardSet.FlashcardSetDifficulty;
         HiddenFlashcardSetListBox.SelectedIndex = 0;
         PreviewKeyDown += UserControl_PreviewKeyDown;
     }

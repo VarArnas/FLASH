@@ -1,8 +1,11 @@
 ﻿using FirstLab.src.interfaces;
 using FirstLab.src.models;
+using FirstLab.src.services;
 using FirstLab.src.utilities;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,6 +14,19 @@ namespace FirstLab;
 public partial class FlashcardOptions : UserControl
 {
     public ObservableCollection<FlashcardSet> flashcardSets;
+
+    public ObservableCollection<FlashcardSet> FlashcardSets
+    {
+        get
+        {
+            flashcardSets.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedEventHandler);
+            return flashcardSets;
+        }
+        set
+        {
+            flashcardSets = value;
+        }
+    }
 
     public DateTime playWindowStartTime;
 
@@ -28,6 +44,7 @@ public partial class FlashcardOptions : UserControl
     {
         _flashcardOptionsService = flashcardOptionsService;
         flashcardSets = await _flashcardOptionsService.InitializeFlashcardSets();
+        FlashcardSets = _flashcardOptionsService.CalculateFlashcardSetDifficulties(FlashcardSets);
         flashcardSetsControl.ItemsSource = flashcardSets;
     }
 
@@ -39,6 +56,18 @@ public partial class FlashcardOptions : UserControl
     private void TextBox_LostFocus(object sender, RoutedEventArgs e)
     {
         TextUtils.SetDefaultText(searchBox, "search...");
+    }
+
+    private void CollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add)
+        {
+            FlashcardSet flashcardSet = e.NewItems.Cast<FlashcardSet>().First();
+            if (flashcardSet != null)
+            {
+                flashcardSet.FlashcardSetDifficulty = _flashcardOptionsService.CalculateDifficultyOfFlashcardSet(flashcardSet);
+            }
+        }
     }
 
     private void PlayButton_Click(object sender, RoutedEventArgs e)

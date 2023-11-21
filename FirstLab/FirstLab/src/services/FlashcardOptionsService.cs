@@ -3,8 +3,10 @@ using FirstLab.src.models;
 using FirstLab.src.models.DTOs;
 using FirstLab.src.utilities;
 using FirstLab.XAML;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Media.Media3D;
 
 namespace FirstLab.src.services;
 
@@ -41,6 +43,82 @@ public class FlashcardOptionsService : IFlashcardOptionsService
         }
 
         return flashcardSets;
+    }
+
+    public ObservableCollection<FlashcardSet> CalculateFlashcardSetDifficulties(ObservableCollection<FlashcardSet> flashcardSets)
+    {
+        foreach(var flashcardSet in flashcardSets)
+        {
+            flashcardSet.FlashcardSetDifficulty = CalculateDifficultyOfFlashcardSet(flashcardSet);
+        }
+
+        return flashcardSets;
+    }
+    
+    public string CalculateDifficultyOfFlashcardSet(FlashcardSet set)
+    {
+        string difficulty = "Medium";
+
+        if (set.Flashcards != null)
+        {
+            int score = 0;
+            int numberOfFlashcards = set.Flashcards.Count;
+
+            foreach (Flashcard flashcard in set.Flashcards)
+            {
+                switch (flashcard.FlashcardColor)
+                {
+                    case "IndianRed":
+                        score += 1;
+                        break;
+
+                    case "Green":
+                        score += 2;
+                        break;
+
+                    case "Yellow":
+                        score += 3;
+                        break;
+
+                    case "RoyalBlue":
+                        score += 4;
+                        break;
+
+                    case "Orange":
+                        score += 5;
+                        break;
+                }
+            }
+
+            if (numberOfFlashcards > 0)
+            {
+                int difficultyNumber = (int)Math.Round((decimal)score / numberOfFlashcards);
+                switch (difficultyNumber)
+                {
+                    case 1:
+                        difficulty = "Very easy";
+                        break;
+
+                    case 2:
+                        difficulty = "Easy";
+                        break;
+
+                    case 3:
+                        difficulty = "Medium";
+                        break;
+
+                    case 4:
+                        difficulty = "Hard";
+                        break;
+
+                    case 5:
+                        difficulty = "Very Hard";
+                        break;
+                }
+            }
+        }
+
+        return difficulty;
     }
 
     public void GoToFlashcardCustomization(FlashcardSet? flashcardSet = null)
