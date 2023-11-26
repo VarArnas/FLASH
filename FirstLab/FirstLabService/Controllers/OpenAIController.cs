@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenAI_API;
 using OpenAI_API.Completions;
+//using FirstLab;
 
 namespace ChatGPT_App.Controllers
 {
@@ -14,7 +15,7 @@ namespace ChatGPT_App.Controllers
         public async Task<IActionResult> UseChatGPT(string query)
         {
             string outputResult = "";
-            var openai = new OpenAIAPI("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");
+            var openai = new OpenAIAPI("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");
             CompletionRequest completionRequest = new CompletionRequest();
             completionRequest.Prompt = query;
             completionRequest.Model = OpenAI_API.Models.Model.DavinciText;

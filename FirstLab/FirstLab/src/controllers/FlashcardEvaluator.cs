@@ -1,5 +1,4 @@
-﻿using OpenAI_API.Moderation;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,46 +9,69 @@ namespace FirstLab
     public partial class FlashcardEvaluator : UserControl
     {
         string result;
+
+        string question;
+
+        string answer;
         public FlashcardEvaluator()
         {
             InitializeComponent();
-            PossibilityTextBox.Text = result;
         }
 
         public async void Evaluator_Loaded(object sender, RoutedEventArgs e)
         {
             QuestionTextBox.Focus();
             AnswerTextBox.Focus();
+        }
 
-            string query = "Hows it going?";
+        private async void selectButton(object sender, RoutedEventArgs e)
+        {
+            question = QuestionTextBox.Text;
+            answer = AnswerTextBox.Text;
+            string query = "Could the answer: " + answer + " be likely correct or likely incorrect for question: " + question + "?";
             result = await CallOpenAIController(query);
             PossibilityTextBox.Text = result;
         }
-
+        
         private async Task<string> CallOpenAIController(string query)
         {
             try
             {
-                using (HttpClient client = new HttpClient())
+                using (HttpClient httpClient = new HttpClient())
                 {
-                    string apiUrl = "http://localhost:7124/api/OpenAI/UseChatGPT?query=" + query;
+                    // Update the URL to match the actual URL of your API
+                    string apiUrl = "https://localhost:7124/api/OpenAI/UseChatGPT";
+                    //https://localhost:7124/api/OpenAI/UseChatGPT?query=heko
+                    // Append the query as a parameter
+                    string fullUrl = $"{apiUrl}?query={query}";
 
-                    HttpResponseMessage response = await client.GetAsync(apiUrl);
+                    MessageBox.Show(fullUrl);
 
+                    // Make the GET request
+                    var response = await httpClient.GetAsync(fullUrl);
+
+                    // Check if the request was successful (HTTP status code 200)
                     if (response.IsSuccessStatusCode)
                     {
-                        return await response.Content.ReadAsStringAsync();
+                        // Read the response content
+                        var result = await response.Content.ReadAsStringAsync();
+                        return result;
                     }
                     else
                     {
-                        return $"Error: {response.StatusCode}";
+                        // Log or handle the error
+                        Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                        return "Error communicating with the API";
                     }
                 }
             }
             catch (Exception ex)
             {
-                return $"Exception: {ex.Message}";
+                // Log or handle exceptions
+                Console.WriteLine($"Exception: {ex.Message}");
+                return "An error occurred";
             }
         }
+
     }
 }
