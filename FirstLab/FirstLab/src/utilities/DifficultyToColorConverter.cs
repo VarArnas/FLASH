@@ -18,7 +18,7 @@ namespace FirstLab.src.utilities
                 switch (difficulty)
                 {
                     case "Very easy":
-                        colorString = "IndianRed";
+                        colorString = "Green";
                         break;
 
                     case "Easy":
@@ -30,11 +30,11 @@ namespace FirstLab.src.utilities
                         break;
 
                     case "Hard":
-                        colorString = "RoyalBlue";
+                        colorString = "Red";
                         break;
 
                     case "Very hard":
-                        colorString = "Orange";
+                        colorString = "Red";
                         break;
                 }
             }
