@@ -20,6 +20,8 @@ public partial class App : Application
 
     public App()
     {
+        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+
         AppHost = Host.CreateDefaultBuilder()
             .ConfigureServices((hostContext, services) =>
             {
@@ -44,7 +46,6 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         await AppHost!.StartAsync();
-
 
         var startupWindow = AppHost.Services.GetRequiredService<MenuWindow>();
         startupWindow.Show();
