@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:FirstLab.src.utilities"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="636"
              Background="Transparent">
+    <UserControl.Resources>
+        <local:DifficultyToColorConverter x:Key="FromDifficultyConverter"/>
+    </UserControl.Resources>
 
     <Border Background="white"
             CornerRadius="0, 0, 20, 0">
@@ -54,7 +58,7 @@
                     </TextBox>
             </Grid>
 
-            <ListBox Grid.Row="1" Background="White" x:Name="flashcardSetsControl" ItemsSource="{Binding flashcardSets}"
+            <ListBox Grid.Row="1" Background="White" x:Name="flashcardSetsControl" ItemsSource="{Binding FlashcardSets}"
                       ScrollViewer.VerticalScrollBarVisibility="Hidden">
                 <!-- This is where we put the flashcardSets to be displayed, using ItemsControl because it
                     doesnt have any hovering effects and lets the item fill out the entire space it is given-->
@@ -65,10 +69,16 @@
                                 <Thickness Top="0" Bottom="2" Left="0" Right="0" />
                             </Border.BorderThickness>
                             <StackPanel Orientation="Horizontal" Height="50">
+                             
                                 <TextBlock Padding="10, 0, 0, 0" VerticalAlignment="center"
                                                    HorizontalAlignment="Left" Text="{Binding FlashcardSetName}"
                                                    FontSize="12" FontWeight="Medium" FontFamily="Fonts/#Dosis"
-                                                   Width="470" TextWrapping="Wrap"/>
+                                                   Width="280" TextWrapping="Wrap"/>
+                                <TextBlock Name="difficultyField"  Padding="10, 0, 0, 0" VerticalAlignment="center"
+                                           HorizontalAlignment="Center" Text="{Binding FlashcardSetDifficulty}"
+                                           FontSize="12" FontWeight="Medium" FontFamily="Fonts/#Dosis"
+                                           Width="190" TextWrapping="Wrap"
+                                           Foreground="{Binding FlashcardSetDifficulty,  Converter={StaticResource FromDifficultyConverter}}"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstLab", "FirstLab\FirstL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstLabTesting", "FirstLabTesting\FirstLabTesting.csproj", "{274B6989-C0B2-417D-A3CE-E810CD4303DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstLabService", "FirstLabService\FirstLabService.csproj", "{114C514D-A98F-4282-89CC-2F18D9C38228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstLabService", "FirstLabService\FirstLabService.csproj", "{114C514D-A98F-4282-89CC-2F18D9C38228}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

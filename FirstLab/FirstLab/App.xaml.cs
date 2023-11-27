@@ -7,7 +7,10 @@ using FirstLab.src.utilities;
 using FirstLab.XAML;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace FirstLab;
 
@@ -43,7 +46,7 @@ public partial class App : Application
     {
         await AppHost!.StartAsync();
 
-    
+
         var startupWindow = AppHost.Services.GetRequiredService<MenuWindow>();
         startupWindow.Show();
 
