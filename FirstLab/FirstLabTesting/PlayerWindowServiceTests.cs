@@ -74,8 +74,6 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
     [Fact]
     public void SetAnimation_CreatesExpectedAnimation()
     {
-        //Arrange
-
         //Act
         var animation = _fixture.PlayWindowService.SetAnimation();
 
@@ -564,43 +562,4 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         // Assert
         Assert.Equal(expectedResult, result);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
