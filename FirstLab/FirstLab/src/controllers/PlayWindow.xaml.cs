@@ -67,13 +67,13 @@ public partial class PlayWindow : Window
 
     private void DisplayPreviousFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        if(!_playWindowService.isFirstOrZeroIndex(HiddenFlashcardSetListBox.SelectedIndex))
+        if(!_playWindowService.IsFirstOrZeroIndex(HiddenFlashcardSetListBox.SelectedIndex))
             DisplayFlashcard(true);
     }
 
     private void DisplayNextFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        if(!_playWindowService.isLastIndex(HiddenFlashcardSetListBox.SelectedIndex, flashcardSet))
+        if(!_playWindowService.IsLastIndex(HiddenFlashcardSetListBox.SelectedIndex, flashcardSet))
             DisplayFlashcard(false);
     }
 
@@ -88,7 +88,7 @@ public partial class PlayWindow : Window
         storyboard!.Begin();
         MapQuestionAnswerProperties(_playWindowService.GetQuestionAnswerProperties(true, false, currentFlashcard, flashcardSet));
 
-        if (!_playWindowService.isFirstOrZeroIndex(counter))
+        if (!_playWindowService.IsFirstOrZeroIndex(counter))
             InitTimer();
     }
 
@@ -96,7 +96,7 @@ public partial class PlayWindow : Window
     {
         if(!isAnswerDisplayed)
         {
-            FlashcardAnimation(_playWindowService.SetQuestionOrAnswerProperties(false, true, currentFlashcard, flashcardSet));
+            FlashcardAnimation(_playWindowService.GetQuestionAnswerProperties(false, true, currentFlashcard, flashcardSet));
             isAnswerDisplayed = true;
             countdownTimer!.Stop();
         }

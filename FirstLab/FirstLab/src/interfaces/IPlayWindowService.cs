@@ -2,6 +2,8 @@
 using FirstLab.src.models;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
+using System.Windows;
 using System.Windows.Media.Animation;
 
 namespace FirstLab.src.interfaces;
@@ -36,10 +38,18 @@ public interface IPlayWindowService
 
     TextAndBorderPropertiesPlayWindow GetQuestionAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet);
 
-    bool isLastIndex(int index, FlashcardSet flashcardSet);
+    bool IsLastIndex(int index, FlashcardSet flashcardSet);
 
-    bool isFirstOrZeroIndex(int index);
+    bool IsFirstOrZeroIndex(int index);
 
     int CheckIfPreviousOrNext(bool isPreviousFlashcardNeeded, int index, FlashcardSet flashcardSet, bool isStart);
+
+    bool DetermineQuestionOrAnswer(bool question, bool answer);
+
+    int GetFlashcardIndex(Flashcard flashcard, FlashcardSet flashcardSet);
+
+    TextAndBorderPropertiesPlayWindow CreateTextAndBorderProperties(string flashcardNumber, string text, SolidColorBrush borderColor, Visibility questionVisibility, Visibility answerVisibility);
+
+    int ParseCounter(string selectedTime);
 
 }
