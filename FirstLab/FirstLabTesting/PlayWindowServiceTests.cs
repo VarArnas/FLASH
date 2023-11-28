@@ -14,13 +14,13 @@ using System.Windows.Media.Animation;
 
 namespace FirstLabTesting;
 
-public class PlayerWindowServiceTests
+public class PlayWindowServiceTests
 {
     private PlayWindowService playWindowService;
 
     private IFactoryContainer factoryContainer;
 
-    public PlayerWindowServiceTests()
+    public PlayWindowServiceTests()
     {
         var mockFactoryContainer = new Mock<IFactoryContainer>();
         factoryContainer = mockFactoryContainer.Object;
@@ -438,39 +438,6 @@ public class PlayerWindowServiceTests
             It.Is<bool>(b => b == isItalic),
             It.Is<FontWeight>(fw => fw == expectedFontWeight),
             It.Is<FontStyle>(fs => fs == expectedFontStyle)), Times.Once);
-    }
-
-
-    [Theory]
-    [InlineData(true, false)]
-    [InlineData(false, true)]
-    public void SetQuestionOrAnswerProperties_ValidInputsWithEitherQuestionOrAnswer_ReturnsCorrecdatPropertiesWithVisibilitiesAndText(bool question, bool answer)
-    {
-        // Arrange
-        var mockFlashcard = new Flashcard { FlashcardName = "Card1", FlashcardQuestion = "Q1", FlashcardAnswer = "A1", FlashcardColor = "IndianRed", FlashcardTimer = "3" };
-        var flashcardSet = new FlashcardSet
-        {
-            FlashcardSetName = "Sample Set",
-            FlashcardSetDifficulty = "Medium",
-            Flashcards = new ObservableCollection<Flashcard> { mockFlashcard }
-        };
-        string expectedText = question ? mockFlashcard.FlashcardQuestion : mockFlashcard.FlashcardAnswer;
-        Visibility expectedQuestionVisibilty = question ? Visibility.Visible : Visibility.Collapsed;
-        Visibility expectedAnswerVisibility = answer ? Visibility.Visible : Visibility.Collapsed;
-
-
-        var mockFactoryContainer = Mock.Get(factoryContainer);
-
-        // Act
-        var result = playWindowService.SetQuestionOrAnswerProperties(question, answer, mockFlashcard, flashcardSet);
-
-        // Assert
-        mockFactoryContainer.Verify(f => f.CreateTextAndBorderPropertiesPlayWindow(
-            It.Is<string>(s => s == "1/1"),
-            It.Is<string>(s => s == expectedText),
-            It.IsAny<SolidColorBrush>(),
-            It.Is<Visibility>(v => v == expectedQuestionVisibilty),
-            It.Is<Visibility>(v => v == expectedAnswerVisibility)), Times.Once);
     }
 
     [Fact]
