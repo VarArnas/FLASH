@@ -1,5 +1,6 @@
 ﻿using FirstLab.Migrations;
 using FirstLab.src.exceptions;
+using FirstLab.src.factories;
 using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.services;
@@ -7,27 +8,23 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using Xunit.Sdk;
 
 namespace FirstLabTesting;
 
-public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixture>
+public class PlayerWindowServiceTests
 {
-    private readonly PlayWindowServiceTestFixture _fixture;
+    private PlayWindowService playWindowService;
 
+    private IFactoryContainer factoryContainer;
 
-
-    public PlayerWindowServiceTests(PlayWindowServiceTestFixture fixture)
+    public PlayerWindowServiceTests()
     {
-        _fixture = fixture;
-        _fixture.ResetMocks();
+        var mockFactoryContainer = new Mock<IFactoryContainer>();
+        factoryContainer = mockFactoryContainer.Object;
+        playWindowService = new PlayWindowService(factoryContainer);
     }
 
     public static IEnumerable<object[]> CheckIfPreviousOrNextData()
@@ -62,7 +59,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
     public void CheckIfPreviousOrNext_CheckingAllDifferentOutcomesWithBools_ReturnsExpectedIndex(bool isPrevious, int currentIndex, FlashcardSet flashcardSet, bool isStart, int expectedIndex)
     {
         // Arrange
-        var service = _fixture.PlayWindowService;
+        var service = playWindowService;
 
         // Act
         int result = service.CheckIfPreviousOrNext(isPrevious, currentIndex, flashcardSet, isStart);
@@ -75,7 +72,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
     public void SetAnimation_CreatesExpectedAnimation()
     {
         //Act
-        var animation = _fixture.PlayWindowService.SetAnimation();
+        var animation = playWindowService.SetAnimation();
 
         // Assert
         Assert.Equal(1.0, animation.From);
@@ -94,7 +91,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         // Arrange
 
         // Act
-        var result = _fixture.PlayWindowService.DetermineQuestionOrAnswer(question, answer);
+        var result = playWindowService.DetermineQuestionOrAnswer(question, answer);
 
         // Assert
         Assert.Equal(expectedResult, result);
@@ -108,7 +105,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         {
             FlashcardSetName = "Sample Set",
             FlashcardSetDifficulty = "Medium",
-            Flashcards = new ObservableCollection<Flashcard> 
+            Flashcards = new ObservableCollection<Flashcard>
             {
                 new Flashcard { FlashcardName = "Card1" },
                 new Flashcard { FlashcardName = "Card2" }
@@ -118,7 +115,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         var flashcard = flashcardSet!.Flashcards![1];
 
         // Act
-        var index = _fixture.PlayWindowService.GetFlashcardIndex(flashcard, flashcardSet);
+        var index = playWindowService.GetFlashcardIndex(flashcard, flashcardSet);
 
         // Assert
         Assert.Equal(1, index);
@@ -128,14 +125,14 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
     public void CreateTextAndBorderPropertiesPlayWindow_InvokesFactoryContainerWithCorrectParameters_ReturnsExpectedObject()
     {
         // Arrange
-        var mockFactoryContainer = Mock.Get(_fixture.FactoryContainer);
+        var mockFactoryContainer = Mock.Get(factoryContainer);
         var expectedObject = new TextAndBorderPropertiesPlayWindow("1/5", "Sample Text", Brushes.IndianRed, Visibility.Visible, Visibility.Collapsed);
 
         mockFactoryContainer.Setup(f => f.CreateTextAndBorderPropertiesPlayWindow(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SolidColorBrush>(), It.IsAny<Visibility>(), It.IsAny<Visibility>()))
                             .Returns(expectedObject);
 
         // Act
-        var result = _fixture.PlayWindowService.CreateTextAndBorderProperties("1/5", "Sample Text", Brushes.IndianRed, Visibility.Visible, Visibility.Collapsed);
+        var result = playWindowService.CreateTextAndBorderProperties("1/5", "Sample Text", Brushes.IndianRed, Visibility.Visible, Visibility.Collapsed);
 
         // Assert
         Assert.Equal(expectedObject, result);
@@ -146,13 +143,13 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
     public void ThrowCustomException_InvokesCreateExceptionWithValidMessage_ThrowsCustomNullException()
     {
         // Arrange
-        var mockFactoryContainer = Mock.Get(_fixture.FactoryContainer);
+        var mockFactoryContainer = Mock.Get(factoryContainer);
         var customException = new CustomNullException("Test Exception");
         mockFactoryContainer.Setup(f => f.CreateException(It.IsAny<string>())).Returns(customException);
 
         // Act & Assert
         var exception = Assert.Throws<CustomNullException>(() =>
-            _fixture.PlayWindowService.ThrowCustomException("Test Exception", new Exception()));
+            playWindowService.ThrowCustomException("Test Exception", new Exception()));
 
         Assert.Equal("Exception: Test Exception", exception.Message);
         mockFactoryContainer.Verify(f => f.CreateException(It.IsAny<string>()), Times.Once);
@@ -162,7 +159,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
     public void SetQuestionOrAnswerProperties_NoColor_ThrowsNullException()
     {
         // Arrange
-        var mockFlashcard = new Flashcard { FlashcardName = "Card1",  FlashcardQuestion = "Q1", FlashcardAnswer = "A1", FlashcardColor = "", FlashcardTimer = "3" };
+        var mockFlashcard = new Flashcard { FlashcardName = "Card1", FlashcardQuestion = "Q1", FlashcardAnswer = "A1", FlashcardColor = "", FlashcardTimer = "3" };
         var flashcardSet = new FlashcardSet
         {
             FlashcardSetName = "Sample Set",
@@ -172,7 +169,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
 
         // Act & Assert
         Assert.Throws<NullReferenceException>(() =>
-            _fixture.PlayWindowService.SetQuestionOrAnswerProperties(true, false, mockFlashcard, flashcardSet));
+            playWindowService.SetQuestionOrAnswerProperties(true, false, mockFlashcard, flashcardSet));
     }
 
     [Fact]
@@ -188,7 +185,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         };
 
         //Act
-        var exception = Record.Exception(() => _fixture.PlayWindowService.SetQuestionOrAnswerProperties(true, false, mockFlashcard, flashcardSet));
+        var exception = Record.Exception(() => playWindowService.SetQuestionOrAnswerProperties(true, false, mockFlashcard, flashcardSet));
 
         //Assert
         Assert.Null(exception);
@@ -210,13 +207,13 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         };
         string expectedText = question ? mockFlashcard.FlashcardQuestion : mockFlashcard.FlashcardAnswer;
         Visibility expectedQuestionVisibilty = question ? Visibility.Visible : Visibility.Collapsed;
-        Visibility expectedAnswerVisibility = answer ? Visibility.Visible: Visibility.Collapsed;
+        Visibility expectedAnswerVisibility = answer ? Visibility.Visible : Visibility.Collapsed;
 
 
-        var mockFactoryContainer = Mock.Get(_fixture.FactoryContainer);
+        var mockFactoryContainer = Mock.Get(factoryContainer);
 
         // Act
-        var result = _fixture.PlayWindowService.SetQuestionOrAnswerProperties(question, answer, mockFlashcard, flashcardSet);
+        var result = playWindowService.SetQuestionOrAnswerProperties(question, answer, mockFlashcard, flashcardSet);
 
         // Assert
         mockFactoryContainer.Verify(f => f.CreateTextAndBorderPropertiesPlayWindow(
@@ -237,7 +234,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         //Arrange
 
         //Act
-        var result = _fixture.PlayWindowService.ParseCounter(selectedTime);
+        var result = playWindowService.ParseCounter(selectedTime);
 
         //Assert
         Assert.Equal(actualTime, result);
@@ -251,7 +248,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
 
         //Act & Assert
         Assert.Throws<NullReferenceException>(() =>
-            _fixture.PlayWindowService.FindCounter(mockFlashcard));
+            playWindowService.FindCounter(mockFlashcard));
     }
 
     [Theory]
@@ -264,7 +261,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         var mockFlashcard = new Flashcard { FlashcardName = "Card1", FlashcardTimer = timer };
 
         // Act
-        var exception = Record.Exception(() => _fixture.PlayWindowService.FindCounter(mockFlashcard));
+        var exception = Record.Exception(() => playWindowService.FindCounter(mockFlashcard));
 
         //Assert
         Assert.Null(exception);
@@ -278,7 +275,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         int counter = 5;
 
         // Act
-        Exception exception = Record.Exception(() => _fixture.PlayWindowService.CreateCounter(ref counter, mockFlashcard));
+        Exception exception = Record.Exception(() => playWindowService.CreateCounter(ref counter, mockFlashcard));
 
         // Assert
         Assert.IsType<NullReferenceException>(exception);
@@ -292,7 +289,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         int counter = 50;
 
         // Act
-        _fixture.PlayWindowService.CreateCounter(ref counter, mockFlashcard);
+        playWindowService.CreateCounter(ref counter, mockFlashcard);
 
         // Assert
         Assert.Equal(5, counter);
@@ -319,10 +316,10 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         var originalOrder = flashcards.ToList();
 
         // Act
-        _fixture.PlayWindowService.ShuffleFlashcards(flashcards);
+        playWindowService.ShuffleFlashcards(flashcards);
 
         // Assert
-        Assert.Equal(10, flashcards.Count); 
+        Assert.Equal(10, flashcards.Count);
         Assert.All(originalOrder, card => Assert.Contains(card, flashcards));
         Assert.NotEqual(originalOrder, flashcards); // SOMETIMES MIGHT FAIL DUE TO SHUFFLE BEING ABLE TO SHUFFLE THE SAME SO JUST RETRY THE TESTS
     }
@@ -342,7 +339,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
 
         // Act & Assert
         Assert.Throws<NullReferenceException>(() =>
-            _fixture.PlayWindowService.GetQuestionAnswerProperties(true, false, mockFlashcard, flashcardSet));
+            playWindowService.GetQuestionAnswerProperties(true, false, mockFlashcard, flashcardSet));
     }
 
     [Theory]
@@ -362,7 +359,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
             }
         };
 
-        var mockFactoryContainer = Mock.Get(_fixture.FactoryContainer);
+        var mockFactoryContainer = Mock.Get(factoryContainer);
         string expectedText = question ? mockFlashcard.FlashcardQuestion : mockFlashcard.FlashcardAnswer;
         Visibility expectedQuestionVisibilty = question ? Visibility.Visible : Visibility.Collapsed;
         Visibility expectedAnswerVisibility = answer ? Visibility.Visible : Visibility.Collapsed;
@@ -373,7 +370,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
             .Returns(expectedProperties);
 
         // Act
-        var result = _fixture.PlayWindowService.GetQuestionAnswerProperties(question, answer, mockFlashcard, flashcardSet);
+        var result = playWindowService.GetQuestionAnswerProperties(question, answer, mockFlashcard, flashcardSet);
 
         // Assert
 
@@ -400,12 +397,12 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
             }
         };
 
-        var mockFactoryContainer = Mock.Get(_fixture.FactoryContainer);
+        var mockFactoryContainer = Mock.Get(factoryContainer);
         mockFactoryContainer.Setup(f => f.CreateObject<FlashcardSet>())
                         .Returns(() => new FlashcardSet { Flashcards = new ObservableCollection<Flashcard>() });
 
         // Act
-        var clonedSet = _fixture.PlayWindowService.CloneFlashcardSet(originalSet);
+        var clonedSet = playWindowService.CloneFlashcardSet(originalSet);
 
         // Assert
         Assert.Equal(originalSet.FlashcardSetName, clonedSet.FlashcardSetName);
@@ -428,18 +425,18 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
     public void SetTextProperties_GivenFlags_ReturnsExpectedProperties(bool isHighlighted, bool isItalic)
     {
         // Arrange
-        var mockFactoryContainer = Mock.Get(_fixture.FactoryContainer);
+        var mockFactoryContainer = Mock.Get(factoryContainer);
         var expectedFontWeight = isHighlighted ? FontWeights.Bold : FontWeights.Normal;
         var expectedFontStyle = isItalic ? FontStyles.Italic : FontStyles.Normal;
 
         // Act
-        var result = _fixture.PlayWindowService.SetTextProperties(isHighlighted, isItalic);
+        var result = playWindowService.SetTextProperties(isHighlighted, isItalic);
 
         // Assert
         mockFactoryContainer.Verify(f => f.CreateTextModificationProperties(
-            It.Is<bool>(b => b == isHighlighted), 
-            It.Is<bool>(b => b == isItalic), 
-            It.Is<FontWeight>(fw => fw == expectedFontWeight), 
+            It.Is<bool>(b => b == isHighlighted),
+            It.Is<bool>(b => b == isItalic),
+            It.Is<FontWeight>(fw => fw == expectedFontWeight),
             It.Is<FontStyle>(fs => fs == expectedFontStyle)), Times.Once);
     }
 
@@ -462,10 +459,10 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         Visibility expectedAnswerVisibility = answer ? Visibility.Visible : Visibility.Collapsed;
 
 
-        var mockFactoryContainer = Mock.Get(_fixture.FactoryContainer);
+        var mockFactoryContainer = Mock.Get(factoryContainer);
 
         // Act
-        var result = _fixture.PlayWindowService.SetQuestionOrAnswerProperties(question, answer, mockFlashcard, flashcardSet);
+        var result = playWindowService.SetQuestionOrAnswerProperties(question, answer, mockFlashcard, flashcardSet);
 
         // Assert
         mockFactoryContainer.Verify(f => f.CreateTextAndBorderPropertiesPlayWindow(
@@ -480,11 +477,11 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
     public void HandleNullColor_GivenAFlashcard_SetsDefaultColor()
     {
         // Arrange
-        var mockFlashcard = new Flashcard { FlashcardQuestion = "Card1", FlashcardColor = "Purple"};
+        var mockFlashcard = new Flashcard { FlashcardQuestion = "Card1", FlashcardColor = "Purple" };
         var exception = new CustomNullException("Test Exception");
 
         // Act
-        _fixture.PlayWindowService.HandleNullColor(exception, mockFlashcard);
+        playWindowService.HandleNullColor(exception, mockFlashcard);
 
         // Assert
         Assert.Equal(exception.defaultColor, mockFlashcard.FlashcardColor);
@@ -503,7 +500,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         };
 
         // Act
-        var newSize = _fixture.PlayWindowService.FindNewTextSize(increaseSize, flashcardDesign, presentFontSize);
+        var newSize = playWindowService.FindNewTextSize(increaseSize, flashcardDesign, presentFontSize);
 
         // Assert
         Assert.Equal(expectedFontSize, newSize);
@@ -515,13 +512,13 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         // Arrange
 
         // Act & Assert
-        Assert.Equal("SlideOutAnimation", _fixture.PlayWindowService.SetSlidePanelAnimation());
-        Assert.Equal("SlideInAnimation", _fixture.PlayWindowService.SetSlidePanelAnimation());
+        Assert.Equal("SlideOutAnimation", playWindowService.SetSlidePanelAnimation());
+        Assert.Equal("SlideInAnimation", playWindowService.SetSlidePanelAnimation());
     }
 
 
     public static IEnumerable<object[]> IsLastIndexData()
-    { 
+    {
         var flashcardSet2 = new FlashcardSet
         {
             FlashcardSetName = "Sample Set",
@@ -545,7 +542,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
         // Arrange
 
         // Act
-        var result = _fixture.PlayWindowService.IsLastIndex(index, flashcardSet);
+        var result = playWindowService.IsLastIndex(index, flashcardSet);
 
         // Assert
         Assert.Equal(expectedResult, result);
@@ -557,7 +554,7 @@ public class PlayerWindowServiceTests : IClassFixture<PlayWindowServiceTestFixtu
     public void IsFirstOrZeroIndex_GivenIndex_ReturnsExpectedResult(int index, bool expectedResult)
     {
         // Arrange & Act
-        var result = _fixture.PlayWindowService.IsFirstOrZeroIndex(index);
+        var result = playWindowService.IsFirstOrZeroIndex(index);
 
         // Assert
         Assert.Equal(expectedResult, result);

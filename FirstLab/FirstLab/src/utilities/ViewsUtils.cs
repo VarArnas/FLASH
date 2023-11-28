@@ -1,4 +1,6 @@
 ﻿
+using FirstLab.src.controllers;
+
 namespace FirstLab.src.utilities;
 
 public class ViewsUtils

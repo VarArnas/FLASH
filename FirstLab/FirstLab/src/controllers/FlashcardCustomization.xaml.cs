@@ -5,8 +5,9 @@ using System.Windows.Media;
 using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.utilities;
+using FirstLab.src.controllers;
 
-namespace FirstLab;
+namespace FirstLab.src.controllers;
 
 public partial class FlashcardCustomization : UserControl
 {

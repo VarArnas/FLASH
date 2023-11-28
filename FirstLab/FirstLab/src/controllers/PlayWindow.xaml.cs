@@ -11,7 +11,7 @@ using System.Linq;
 using System.Windows.Media;
 using System;
 
-namespace FirstLab.XAML;
+namespace FirstLab.src.controllers;
 
 public partial class PlayWindow : Window
 {

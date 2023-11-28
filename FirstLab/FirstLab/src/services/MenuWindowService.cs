@@ -1,9 +1,10 @@
 ﻿using FirstLab.src.interfaces;
 using FirstLab.src.utilities;
-using FirstLab.XAML;
+using FirstLab.src.controllers;
 using System;
 using System.Windows;
 using System.Windows.Media.Animation;
+using FirstLab.src.interfaces;
 
 namespace FirstLab.src.services;
 

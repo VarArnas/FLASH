@@ -9,7 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FirstLab;
+namespace FirstLab.src.controllers;
 
 public partial class FlashcardOptions : UserControl
 {
