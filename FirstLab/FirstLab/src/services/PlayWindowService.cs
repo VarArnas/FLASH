@@ -26,12 +26,12 @@ public class PlayWindowService : IPlayWindowService
     public int CheckIfPreviousOrNext(bool isPreviousFlashcardNeeded, int index, FlashcardSet flashcardSet, bool isStart)
     {
         if (isPreviousFlashcardNeeded)
-            if (!isFirstOrZeroIndex(index))
+            if (!IsFirstOrZeroIndex(index))
                 return --index;
             else
                 return index;
         else
-            if (!isLastIndex(index, flashcardSet) && !isStart)
+            if (!IsLastIndex(index, flashcardSet) && !isStart)
                 return ++index;
             else
                 return index;
@@ -194,12 +194,12 @@ public class PlayWindowService : IPlayWindowService
         return isPanelVisible ? "SlideInAnimation" : "SlideOutAnimation";
     }
 
-    public bool isLastIndex(int index, FlashcardSet flashcardSet)
+    public bool IsLastIndex(int index, FlashcardSet flashcardSet)
     {
         return !(index != flashcardSet.Flashcards!.Count() - 1);
     }
 
-    public bool isFirstOrZeroIndex(int index)
+    public bool IsFirstOrZeroIndex(int index)
     {
         return !(index != 0);
     }
