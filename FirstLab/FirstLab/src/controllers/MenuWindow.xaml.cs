@@ -1,11 +1,11 @@
 ﻿using FirstLab.src.interfaces;
-using FirstLab.XAML;
+using FirstLab.src.controllers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace FirstLab;
+namespace FirstLab.src.controllers;
 
 public partial class MenuWindow : Window
 {

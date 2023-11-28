@@ -11,7 +11,7 @@ using System.Linq;
 using System.Windows.Media;
 using System;
 
-namespace FirstLab.XAML;
+namespace FirstLab.src.controllers;
 
 public partial class PlayWindow : Window
 {
@@ -96,7 +96,7 @@ public partial class PlayWindow : Window
     {
         if(!isAnswerDisplayed)
         {
-            FlashcardAnimation(_playWindowService.SetQuestionOrAnswerProperties(false, true, currentFlashcard, flashcardSet));
+            FlashcardAnimation(_playWindowService.GetQuestionAnswerProperties(false, true, currentFlashcard, flashcardSet));
             isAnswerDisplayed = true;
             countdownTimer!.Stop();
         }

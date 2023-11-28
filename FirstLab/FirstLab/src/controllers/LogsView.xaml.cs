@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace FirstLab.XAML;
+namespace FirstLab.src.controllers;
 
 public partial class LogsView : UserControl
 {

@@ -3,6 +3,7 @@ using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -50,12 +51,11 @@ public class PlayWindowService : IPlayWindowService
 
     public TextAndBorderPropertiesPlayWindow SetQuestionOrAnswerProperties(bool question, bool answer, Flashcard flashcard, FlashcardSet flashcardSet)
     {
-        bool isQuestion = question && !answer;
-        int flashcardIndex = flashcardSet!.Flashcards!.IndexOf(flashcardSet!.Flashcards!.FirstOrDefault(fc => fc.FlashcardName == flashcard.FlashcardName)!);
-        string flashcardNumber = $"{ flashcardIndex + 1}/{flashcardSet.Flashcards!.Count}";
+        bool isQuestion = DetermineQuestionOrAnswer(question, answer);
+        int flashcardIndex = GetFlashcardIndex(flashcard, flashcardSet);
+        string flashcardNumber = $"{flashcardIndex + 1}/{flashcardSet.Flashcards!.Count}";
         string text = isQuestion ? flashcard.FlashcardQuestion! : flashcard.FlashcardAnswer!;
         SolidColorBrush? borderColor = null;
-
         try
         {
             borderColor = (SolidColorBrush)new BrushConverter().ConvertFromString(flashcard.FlashcardColor!)!;
@@ -67,6 +67,21 @@ public class PlayWindowService : IPlayWindowService
 
         Visibility questionVisibility = isQuestion ? Visibility.Visible : Visibility.Collapsed;
         Visibility answerVisibility = isQuestion ? Visibility.Collapsed : Visibility.Visible;
+        return CreateTextAndBorderProperties(flashcardNumber, text, borderColor!, questionVisibility, answerVisibility);
+    }
+
+    public bool DetermineQuestionOrAnswer(bool question, bool answer)
+    {
+        return question && !answer;
+    }
+
+    public int GetFlashcardIndex(Flashcard flashcard, FlashcardSet flashcardSet)
+    {
+        return flashcardSet.Flashcards.IndexOf(flashcardSet.Flashcards.FirstOrDefault(fc => fc.FlashcardName == flashcard.FlashcardName));
+    }
+
+    public TextAndBorderPropertiesPlayWindow CreateTextAndBorderProperties(string flashcardNumber, string text, SolidColorBrush borderColor, Visibility questionVisibility, Visibility answerVisibility)
+    {
         return _factoryContainer.CreateTextAndBorderPropertiesPlayWindow(flashcardNumber, text, borderColor, questionVisibility, answerVisibility);
     }
 
@@ -74,7 +89,6 @@ public class PlayWindowService : IPlayWindowService
     public int FindCounter(Flashcard flashcard)
     {
         string? selectedTime = null;
-        int counter = 0;
         try
         {
             selectedTime = flashcard.FlashcardTimer!.ToString();
@@ -84,6 +98,12 @@ public class PlayWindowService : IPlayWindowService
             ThrowCustomException($"No default timer has been selected", ex);
         }
 
+        return ParseCounter(selectedTime!);
+    }
+
+    public int ParseCounter(string selectedTime)
+    {
+        int counter = 0;
         if (!string.IsNullOrEmpty(selectedTime))
         {
             Match match = Regex.Match(selectedTime, @"\d+");
@@ -117,13 +137,13 @@ public class PlayWindowService : IPlayWindowService
     {
         try
         {
-            var properties = SetQuestionOrAnswerProperties(true, false, flashcard, flashcardSet);
+            var properties = SetQuestionOrAnswerProperties(question, answer, flashcard, flashcardSet);
             return properties;
         }
         catch (CustomNullException ex)
         {
             HandleNullColor(ex, flashcard);
-            var properties = SetQuestionOrAnswerProperties(true, false, flashcard, flashcardSet);
+            var properties = SetQuestionOrAnswerProperties(question, answer, flashcard, flashcardSet);
             return properties;
         }
     }
@@ -151,6 +171,7 @@ public class PlayWindowService : IPlayWindowService
         clonedSet.FlashcardSetName = originalSet.FlashcardSetName;
         return clonedSet;
     }
+
     public void ThrowCustomException(string message, Exception exception)
     {
         CustomNullException.LogException(exception);

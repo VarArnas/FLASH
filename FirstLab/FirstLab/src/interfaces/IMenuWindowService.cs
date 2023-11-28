@@ -1,4 +1,4 @@
-﻿using FirstLab.XAML;
+﻿using FirstLab.src.controllers;
 using System.Windows.Media.Animation;
 
 namespace FirstLab.src.interfaces
