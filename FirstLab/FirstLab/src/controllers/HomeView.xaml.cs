@@ -11,15 +11,16 @@ public partial class HomeView : UserControl
 
     public FlashcardEvaluator flashcardEvaluatorView;
 
-    public HomeView(FlashcardOptions flashcardOptionsView)
+    public HomeView(FlashcardOptions flashcardOptionsView, FlashcardEvaluator flashcardEvaluatorView)
     {
         InitializeComponent();
-        InitializeHomeFields(flashcardOptionsView);
+        InitializeHomeFields(flashcardOptionsView, flashcardEvaluatorView);
     }
 
-    private void InitializeHomeFields(FlashcardOptions flashcardOptionsView)
+    private void InitializeHomeFields(FlashcardOptions flashcardOptionsView, FlashcardEvaluator flashcardEvaluatorView)
     {
         this.flashcardOptionsView = flashcardOptionsView;
+        this.flashcardEvaluatorView = flashcardEvaluatorView;
     }
 
     private void Flashcards_Clicked(object sender, RoutedEventArgs e)

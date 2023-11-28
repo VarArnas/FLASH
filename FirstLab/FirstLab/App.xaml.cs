@@ -27,6 +27,7 @@ public partial class App : Application
                 services.AddSingleton<HomeView>();
                 services.AddSingleton<LogsView>();
                 services.AddSingleton<FlashcardOptions>();
+                services.AddSingleton<FlashcardEvaluator>();
                 services.AddSingleton<IFactoryContainer, FactoryContainer>();
                 services.AddSingleton<IPlayWindowService, PlayWindowService>();
                 services.AddSingleton<IFlashcardOptionsService, FlashcardOptionsService>();
