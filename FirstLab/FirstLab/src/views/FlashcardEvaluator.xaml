@@ -10,9 +10,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,91,0,0" Text="Your question" Width="192" Background="Bisque" Name="QuestionTextBox" Height="70"/>
-        <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,183,0,0" Text="Your answer" Width="192" Background="Bisque" Name="AnswerTextBox" Height="67"/>
-        <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,283,0,0" Text="" Width="192" Background="Bisque" x:Name="PossibilityTextBox" Height="52"/>
-        <Button Content="Check&#xD;&#xA;" HorizontalAlignment="Center" Margin="0,362,0,0" VerticalAlignment="Top" Width="74" Height="21" Click="selectButton"/>
+        <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,55,0,0" Text="Your question" Width="192" Background="Bisque" Name="QuestionTextBox" Height="70"/>
+        <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,143,0,0" Text="Your answer" Width="192" Background="Bisque" Name="AnswerTextBox" Height="67"/>
+        <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,313,0,0" Text="" Width="192" Background="Bisque" x:Name="PossibilityTextBox" Height="52"/>
+        <Button Content="Check&#xD;&#xA;" HorizontalAlignment="Center" Margin="0,419,0,0" VerticalAlignment="Top" Width="74" Height="21" Click="selectButton"/>
+        <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,225,0,0" Text="" Width="192" Background="Bisque" x:Name="UserAnswerTextBox" Height="52"/>
     </Grid>
 </UserControl>

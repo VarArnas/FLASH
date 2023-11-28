@@ -13,6 +13,8 @@ namespace FirstLab
         string question;
 
         string answer;
+
+        string useranswer;
         public FlashcardEvaluator()
         {
             InitializeComponent();
@@ -28,7 +30,11 @@ namespace FirstLab
         {
             question = QuestionTextBox.Text;
             answer = AnswerTextBox.Text;
-            string query = "Could the answer: " + answer + " be likely correct or likely incorrect for question: " + question + "?";
+            useranswer = UserAnswerTextBox.Text;
+
+            string query = "You are a teacher who is evaluating a students answer to this question: " + question
+                + " the actual answer is this: " + answer + ". And the student wrote this: " + useranswer + 
+                ". Is this students answer similar to the actual answer. With one word say YES or NO.";
             result = await CallOpenAIController(query);
             PossibilityTextBox.Text = result;
         }
@@ -39,27 +45,21 @@ namespace FirstLab
             {
                 using (HttpClient httpClient = new HttpClient())
                 {
-                    // Update the URL to match the actual URL of your API
                     string apiUrl = "https://localhost:7124/api/OpenAI/UseChatGPT";
-                    //https://localhost:7124/api/OpenAI/UseChatGPT?query=heko
-                    // Append the query as a parameter
+                   
                     string fullUrl = $"{apiUrl}?query={query}";
 
                     MessageBox.Show(fullUrl);
 
-                    // Make the GET request
                     var response = await httpClient.GetAsync(fullUrl);
 
-                    // Check if the request was successful (HTTP status code 200)
                     if (response.IsSuccessStatusCode)
                     {
-                        // Read the response content
                         var result = await response.Content.ReadAsStringAsync();
                         return result;
                     }
                     else
                     {
-                        // Log or handle the error
                         Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
                         return "Error communicating with the API";
                     }
@@ -67,7 +67,6 @@ namespace FirstLab
             }
             catch (Exception ex)
             {
-                // Log or handle exceptions
                 Console.WriteLine($"Exception: {ex.Message}");
                 return "An error occurred";
             }
