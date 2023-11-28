@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FirstLabService\FirstLabService.csproj" />
     <ProjectReference Include="..\FirstLab\FirstLab.csproj" />
   </ItemGroup>
 

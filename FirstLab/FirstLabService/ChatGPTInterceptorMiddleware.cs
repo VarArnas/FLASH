@@ -4,7 +4,9 @@ using OpenAI_API;
 using OpenAI_API.Completions;
 using System;
 using System.IO;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 public class ChatGPTInterceptorMiddleware
@@ -18,19 +20,31 @@ public class ChatGPTInterceptorMiddleware
         _logger = logger;
     }
 
-    public async Task Invoke(HttpContext context, OpenAIAPI openai)
+    public async Task Invoke(HttpContext context)
     {
-        string inputPrompt = await ReadRequestBody(context.Request);
+        string inputPrompt = context.Request.Method == "POST" ? await ReadRequestBody(context.Request) : context.Request.QueryString.ToString();
+
+        inputPrompt = inputPrompt.Replace("+", "PLACEHOLDER_FOR_PLUS");
+        inputPrompt = inputPrompt.Replace("-", "PLACEHOLDER_FOR_MINUS");
+        inputPrompt = inputPrompt.Replace("/", "PLACEHOLDER_FOR_DIVISION");
+        inputPrompt = inputPrompt.Replace("*", "PLACEHOLDER_FOR_MULTIPLICATION");
+
+        inputPrompt = WebUtility.UrlDecode(inputPrompt);
+        inputPrompt = inputPrompt.Replace("%", " ");
+
+        inputPrompt = inputPrompt.Replace("PLACEHOLDER_FOR_PLUS", "+");
+        inputPrompt = inputPrompt.Replace("PLACEHOLDER_FOR_MINUS", "-");
+        inputPrompt = inputPrompt.Replace("PLACEHOLDER_FOR_DIVISION", "/");
+        inputPrompt = inputPrompt.Replace("PLACEHOLDER_FOR_MULTIPLICATION", "*");
+        inputPrompt = inputPrompt.Substring(7);
+
         _logger.LogInformation($"ChatGPT Request: {inputPrompt}");
 
         await _next(context);
 
-        string outputResult = await ReadResponseBody(context.Response);
-        _logger.LogInformation($"ChatGPT Response: {outputResult}");
-
         SaveLogToFile($"ChatGPT Request: {inputPrompt}");
-        SaveLogToFile($"ChatGPT Response: {outputResult}");
     }
+
 
     private async Task<string> ReadRequestBody(HttpRequest request)
     {
@@ -41,22 +55,6 @@ public class ChatGPTInterceptorMiddleware
         return body;
     }
 
-    private async Task<string> ReadResponseBody(HttpResponse response)
-    {
-        var originalBodyStream = response.Body;
-        using var memoryStream = new MemoryStream();
-        response.Body = memoryStream;
-
-        await _next(response.HttpContext);
-
-        memoryStream.Seek(0, SeekOrigin.Begin);
-        var responseBody = new StreamReader(memoryStream).ReadToEnd();
-        memoryStream.Seek(0, SeekOrigin.Begin);
-        await memoryStream.CopyToAsync(originalBodyStream);
-        response.Body = originalBodyStream;
-
-        return responseBody;
-    }
     private void SaveLogToFile(string logMessage)
     {
         string logFilePath = "log.txt";
