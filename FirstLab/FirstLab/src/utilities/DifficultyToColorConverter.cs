@@ -10,7 +10,7 @@ namespace FirstLab.src.utilities
 {
     public  class DifficultyToColorConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type? targetType = null, object? parameter = null, System.Globalization.CultureInfo? culture = null)
         {
             string colorString = "Black";
             if (value is string difficulty)
@@ -18,7 +18,7 @@ namespace FirstLab.src.utilities
                 switch (difficulty)
                 {
                     case "Very easy":
-                        colorString = "IndianRed";
+                        colorString = "Green";
                         break;
 
                     case "Easy":
@@ -30,11 +30,11 @@ namespace FirstLab.src.utilities
                         break;
 
                     case "Hard":
-                        colorString = "RoyalBlue";
+                        colorString = "Red";
                         break;
 
                     case "Very hard":
-                        colorString = "Orange";
+                        colorString = "Red";
                         break;
                 }
             }
