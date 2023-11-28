@@ -1,4 +1,5 @@
-﻿using FirstLab.src.interfaces;
+﻿using FirstLab;
+using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.services;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -134,5 +135,51 @@ namespace FirstLabTesting
             // Assert
             Assert.Equal(expectedResult, result);
         }
+
+        [Theory]
+        [InlineData (2, 1)]
+        [InlineData(0, 2)]
+        [InlineData(3, -3)]
+        [InlineData(4, -2)]
+        public void CanYouChangeFlashcards_PassingInRangeValues_ReturnsNewCalculatedIndex(int index, int direction)
+        {
+            // Arrange
+            int flashcard_count = 5;
+            FlashcardSet flashcardSet = new FlashcardSet();
+            for (int i = 0; i < flashcard_count; i++) 
+            {
+                flashcardSet.Flashcards!.Add(new Flashcard());
+            }
+            int expectedIndex = index + direction;
+
+            // Act
+            int resultIndex = service.CanYouChangeFlashcards(index, flashcardSet, direction);
+
+            // Assert
+            Assert.True(resultIndex == expectedIndex);
+        }
+
+        [Theory]
+        [InlineData (6, 3)]
+        [InlineData (7, -4)]
+        [InlineData (0, -2)]
+        public void CanYouChangeFlashcards_PassingOutOfRangeValues_ReturnsPassedIndex(int index, int direction)
+        {
+            // Arrange
+            int flashcard_count = 5;
+            FlashcardSet flashcardSet = new FlashcardSet();
+            for (int i = 0; i < flashcard_count; i++)
+            {
+                flashcardSet.Flashcards!.Add(new Flashcard());
+            }
+            int expectedIndex = index;
+
+            // Act
+            int resultIndex = service.CanYouChangeFlashcards(index, flashcardSet, direction);
+
+            // Assert
+            Assert.True(resultIndex == expectedIndex);
+        }
+
     }
 }
