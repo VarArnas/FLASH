@@ -27,6 +27,8 @@ public partial class PlayWindow : Window
 
     IPlayWindowService _playWindowService;
 
+    private string flaschardSlideInAnimation = "BounceEffectAnimation", flashcardSlideOutAnimation = "BounceEffectAnimationOut";
+
     Storyboard? storyboard;
 
     private bool _isChatGptSelected;
@@ -56,6 +58,12 @@ public partial class PlayWindow : Window
         if (_isChatGptSelected)
         {
             middleRowBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF3B9687"));
+            QuestionBorder.Margin = new Thickness(60, 65, 60, 182);
+            AnswerBorder.Margin = new Thickness(60, 65, 60, 182);
+            questionTextBlockGrid.Height = 110;
+            answerTextBlockGrid.Height = 110;
+            flashcardSlideOutAnimation = "GptBounceEffectAnimationOut";
+            flaschardSlideInAnimation = "GptBounceEffectAnimation";
         }
     }
 
@@ -65,7 +73,6 @@ public partial class PlayWindow : Window
         this.flashcardSet = _playWindowService.CloneFlashcardSet(flashcardSet);
         flashcardDesign = factoryContainer.CreateDesign(isItalic, isBold, incrementTextBy, decrementTextBy);
         DataContext = this.flashcardSet;
-        difficultyField.Text += flashcardSet.FlashcardSetDifficulty;
         HiddenFlashcardSetListBox.SelectedIndex = 0;
         PreviewKeyDown += UserControl_PreviewKeyDown;
         _isChatGptSelected = flashcardOptions.isChatGptSelected;
@@ -87,7 +94,7 @@ public partial class PlayWindow : Window
     {
         countdownTimer!.Stop();
         HiddenFlashcardSetListBox.SelectedIndex = _playWindowService.CheckIfPreviousOrNext(isPreviousFlashcardNeeded, HiddenFlashcardSetListBox.SelectedIndex, flashcardSet, isStart);
-        storyboard = isPreviousFlashcardNeeded ? FindResource("BounceEffectAnimationOut") as Storyboard : FindResource("BounceEffectAnimation") as Storyboard;
+        storyboard = isPreviousFlashcardNeeded ? FindResource(flashcardSlideOutAnimation) as Storyboard : FindResource(flaschardSlideInAnimation) as Storyboard;
         SetStatesForQuestion();
         currentFlashcard = (Flashcard)HiddenFlashcardSetListBox.SelectedItem;
         _playWindowService.CreateCounter(ref counter, currentFlashcard);

@@ -13,6 +13,9 @@
     ResizeMode="NoResize">
 
     <Window.Resources>
+
+
+
         <Storyboard x:Key="SlideInAnimation">
             <ThicknessAnimation Duration="0:0:0.2" 
                             From="693,40,27,-20"  To="693,20,27,0"
@@ -45,17 +48,24 @@
                              Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
                              Storyboard.TargetName="SlidePanelButtonImage"/>
         </Storyboard>
+
+
+
+
+
         <Storyboard x:Key="FlipQuestionOutAnimation">
             <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
                              Storyboard.TargetName="QuestionBorder"
                              From="1" To="0" Duration="0:0:0.1" />
         </Storyboard>
-
         <Storyboard x:Key="FlipAnswerInAnimation">
             <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
                              Storyboard.TargetName="AnswerBorder"
                              From="0" To="1" Duration="0:0:0.1" />
         </Storyboard>
+
+
+
 
         <Storyboard x:Key="BounceEffectAnimation">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin"
@@ -68,14 +78,8 @@
                 <EasingThicknessKeyFrame KeyTime="0:0:0.55" Value="70,67,50,49" />
                 <EasingThicknessKeyFrame KeyTime="0:0:0.65" Value="50,67,70,49" />
                 <EasingThicknessKeyFrame KeyTime="0:0:0.75" Value="60,67,60,49" />
-
-
-
-
-
             </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
-
         <Storyboard x:Key="BounceEffectAnimationOut">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin"
                               Storyboard.TargetName="QuestionBorder">
@@ -87,13 +91,40 @@
                 <EasingThicknessKeyFrame KeyTime="0:0:0.55" Value="50,67,70,49" />
                 <EasingThicknessKeyFrame KeyTime="0:0:0.65" Value="70,67,50,49" />
                 <EasingThicknessKeyFrame KeyTime="0:0:0.75" Value="60,67,60,49" />
-
-
-
-
-
             </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
+
+
+
+
+        <Storyboard x:Key="GptBounceEffectAnimation">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin"
+                              Storyboard.TargetName="QuestionBorder">
+                <EasingThicknessKeyFrame KeyTime="0:0:0" Value="-680,65,800,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.15" Value="110,65,10,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="30,65,90,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.35" Value="80,65,40,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.45" Value="40,65,80,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.55" Value="70,65,50,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.65" Value="50,65,70,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.75" Value="60,65,60,182" />
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="GptBounceEffectAnimationOut">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin"
+                      Storyboard.TargetName="QuestionBorder">
+                <EasingThicknessKeyFrame KeyTime="0:0:0" Value="800,65,-640,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.15" Value="10,65,110,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.25" Value="90,65,30,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.35" Value="40,65,80,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.45" Value="80,65,40,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.55" Value="50,65,70,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.65" Value="70,65,50,182" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.75" Value="60,65,60,182" />
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+
+
     </Window.Resources>
 
 
@@ -213,8 +244,7 @@
 
 
 
-            <Grid Grid.Row="1" Background="Transparent">
-
+            <Grid Grid.Row="1">
                 <Border x:Name="SlidePanelButton" Margin="693,0,27,340" CornerRadius="0, 0, 7, 7" Background="#FFAB75FD"
                         MouseLeftButtonDown="SlidePanelButton_Click" Cursor="Hand">
                     <Border.Style>
@@ -249,10 +279,10 @@
                          FontWeight="Medium">
                 </TextBlock>
 
-                <Border x:Name="QuestionBorder" Margin="60,67,60,49" Background="LightBlue"
+                <Border x:Name="QuestionBorder" Margin="60,65,60,182" Background="LightBlue"
                         CornerRadius="20" BorderThickness="1" Visibility="Visible"
                         MouseLeftButtonDown="DisplayAnswer_Click"
-                        Cursor="Hand" Grid.ColumnSpan="2"
+                        Cursor="Hand"
                         RenderTransformOrigin="0.5,0.5">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="5" BlurRadius="2" Opacity="0.7" Direction="270"/>
@@ -280,7 +310,7 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
-                    <Grid Height="230" Width="660">
+                    <Grid Name="questionTextBlockGrid" Height="115" Width="660">
                         <TextBlock Name="questionTextBox"
                                    HorizontalAlignment="Center"
                                    TextWrapping="Wrap"
@@ -294,7 +324,7 @@
 
                 <Border x:Name="AnswerBorder" Background="LightBlue"
                         CornerRadius="20" BorderThickness="1" Visibility="Collapsed"
-                        Margin="60,67,60,49"
+                        Margin="60,65,60,182"
                         MouseLeftButtonDown="DisplayAnswer_Click" Cursor="Hand" Grid.ColumnSpan="2"
                         RenderTransformOrigin="0.5,0.5">
                     <Border.Effect>
@@ -323,7 +353,7 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
-                    <Grid Height="230" Width="660">
+                    <Grid Name="answerTextBlockGrid" Height="115" Width="660">
                         <TextBlock x:Name="answerTextBox"
                                   TextWrapping="Wrap"
                                   Text=""
@@ -348,31 +378,14 @@
                            Text=""
                            IsHitTestVisible="False"
                            Margin="0,330,0,0"/>
-
-                <TextBox Name="difficultyField"
-                         HorizontalAlignment="Left" 
-                         Height="34" 
-                         Margin="60,18,0,0" 
-                         TextWrapping="Wrap" 
-                         Text="Set's difficulty: " 
-                         VerticalAlignment="Top" 
-                         Width="150"
-                        TextAlignment="Center"
-                        IsReadOnly="True"
-                        BorderThickness="0"
-                        FontFamily="fonts/#Dosis"
-                        FontSize="14"
-                        Background="Transparent"
-                        Foreground="Black"
-                        FontWeight="Medium"/>
             </Grid>
 
             <Grid Grid.Row="2">
                 <Border Name="lowerBorder" Background="#FF482F82" CornerRadius="0, 0, 20, 20"/>
 
-                <Button Margin="330,10 ,0 ,0" Click="DisplayPreviousFlashcard_Click"
+                <Button Margin="317,0,0,0" Click="DisplayPreviousFlashcard_Click"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
+                        VerticalAlignment="Center"
                         Width="60"
                         Height="30"
                         Background="Green"
@@ -405,7 +418,7 @@
                     </Image>
                 </Button>
 
-                <Button Margin="407,0,0,0" Click="DisplayNextFlashcard_Click"
+                <Button Margin="420,0,0,0" Click="DisplayNextFlashcard_Click"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Width="60"
