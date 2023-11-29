@@ -115,6 +115,11 @@ public partial class PlayWindow : Window
         }
     }
 
+    private void CallGpt_Click(object sender, RoutedEventArgs? e)
+    {
+
+    }
+
 
     private void HighlightText_Click(object sender, RoutedEventArgs e)
     {

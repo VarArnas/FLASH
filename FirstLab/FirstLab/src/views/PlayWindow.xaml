@@ -316,6 +316,9 @@
                                    TextWrapping="Wrap"
                                    VerticalAlignment="Center"
                                    Text=""
+                                   FontSize="15"
+                                   FontFamily="Fonts/#Dosis"
+                                   FontWeight="Medium"
                                    TextAlignment="Center"
                                    Background="Transparent"
                                    IsHitTestVisible="False"/>
@@ -357,6 +360,8 @@
                         <TextBlock x:Name="answerTextBox"
                                   TextWrapping="Wrap"
                                   Text=""
+                                  FontSize="15"
+                                  FontFamily="Fonts/#Dosis"
                                   HorizontalAlignment="Center"
                                   TextAlignment="Center"
                                   VerticalAlignment="Center"
@@ -364,7 +369,6 @@
                                   IsHitTestVisible="False">
                         </TextBlock>
                     </Grid>
-
                 </Border>
 
                 <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Center"
@@ -375,9 +379,28 @@
                            Foreground="white"
                            FontSize="20"
                            Width="100"
-                           Text=""
+                           Text="AAAA"
+
                            IsHitTestVisible="False"
                            Margin="0,330,0,0"/>
+
+                <Border Name="usersAnswerBorder" Background="LightBlue" CornerRadius="20" BorderThickness="1"
+                        Margin="172,207,172,55"
+                        Cursor="Hand" MouseLeftButtonDown="CallGpt_Click">
+                    <Grid Name="usersAnswerGrid" Height="94">
+                        <TextBox  Name="usersAnswer"
+                                    TextWrapping="Wrap"
+                                    Text=""
+                                    FontSize="15"
+                                    FontFamily="Fonts/#Dosis"
+                                    HorizontalAlignment="Center"
+                                    TextAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"
+                                  BorderBrush="Transparent">
+                        </TextBox>
+                    </Grid>
+                </Border>
             </Grid>
 
             <Grid Grid.Row="2">

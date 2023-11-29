@@ -34,7 +34,8 @@ namespace FirstLab
 
             string query = "You are a teacher who is evaluating a students answer to this question: " + question
                 + " the actual answer is this: " + answer + ". And the student wrote this: " + useranswer + 
-                ". Is this students answer similar to the actual answer. With one word say YES or NO.";
+                ". Is this students answer similar/correct to the actual answer or is it partly correct or is it incorrect. If it is correct then write \"1\", if it is partly correct write \"0.5\" and if its it incorrect write \"0\" AND DONT WRITE ANY OTHER SYMBOLS OR CHARACTERS." +
+                "ALSO take the question into consideration itself and evaluate if the student's answer ir correct, partly correct or incorrect based not only on the actual answer but also the question. REMEMBER ONLY WRITE 1 FOR CORRECT 0.5 FOR PARTLY AND 0 FOR INCORRECT DONT WRITE ANY OTHER SYMBOLS OR ANYTHING";
             result = await CallOpenAIController(query);
             PossibilityTextBox.Text = result;
         }

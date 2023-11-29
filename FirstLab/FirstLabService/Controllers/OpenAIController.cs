@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenAI_API;
+using OpenAI_API.Chat;
 using OpenAI_API.Completions;
 using System.Threading.Tasks;
 
@@ -16,43 +17,17 @@ namespace ChatGPT_App.Controllers
         {
             string outputResult = "";
             var openai = new OpenAIAPI("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");
-            CompletionRequest completionRequest = new CompletionRequest();
-            completionRequest.Prompt = query;
-            completionRequest.Model = OpenAI_API.Models.Model.DavinciText;
-            completionRequest.MaxTokens = 1024;
+            ChatRequest chatRequest = new ChatRequest();
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.Content = query;
+            chatRequest.Messages = new List<ChatMessage>();
+            chatRequest.Messages.Add(chatMessage); //why is this grayed out????????????????
+            chatRequest.MaxTokens = 1024;
+            chatRequest.Model = "gpt-3.5-turbo-16k";
 
-            var completions = await openai.Completions.CreateCompletionAsync(completionRequest);
+            var result = await openai.Chat.CreateChatCompletionAsync(chatRequest);
 
-            foreach (var completion in completions.Completions)
-            {
-                outputResult += completion.Text;
-            }
-
-            return Ok(outputResult);
-        }
-
-        [HttpPost]
-        [Route("PostChatGPT")]
-        public async Task<IActionResult> PostChatGPT([FromBody] string prompt)
-        {
-            if (string.IsNullOrEmpty(prompt))
-            {
-                return BadRequest("Prompt cannot be empty");
-            }
-
-            string outputResult = "";
-            var openai = new OpenAIAPI("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");
-            CompletionRequest completionRequest = new CompletionRequest();
-            completionRequest.Prompt = prompt;
-            completionRequest.Model = OpenAI_API.Models.Model.DavinciText;
-            completionRequest.MaxTokens = 1024;
-
-            var completions = await openai.Completions.CreateCompletionAsync(completionRequest);
-
-            foreach (var completion in completions.Completions)
-            {
-                outputResult += completion.Text;
-            }
+            outputResult = result.ToString();
 
             return Ok(outputResult);
         }
