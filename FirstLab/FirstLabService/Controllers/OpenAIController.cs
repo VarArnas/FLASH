@@ -15,7 +15,7 @@ namespace ChatGPT_App.Controllers
         public async Task<IActionResult> UseChatGPT(string query)
         {
             string outputResult = "";
-            var openai = new OpenAIAPI("YOUR_KEY");
+            var openai = new OpenAIAPI("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");
             CompletionRequest completionRequest = new CompletionRequest();
             completionRequest.Prompt = query;
             completionRequest.Model = OpenAI_API.Models.Model.DavinciText;
@@ -41,7 +41,7 @@ namespace ChatGPT_App.Controllers
             }
 
             string outputResult = "";
-            var openai = new OpenAIAPI("YOUR_KEY");
+            var openai = new OpenAIAPI("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");
             CompletionRequest completionRequest = new CompletionRequest();
             completionRequest.Prompt = prompt;
             completionRequest.Model = OpenAI_API.Models.Model.DavinciText;

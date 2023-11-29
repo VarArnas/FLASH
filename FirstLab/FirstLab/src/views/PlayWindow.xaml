@@ -98,7 +98,7 @@
 
 
 
-    <Border Background="#FF7236FF"
+    <Border Name="middleRowBorder" Background="#FF7236FF"
             CornerRadius="20">
         <Grid>
 
@@ -196,7 +196,7 @@
                     <Image Source="images/DecreaseLogo.png"/>
                 </Button>
             </StackPanel>
-            <Border Background="#FF482F82"
+            <Border Name="uppderBoarder" Background="#FF482F82"
                     Grid.Row="0" CornerRadius="20, 20, 0, 0"
                     MouseDown="MovingWindow"/>
 
@@ -213,7 +213,7 @@
 
 
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Background="Transparent">
 
                 <Border x:Name="SlidePanelButton" Margin="693,0,27,340" CornerRadius="0, 0, 7, 7" Background="#FFAB75FD"
                         MouseLeftButtonDown="SlidePanelButton_Click" Cursor="Hand">
@@ -368,7 +368,7 @@
             </Grid>
 
             <Grid Grid.Row="2">
-                <Border Background="#FF482F82" CornerRadius="0, 0, 20, 20"/>
+                <Border Name="lowerBorder" Background="#FF482F82" CornerRadius="0, 0, 20, 20"/>
 
                 <Button Margin="330,10 ,0 ,0" Click="DisplayPreviousFlashcard_Click"
                         HorizontalAlignment="Left"

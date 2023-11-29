@@ -29,13 +29,14 @@ public partial class PlayWindow : Window
 
     Storyboard? storyboard;
 
+    private bool _isChatGptSelected;
+
     private DispatcherTimer? countdownTimer;
 
-
-    public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService playWindowService)
+    public PlayWindow(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService playWindowService, FlashcardOptions flashcardOptions)
     {
         InitializeComponent();
-        InitializePlayWindowFields(flashcardSet, factoryContainer, playWindowService);
+        InitializePlayWindowFields(flashcardSet, factoryContainer, playWindowService, flashcardOptions);
         playWindowService.ShuffleFlashcards(this.flashcardSet!.Flashcards!);
         InitializeTimer();
 
@@ -52,9 +53,13 @@ public partial class PlayWindow : Window
     {
         timerTextBox.Focus();
         breathingEllipse.BeginAnimation(Ellipse.OpacityProperty, _playWindowService.SetAnimation());
+        if (_isChatGptSelected)
+        {
+            middleRowBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF3B9687"));
+        }
     }
 
-    private void InitializePlayWindowFields(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService playWindowService)
+    private void InitializePlayWindowFields(FlashcardSet flashcardSet, IFactoryContainer factoryContainer, IPlayWindowService playWindowService, FlashcardOptions flashcardOptions)
     {
         _playWindowService = playWindowService;
         this.flashcardSet = _playWindowService.CloneFlashcardSet(flashcardSet);
@@ -63,6 +68,7 @@ public partial class PlayWindow : Window
         difficultyField.Text += flashcardSet.FlashcardSetDifficulty;
         HiddenFlashcardSetListBox.SelectedIndex = 0;
         PreviewKeyDown += UserControl_PreviewKeyDown;
+        _isChatGptSelected = flashcardOptions.isChatGptSelected;
     }
 
     private void DisplayPreviousFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
