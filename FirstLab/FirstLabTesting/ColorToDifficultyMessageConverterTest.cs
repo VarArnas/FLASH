@@ -13,7 +13,7 @@ namespace FirstLabTesting
     {
         [Theory]
         [InlineData ("IndianRed", "Very easy")]
-        [InlineData ("Green", "Easy")]
+        [InlineData ("Pink", "Easy")]
         [InlineData ("Yellow", "Medium")]
         [InlineData ("RoyalBlue", "Hard")]
         [InlineData ("Orange", "Very hard")]
@@ -32,7 +32,7 @@ namespace FirstLabTesting
         [Theory]
         [InlineData ("one")]
         [InlineData ("one two")]
-        [InlineData("Pink")]
+        [InlineData("Green")]
         [InlineData ("Grey")]
         [InlineData ("")]
         public void Convert_PassingIncorrectStringValues_ReturnsDefaultDifficulty(string input)

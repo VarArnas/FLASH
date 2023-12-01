@@ -30,7 +30,7 @@ namespace FirstLabTesting
 
         [Theory]
         [InlineData ("IndianRed", "Very easy")]
-        [InlineData ("Green", "Easy")]
+        [InlineData ("Pink", "Easy")]
         [InlineData ("Yellow", "Medium")]
         [InlineData ("RoyalBlue", "Hard")]
         [InlineData ("Orange", "Very Hard")]

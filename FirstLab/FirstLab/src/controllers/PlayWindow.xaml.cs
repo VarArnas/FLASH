@@ -10,6 +10,12 @@ using System.Windows.Threading;
 using System.Linq;
 using System.Windows.Media;
 using System;
+using System.Windows.Controls;
+using System.Net.Http;
+using System.Threading.Tasks;
+using OpenAI_API.Moderation;
+using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace FirstLab.src.controllers;
 
@@ -29,9 +35,9 @@ public partial class PlayWindow : Window
 
     private string flaschardSlideInAnimation = "BounceEffectAnimation", flashcardSlideOutAnimation = "BounceEffectAnimationOut";
 
-    Storyboard? storyboard;
+    Storyboard? storyboard, loadingStoryBoard;
 
-    private bool _isChatGptSelected;
+    private bool _isChatGptSelected, isUsersAnswerChecked = false;
 
     private DispatcherTimer? countdownTimer;
 
@@ -64,6 +70,13 @@ public partial class PlayWindow : Window
             answerTextBlockGrid.Height = 110;
             flashcardSlideOutAnimation = "GptBounceEffectAnimationOut";
             flaschardSlideInAnimation = "GptBounceEffectAnimation";
+            usersAnswerBorder.Visibility = Visibility.Visible;
+            questionTextBox.MouseLeftButtonDown -= DisplayAnswer_Click;
+            checkUsersAnswer.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            isUsersAnswerChecked = true; 
         }
     }
 
@@ -76,6 +89,7 @@ public partial class PlayWindow : Window
         HiddenFlashcardSetListBox.SelectedIndex = 0;
         PreviewKeyDown += UserControl_PreviewKeyDown;
         _isChatGptSelected = flashcardOptions.isChatGptSelected;
+        loadingStoryBoard = CreateLoadingAnimation();
     }
 
     private void DisplayPreviousFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
@@ -86,12 +100,18 @@ public partial class PlayWindow : Window
 
     private void DisplayNextFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        if(!_playWindowService.IsLastIndex(HiddenFlashcardSetListBox.SelectedIndex, flashcardSet))
+        if(!_playWindowService.IsLastIndex(HiddenFlashcardSetListBox.SelectedIndex, flashcardSet) || isStart)
             DisplayFlashcard(false);
     }
 
     private void DisplayFlashcard(bool isPreviousFlashcardNeeded)
     {
+        if (_isChatGptSelected)
+        {
+            isUsersAnswerChecked = false;
+            usersAnswer.Text = string.Empty;
+            usersAnswerBorder.Background = new SolidColorBrush(Colors.LightBlue);
+        }
         countdownTimer!.Stop();
         HiddenFlashcardSetListBox.SelectedIndex = _playWindowService.CheckIfPreviousOrNext(isPreviousFlashcardNeeded, HiddenFlashcardSetListBox.SelectedIndex, flashcardSet, isStart);
         storyboard = isPreviousFlashcardNeeded ? FindResource(flashcardSlideOutAnimation) as Storyboard : FindResource(flaschardSlideInAnimation) as Storyboard;
@@ -107,19 +127,43 @@ public partial class PlayWindow : Window
 
     private void DisplayAnswer_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        if(!isAnswerDisplayed)
+        if(!isAnswerDisplayed && isUsersAnswerChecked)
         {
-            FlashcardAnimation(_playWindowService.GetQuestionAnswerProperties(false, true, currentFlashcard, flashcardSet));
+            var properties = _playWindowService.GetQuestionAnswerProperties(false, true, currentFlashcard, flashcardSet);
+            properties.BorderColor = new SolidColorBrush(Colors.Green);
+            FlashcardAnimation(properties);
             isAnswerDisplayed = true;
             countdownTimer!.Stop();
         }
     }
 
-    private void CallGpt_Click(object sender, RoutedEventArgs? e)
+    private async void CallGpt_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-
+        if (currentFlashcard != null && isUsersAnswerChecked == false && usersAnswer.Text != null && usersAnswer.Text != "")
+        {
+            countdownTimer!.Stop();
+            var query = _playWindowService.CreateQuery(currentFlashcard, usersAnswer.Text);
+            StartLoadingAnimation();
+            var gptResponse = await _playWindowService.CallOpenAIController(query);
+            StopLoadingAnimation();
+            DisplayGPTAnswer(gptResponse);
+        }
     }
 
+    private void DisplayGPTAnswer(string result)
+    {
+        errorTextBlock.Visibility = Visibility.Collapsed;
+        double firstNumber = _playWindowService.ExtractNumber(result);
+        SolidColorBrush? colorOfAnswer = _playWindowService.GetAnswerColor(firstNumber);
+        if (colorOfAnswer == null)
+        {
+            errorTextBlock.Visibility = Visibility.Visible;
+            return;
+        }
+        usersAnswerBorder.Background = colorOfAnswer;
+        isUsersAnswerChecked = true;
+        DisplayAnswer_Click();
+    }
 
     private void HighlightText_Click(object sender, RoutedEventArgs e)
     {
@@ -220,7 +264,10 @@ public partial class PlayWindow : Window
         else
         {
             countdownTimer!.Stop();
-            DisplayAnswer_Click();
+            if (_isChatGptSelected)
+                CallGpt_Click();
+            else
+                DisplayAnswer_Click();
         }
     }
 
@@ -275,5 +322,53 @@ public partial class PlayWindow : Window
     {
         if (e.Key == Key.Space)
             e.Handled = true;
+    }
+
+    private void UserIsTyping(object sender, RoutedEventArgs e)
+    {
+        PreviewKeyDown -= UserControl_PreviewKeyDown;
+    }
+
+    private void UserIsNotTyping(object sender, RoutedEventArgs e)
+    {
+        PreviewKeyDown += UserControl_PreviewKeyDown;
+    }
+
+    private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (!(e.OriginalSource is TextBox))
+            FocusManager.SetFocusedElement(this, this);
+    }
+
+    private Storyboard CreateLoadingAnimation()
+    {
+        var rotateAnimation = new DoubleAnimation
+        {
+            From = 0,
+            To = 360,
+            Duration = new Duration(TimeSpan.FromSeconds(1)),
+            RepeatBehavior = RepeatBehavior.Forever
+        };
+
+        var storyboard = new Storyboard();
+        Storyboard.SetTarget(rotateAnimation, loadingEllipse);
+        Storyboard.SetTargetProperty(rotateAnimation, new PropertyPath("RenderTransform.Angle"));
+
+        storyboard.Children.Add(rotateAnimation);
+        return storyboard;
+    }
+
+    private void StartLoadingAnimation()
+    {
+        checkUsersAnswer.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF9C9C19"));
+        loadingEllipse.Visibility = Visibility.Visible;
+        loadingStoryBoard!.Begin();
+    }
+
+    private void StopLoadingAnimation()
+    {
+        loadingStoryBoard!.Stop();
+        loadingEllipse.Visibility = Visibility.Collapsed;
+        checkUsersAnswer.Background = new SolidColorBrush(Colors.Yellow);
     }
 }

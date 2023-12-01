@@ -10,7 +10,8 @@
     Background="Transparent"
     AllowsTransparency="True"
     WindowStartupLocation="CenterScreen"
-    ResizeMode="NoResize">
+    ResizeMode="NoResize"
+    MouseDown="Window_MouseDown">
 
     <Window.Resources>
 
@@ -245,8 +246,10 @@
 
 
             <Grid Grid.Row="1">
+
                 <Border x:Name="SlidePanelButton" Margin="693,0,27,340" CornerRadius="0, 0, 7, 7" Background="#FFAB75FD"
-                        MouseLeftButtonDown="SlidePanelButton_Click" Cursor="Hand">
+                        MouseLeftButtonDown="SlidePanelButton_Click" Cursor="Hand"
+                        PreviewKeyDown="Button_PreviewKeyDown">
                     <Border.Style>
                         <Style TargetType="Border">
                             <Setter Property="Opacity" Value="1"/>
@@ -279,11 +282,10 @@
                          FontWeight="Medium">
                 </TextBlock>
 
-                <Border x:Name="QuestionBorder" Margin="60,65,60,182" Background="LightBlue"
+                <Border x:Name="QuestionBorder" Margin="60,67,60,49" Background="LightBlue"
                         CornerRadius="20" BorderThickness="1" Visibility="Visible"
-                        MouseLeftButtonDown="DisplayAnswer_Click"
-                        Cursor="Hand"
-                        RenderTransformOrigin="0.5,0.5">
+                        Cursor="Hand" 
+                        RenderTransformOrigin="0.5,0.5  ">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="5" BlurRadius="2" Opacity="0.7" Direction="270"/>
                     </Border.Effect>
@@ -310,8 +312,9 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
-                    <Grid Name="questionTextBlockGrid" Height="115" Width="660">
-                        <TextBlock Name="questionTextBox"
+                    <Grid Name="questionTextBlockGrid" MouseLeftButtonDown="DisplayAnswer_Click" Height="230" Width="660">
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <TextBlock Name="questionTextBox"
                                    HorizontalAlignment="Center"
                                    TextWrapping="Wrap"
                                    VerticalAlignment="Center"
@@ -321,15 +324,19 @@
                                    FontWeight="Medium"
                                    TextAlignment="Center"
                                    Background="Transparent"
-                                   IsHitTestVisible="False"/>
+                                   Cursor="Hand"
+                                   MouseLeftButtonDown="DisplayAnswer_Click"
+                                   IsHitTestVisible="True"/>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
 
                 <Border x:Name="AnswerBorder" Background="LightBlue"
                         CornerRadius="20" BorderThickness="1" Visibility="Collapsed"
-                        Margin="60,65,60,182"
-                        MouseLeftButtonDown="DisplayAnswer_Click" Cursor="Hand" Grid.ColumnSpan="2"
-                        RenderTransformOrigin="0.5,0.5">
+                        Margin="60,67,60,49"
+                        Cursor="Hand" Grid.ColumnSpan="2"
+                        RenderTransformOrigin="0.5,0.5"
+                        PreviewKeyDown="Button_PreviewKeyDown">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="5" BlurRadius="2" Opacity="0.7" Direction="270"/>
                     </Border.Effect>
@@ -356,18 +363,21 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
-                    <Grid Name="answerTextBlockGrid" Height="115" Width="660">
-                        <TextBlock x:Name="answerTextBox"
+                    <Grid Name="answerTextBlockGrid" Height="230" Width="660">
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <TextBlock x:Name="answerTextBox"
                                   TextWrapping="Wrap"
                                   Text=""
                                   FontSize="15"
+                                   FontWeight="Medium"
                                   FontFamily="Fonts/#Dosis"
                                   HorizontalAlignment="Center"
                                   TextAlignment="Center"
                                   VerticalAlignment="Center"
                                   Background="Transparent"
                                   IsHitTestVisible="False">
-                        </TextBlock>
+                            </TextBlock>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
 
@@ -379,28 +389,110 @@
                            Foreground="white"
                            FontSize="20"
                            Width="100"
-                           Text="AAAA"
+                           Text=""
 
                            IsHitTestVisible="False"
-                           Margin="0,330,0,0"/>
+                           Margin="0,333,0,0"/>
 
                 <Border Name="usersAnswerBorder" Background="LightBlue" CornerRadius="20" BorderThickness="1"
-                        Margin="172,207,172,55"
-                        Cursor="Hand" MouseLeftButtonDown="CallGpt_Click">
-                    <Grid Name="usersAnswerGrid" Height="94">
-                        <TextBox  Name="usersAnswer"
-                                    TextWrapping="Wrap"
-                                    Text=""
-                                    FontSize="15"
-                                    FontFamily="Fonts/#Dosis"
-                                    HorizontalAlignment="Center"
-                                    TextAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Background="Transparent"
-                                  BorderBrush="Transparent">
-                        </TextBox>
-                    </Grid>
+                        Margin="172,204,172,58"
+                        Cursor="Hand"
+                        RenderTransformOrigin="0.5,0.5"
+                        Visibility="Collapsed">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="5" BlurRadius="2" Opacity="0.7" Direction="270"/>
+                    </Border.Effect>
+                    <Border.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    </Border.RenderTransform>
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.045" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.045" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="12" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.03" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.03" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="5" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
+                    <TextBox  Cursor="Hand" Name="usersAnswer"
+                                  TextWrapping="Wrap"
+                                  AcceptsReturn="true"
+                                  IsEnabled="True"
+                                      Foreground="#FF232323"
+                                  VerticalContentAlignment="Center"
+                              HorizontalContentAlignment="Center"
+                                  FontSize="15"
+                              FontWeight="Medium"
+                                  FontFamily="Fonts/#Dosis"
+                                  TextAlignment="Center"
+                              BorderThickness="0"
+                              GotFocus="UserIsTyping"
+                              LostFocus="UserIsNotTyping"
+                              Width="440"
+                              Height="80"
+                                      Background="Transparent">
+                    </TextBox>
                 </Border>
+
+                <Button Margin="657,241,0,0" Click="CallGpt_Click"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Width="40"
+                        Height="40"
+                        Background="Yellow"
+                        Visibility="Collapsed"
+                        BorderThickness="0" Cursor="Hand"
+                        Name="checkUsersAnswer"
+                        PreviewKeyDown="Button_PreviewKeyDown">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Border" Background="{TemplateBinding Background}"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="2"                            
+                                    CornerRadius="100">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF9C9C19" TargetName="Border"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Image Source="/src/views/Images/PlayButtonLogo.png"/>
+                </Button>
+                <Ellipse x:Name="loadingEllipse" HorizontalAlignment="Left" Height="32" Width="32"
+                         StrokeDashArray="12.75 5"
+                         Margin="661,245,0,0" Stroke="Gray"
+                         VerticalAlignment="Top"
+                         StrokeThickness="5"
+                         Visibility="Collapsed"
+                         RenderTransformOrigin="0.5 0.5">
+                    <Ellipse.RenderTransform>
+                        <RotateTransform x:Name="Rotation" Angle="0"/>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+                <TextBlock Visibility="Collapsed" Name="errorTextBlock" FontFamily="Fonts/#Dosis" Foreground="#FF8A2F2F" HorizontalAlignment="Center"
+                           Margin="0,312,0,0" TextWrapping="Wrap"
+                           Text="Something went wrong. Please try again in a couple of seconds." VerticalAlignment="Top"
+                           RenderTransformOrigin="0.852,0.125"
+                           IsHitTestVisible="False"
+                           Cursor="Arrow"
+                           FontSize="13"/>
+
+
+
             </Grid>
 
             <Grid Grid.Row="2">
@@ -413,11 +505,12 @@
                         Height="30"
                         Background="Green"
                         BorderThickness="0" Cursor="Hand"
-                        Name="GoBackAFlashcardBtn">
+                        Name="GoBackAFlashcardBtn"
+                        PreviewKeyDown="Button_PreviewKeyDown">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="Border" Background="{TemplateBinding Background}"
-                                    BorderBrush="#FF482F82"
+                                    BorderBrush="Transparent"
                                     BorderThickness="2"                            
                                     CornerRadius="10">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -448,11 +541,12 @@
                         Height="30"
                         Background="Green"
                         BorderThickness="0" Cursor="Hand"
-                        Name="GoForwardAFlashcardBtn">
+                        Name="GoForwardAFlashcardBtn"
+                        PreviewKeyDown="Button_PreviewKeyDown">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="Border" Background="{TemplateBinding Background}"
-                                        BorderBrush="#FF482F82"
+                                        BorderBrush="Transparent"
                                         BorderThickness="2"                            
                                         CornerRadius="10">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
