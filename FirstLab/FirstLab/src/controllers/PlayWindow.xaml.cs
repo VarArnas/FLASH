@@ -66,12 +66,12 @@ public partial class PlayWindow : Window
             middleRowBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF3B9687"));
             QuestionBorder.Margin = new Thickness(60, 65, 60, 182);
             AnswerBorder.Margin = new Thickness(60, 65, 60, 182);
-            questionTextBlockGrid.Height = 110;
-            answerTextBlockGrid.Height = 110;
+            questionTextBox.Height = 110;
+            questionTextBox.Height = 110;
             flashcardSlideOutAnimation = "GptBounceEffectAnimationOut";
             flaschardSlideInAnimation = "GptBounceEffectAnimation";
             usersAnswerBorder.Visibility = Visibility.Visible;
-            questionTextBox.MouseLeftButtonDown -= DisplayAnswer_Click;
+            questionTextBox.PreviewMouseLeftButtonDown -= DisplayAnswer_Click;
             checkUsersAnswer.Visibility = Visibility.Visible;
         }
         else

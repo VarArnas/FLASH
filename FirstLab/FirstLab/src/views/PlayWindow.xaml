@@ -284,8 +284,8 @@
 
                 <Border x:Name="QuestionBorder" Margin="60,67,60,49" Background="LightBlue"
                         CornerRadius="20" BorderThickness="1" Visibility="Visible"
-                        Cursor="Hand" 
-                        RenderTransformOrigin="0.5,0.5  ">
+                        Cursor="Hand"
+                        RenderTransformOrigin="0.5,0.5">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="5" BlurRadius="2" Opacity="0.7" Direction="270"/>
                     </Border.Effect>
@@ -312,23 +312,22 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
-                    <Grid Name="questionTextBlockGrid" MouseLeftButtonDown="DisplayAnswer_Click" Height="230" Width="660">
-                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                            <TextBlock Name="questionTextBox"
-                                   HorizontalAlignment="Center"
-                                   TextWrapping="Wrap"
-                                   VerticalAlignment="Center"
-                                   Text=""
-                                   FontSize="15"
-                                   FontFamily="Fonts/#Dosis"
-                                   FontWeight="Medium"
-                                   TextAlignment="Center"
-                                   Background="Transparent"
-                                   Cursor="Hand"
-                                   MouseLeftButtonDown="DisplayAnswer_Click"
-                                   IsHitTestVisible="True"/>
-                        </ScrollViewer>
-                    </Grid>
+                    <TextBox PreviewMouseLeftButtonDown="DisplayAnswer_Click" Name="questionTextBox"
+                             TextWrapping="Wrap"
+                             Text=""
+                             FontSize="15"
+                             FontWeight="Medium"
+                             FontFamily="Fonts/#Dosis"
+                             HorizontalAlignment="Center"
+                             TextAlignment="Center"
+                             IsReadOnly="True"
+                             VerticalContentAlignment="Center"
+                             VerticalAlignment="Center"                               
+                             Background="Transparent"
+                             IsHitTestVisible="True"
+                             BorderThickness="0" 
+                             Cursor="Hand"
+                             Height="230" Width="660"/>
                 </Border>
 
                 <Border x:Name="AnswerBorder" Background="LightBlue"
@@ -363,22 +362,23 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
-                    <Grid Name="answerTextBlockGrid" Height="230" Width="660">
-                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                            <TextBlock x:Name="answerTextBox"
-                                  TextWrapping="Wrap"
-                                  Text=""
-                                  FontSize="15"
-                                   FontWeight="Medium"
-                                  FontFamily="Fonts/#Dosis"
-                                  HorizontalAlignment="Center"
-                                  TextAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  Background="Transparent"
-                                  IsHitTestVisible="False">
-                            </TextBlock>
-                        </ScrollViewer>
-                    </Grid>
+                    <TextBox x:Name="answerTextBox"
+                                 TextWrapping="Wrap"
+                             Height="230"
+                             Width="660"
+                                 FontSize="15"
+                                 FontWeight="Medium"
+                                 FontFamily="Fonts/#Dosis"
+                                 HorizontalAlignment="Center"
+                                 TextAlignment="Center"
+                                 VerticalAlignment="Center"                               
+                                 Background="Transparent"
+                                 IsReadOnly="True"
+                             VerticalContentAlignment="Center"
+                                 Cursor="Hand"
+                                 BorderThickness="0"
+                                 IsHitTestVisible="True">
+                    </TextBox>
                 </Border>
 
                 <TextBlock Name="flashcardNumberTextBlock" HorizontalAlignment="Center"

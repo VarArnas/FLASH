@@ -236,7 +236,7 @@
                 </Border>
                 <Border Margin="30,12,30,48" Name="AnswerBorder" Visibility="Collapsed"
                         Background="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards, Converter={StaticResource ColorConverter}}"
-                        BorderBrush="DarkGreen" BorderThickness="1"
+                        BorderBrush="DarkGreen" BorderThickness="1" 
                         CornerRadius="10">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
