@@ -20,4 +20,6 @@ public interface IFlashcardOptionsService
     void GoToFlashcardCustomization(FlashcardSet? flashcardSet = null);
 
     void LaunchPlayWindow(FlashcardSet flashcardSet);
+
+    void FilterFlashcardSets(string searchString, ObservableCollection<FlashcardSet> flashcardSets, ObservableCollection<FlashcardSet> filteredFlashcardSets);
 }

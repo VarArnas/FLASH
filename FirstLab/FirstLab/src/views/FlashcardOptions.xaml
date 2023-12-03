@@ -29,16 +29,16 @@
                 <Image Source="images/ChatGPTLogo.png" Height="50" Width="50" Margin="493,-5,93,-5"
                        MouseLeftButtonDown="StateButton_Click"
                        Cursor="Hand"/>
-                <TextBox Name="searchBox" Padding="10,0,0,0" HorizontalAlignment="Left" Margin="75,0,0,0" FontFamily="Fonts/#Dosis" TextWrapping="Wrap"
-                         Text="search..." VerticalAlignment="Center" Cursor="Hand"
+                <TextBox x:Name="searchBox" Padding="10,0,0,0" HorizontalAlignment="Left" Margin="75,0,0,0" FontFamily="Fonts/#Dosis" TextWrapping="Wrap"
+                         VerticalAlignment="Center" Cursor="Hand"
                          VerticalContentAlignment="Center" Width="210" Height="30"
-                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" FontSize="14">
-                    <TextBox.Style>
-                        <Style TargetType="TextBox">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="TextBox">
-                                        <Border Name="Border" Background="{TemplateBinding Background}"
+                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" FontSize="14" TextChanged="FilterFlashcardSets">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Name="Border" Background="{TemplateBinding Background}"
                                                 BorderBrush="Transparent"
                                                 BorderThickness="2"
                                                 CornerRadius="10, 10, 10, 10">
@@ -63,7 +63,7 @@
                 </TextBox>
             </Grid>
 
-            <ListBox Grid.Row="1" Background="White" x:Name="flashcardSetsControl" ItemsSource="{Binding FlashcardSets}"
+            <ListBox Grid.Row="1" Background="White" x:Name="flashcardSetsControl" ItemsSource="{Binding filteredFlashcardSets}"
                       ScrollViewer.VerticalScrollBarVisibility="Hidden">
                 <!-- This is where we put the flashcardSets to be displayed, using ItemsControl because it
                     doesnt have any hovering effects and lets the item fill out the entire space it is given-->
