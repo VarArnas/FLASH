@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
+using System.Linq;
 
 namespace FirstLab.src.services;
 
@@ -119,6 +120,37 @@ public class FlashcardOptionsService : IFlashcardOptionsService
         }
 
         return difficulty;
+    }
+
+    public void FilterFlashcardSets(string searchString, ObservableCollection<FlashcardSet> flashcardSets, ObservableCollection<FlashcardSet> filteredFlashcardSets)
+    {
+        ObservableCollection<FlashcardSet> TempFiltered;
+        try
+        {
+            var filteredResults = flashcardSets.Where(contact => contact.FlashcardSetName.Contains(searchString, StringComparison.InvariantCultureIgnoreCase));
+            TempFiltered = new ObservableCollection<FlashcardSet>(filteredResults);
+        }
+        catch (Exception ex)
+        {
+            return;
+        }
+
+        for (int i = filteredFlashcardSets.Count - 1; i >= 0; i--)
+        {
+            var item = filteredFlashcardSets[i];
+            if (!TempFiltered.Contains(item))
+            {
+                filteredFlashcardSets.Remove(item);
+            }
+        }
+
+        foreach (var item in TempFiltered)
+        {
+            if (!filteredFlashcardSets.Contains(item))
+            {
+                filteredFlashcardSets.Add(item);
+            }
+        }
     }
 
     public void GoToFlashcardCustomization(FlashcardSet? flashcardSet = null)

@@ -3,6 +3,7 @@ using FirstLab.src.models;
 using FirstLab.src.services;
 using FirstLab.src.utilities;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace FirstLab.src.controllers;
 
 public partial class FlashcardOptions : UserControl
 {
+    public ObservableCollection<FlashcardSet> filteredFlashcardSets;
     public ObservableCollection<FlashcardSet> flashcardSets;
 
     public ObservableCollection<FlashcardSet> FlashcardSets
@@ -38,6 +40,14 @@ public partial class FlashcardOptions : UserControl
     {
         InitializeComponent();
         InitializeOptionsFields(flashcardOptionsService);
+        
+        filteredFlashcardSets = new ObservableCollection<FlashcardSet>(flashcardSets!);
+        flashcardSetsControl.ItemsSource = filteredFlashcardSets;
+    }
+
+    private void FilterFlashcardSets(object sender, TextChangedEventArgs e)
+    {
+        _flashcardOptionsService.FilterFlashcardSets(searchBox.Text, FlashcardSets, filteredFlashcardSets);
     }
 
     private async void InitializeOptionsFields(IFlashcardOptionsService flashcardOptionsService)
@@ -55,7 +65,7 @@ public partial class FlashcardOptions : UserControl
 
     private void TextBox_LostFocus(object sender, RoutedEventArgs e)
     {
-        TextUtils.SetDefaultText(searchBox, "search...");
+        TextUtils.SetEmptyText(searchBox, "search...");
     }
 
     private void CollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
@@ -79,6 +89,7 @@ public partial class FlashcardOptions : UserControl
     private async void DeleteButton_Click(object sender, RoutedEventArgs e)
     {
         await _flashcardOptionsService.RemoveFlashcardSet((FlashcardSet)flashcardSetsControl.SelectedItem, flashcardSets);
+        filteredFlashcardSets.Remove((FlashcardSet)flashcardSetsControl.SelectedItem);
         flashcardSetsControl.Items.Refresh();
     }
 

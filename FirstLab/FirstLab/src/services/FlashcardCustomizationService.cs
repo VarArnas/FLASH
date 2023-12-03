@@ -31,6 +31,7 @@ public class FlashcardCustomizationService : IFlashcardCustomizationService
     public async Task RemoveSetFromDatabase(FlashcardSet flashcardSet, FlashcardOptions flashcardOptionsReference)
     {
         flashcardOptionsReference.flashcardSets.Remove(flashcardSet);
+        flashcardOptionsReference.filteredFlashcardSets.Remove(flashcardSet);
         await _databaseRepository.RemoveFlashcardSetAsync(flashcardSet.FlashcardSetName);
     }
 
@@ -65,6 +66,7 @@ public class FlashcardCustomizationService : IFlashcardCustomizationService
     public async Task SaveToDatabase(FlashcardSet flashcardSet, FlashcardOptions flashcardOptionsReference)
     {
         flashcardOptionsReference.flashcardSets.Add(flashcardSet);
+        flashcardOptionsReference.filteredFlashcardSets.Add(flashcardSet);
 
         FlashcardSetDTO dto = _flashcardSetMapper.TransformFlashcardSetToDTO(flashcardSet);
         await _databaseRepository.AddAsync(dto);
