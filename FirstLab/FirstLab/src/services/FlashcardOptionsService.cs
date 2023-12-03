@@ -73,7 +73,7 @@ public class FlashcardOptionsService : IFlashcardOptionsService
                         score += 1;
                         break;
 
-                    case "Green":
+                    case "Pink":
                         score += 2;
                         break;
 

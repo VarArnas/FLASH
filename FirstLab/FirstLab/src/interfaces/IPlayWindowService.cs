@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Media.Animation;
+using System.Threading.Tasks;
 
 namespace FirstLab.src.interfaces;
 
@@ -51,5 +52,13 @@ public interface IPlayWindowService
     TextAndBorderPropertiesPlayWindow CreateTextAndBorderProperties(string flashcardNumber, string text, SolidColorBrush borderColor, Visibility questionVisibility, Visibility answerVisibility);
 
     int ParseCounter(string selectedTime);
+
+    string CreateQuery(Flashcard currentFlashcard, string userAnswer);
+
+    Task<string> CallOpenAIController(string query);
+
+    double ExtractNumber(string result);
+
+    SolidColorBrush? GetAnswerColor(double result);
 
 }
