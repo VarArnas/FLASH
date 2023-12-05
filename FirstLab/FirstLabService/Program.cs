@@ -16,7 +16,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseChatGPTInterceptorMiddleware();
+app.GPTLogging();
 
 var proxyGenerator = new ProxyGenerator();
 

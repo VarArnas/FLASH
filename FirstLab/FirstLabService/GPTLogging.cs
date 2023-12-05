@@ -11,12 +11,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-public class ChatGPTInterceptorMiddleware
+public class GPTLogging
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ChatGPTInterceptorMiddleware> _logger;
+    private readonly ILogger<GPTLogging> _logger;
 
-    public ChatGPTInterceptorMiddleware(RequestDelegate next, ILogger<ChatGPTInterceptorMiddleware> logger)
+    public GPTLogging(RequestDelegate next, ILogger<GPTLogging> logger)
     {
         _next = next;
         _logger = logger;
