@@ -1,3 +1,6 @@
+using Castle.DynamicProxy;
+using FirstLabService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -13,8 +16,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseChatGPTInterceptorMiddleware();
-
 app.UseHttpsRedirection();
 
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -24,5 +25,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.GPTLogging();
+
+var proxyGenerator = new ProxyGenerator();
+ILogService logService = new LogService();
+ILogService proxy = proxyGenerator.CreateInterfaceProxyWithTarget(logService, new LogInterceptor());
+
+proxy.LogTime();
 
 app.Run();

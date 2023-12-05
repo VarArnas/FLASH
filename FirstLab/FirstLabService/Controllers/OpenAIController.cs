@@ -18,7 +18,7 @@ namespace ChatGPT_App.Controllers
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.Content = query;
             chatRequest.Messages = new List<ChatMessage>();
-            chatRequest.Messages.Add(chatMessage); //why is this grayed out????????????????
+            chatRequest.Messages.Add(chatMessage);
             chatRequest.MaxTokens = 1024;
             chatRequest.Model = "gpt-3.5-turbo-16k";
 
