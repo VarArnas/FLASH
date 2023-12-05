@@ -63,7 +63,7 @@ public class FlashcardCustomizationService : IFlashcardCustomizationService
         flashcardSet.FlashcardSetName = name;
     }
 
-    public async Task SaveToDatabase(FlashcardSet flashcardSet, FlashcardOptions flashcardOptionsReference)
+    public virtual async Task SaveToDatabase(FlashcardSet flashcardSet, FlashcardOptions flashcardOptionsReference)
     {
         flashcardOptionsReference.flashcardSets.Add(flashcardSet);
         flashcardOptionsReference.filteredFlashcardSets.Add(flashcardSet);
