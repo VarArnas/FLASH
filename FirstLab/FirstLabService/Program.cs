@@ -7,8 +7,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<OpenAI_API.OpenAIAPI>();
-//builder.Services.AddScoped<IMyService, MyService>();
-//builder.Services.AddScoped<GPTLogging>();
 
 var app = builder.Build();
 

@@ -15,7 +15,7 @@ namespace ChatGPT_App.Controllers
         public async Task<IActionResult> UseChatGPT(string query)
         {
             string outputResult = "";
-            var openai = new OpenAIAPI("YOUR_KEY");
+            var openai = new OpenAIAPI("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");
             CompletionRequest completionRequest = new CompletionRequest();
             completionRequest.Prompt = query;
             completionRequest.Model = OpenAI_API.Models.Model.DavinciText;
@@ -28,6 +28,28 @@ namespace ChatGPT_App.Controllers
                 outputResult += completion.Text;
             }
 
+            return Ok(outputResult);
+        }
+
+        [HttpPost]
+        [Route("PostChatGPT")]
+        public async Task<IActionResult> PostChatGPT([FromBody] string prompt)
+        {
+            if (string.IsNullOrEmpty(prompt))
+            {
+                return BadRequest("Prompt cannot be empty");
+            }
+            string outputResult = "";
+            var openai = new OpenAIAPI("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");
+            CompletionRequest completionRequest = new CompletionRequest();
+            completionRequest.Prompt = prompt;
+            completionRequest.Model = OpenAI_API.Models.Model.DavinciText;
+            completionRequest.MaxTokens = 1024;
+            var completions = await openai.Completions.CreateCompletionAsync(completionRequest);
+            foreach (var completion in completions.Completions)
+            {
+                outputResult += completion.Text;
+            }
             return Ok(outputResult);
         }
     }
