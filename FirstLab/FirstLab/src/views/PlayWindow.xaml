@@ -425,7 +425,8 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
-                    <TextBox  Cursor="Hand" Name="usersAnswer"
+                    <TextBox 
+                        Cursor="Hand" Name="usersAnswerTextBox"
                                   TextWrapping="Wrap"
                                   AcceptsReturn="true"
                                   IsEnabled="True"

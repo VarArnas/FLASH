@@ -1,5 +1,6 @@
 using Castle.DynamicProxy;
-using FirstLabService;
+using FirstLabService.interceptorsForClient;
+using FirstLabService.logging;
 
 var builder = WebApplication.CreateBuilder(args);
 

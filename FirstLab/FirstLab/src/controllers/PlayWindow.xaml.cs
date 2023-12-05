@@ -109,7 +109,7 @@ public partial class PlayWindow : Window
         if (_isChatGptSelected)
         {
             isUsersAnswerChecked = false;
-            usersAnswer.Text = string.Empty;
+            usersAnswerTextBox.Text = string.Empty;
             usersAnswerBorder.Background = new SolidColorBrush(Colors.LightBlue);
         }
         countdownTimer!.Stop();
@@ -139,13 +139,13 @@ public partial class PlayWindow : Window
 
     private async void CallGpt_Click(object? sender = null, RoutedEventArgs? e = null)
     {
-        if (currentFlashcard != null && isUsersAnswerChecked == false && usersAnswer.Text != null && usersAnswer.Text != "")
+        if (currentFlashcard != null && isUsersAnswerChecked == false && usersAnswerTextBox.Text != null && usersAnswerTextBox.Text != "")
         {
             countdownTimer!.Stop();
-            var query = _playWindowService.CreateQuery(currentFlashcard, usersAnswer.Text);
-            StartLoadingAnimation();
+            var query = _playWindowService.CreateQuery(currentFlashcard, usersAnswerTextBox.Text);
+            ChangePropertiesForGPTCall(true);
             var gptResponse = await _playWindowService.CallOpenAIController(query);
-            StopLoadingAnimation();
+            ChangePropertiesForGPTCall(false);
             DisplayGPTAnswer(gptResponse);
         }
     }
@@ -163,6 +163,27 @@ public partial class PlayWindow : Window
         usersAnswerBorder.Background = colorOfAnswer;
         isUsersAnswerChecked = true;
         DisplayAnswer_Click();
+    }
+
+
+    private void ChangePropertiesForGPTCall(bool isGptInProccessOfCalling)
+    {
+        if (isGptInProccessOfCalling)
+        {
+            StartLoadingAnimation();
+            GoForwardAFlashcardBtn.IsEnabled = false;
+            GoBackAFlashcardBtn.IsEnabled = false;
+            PreviewKeyDown -= UserControl_PreviewKeyDown;
+            usersAnswerTextBox.IsReadOnly = true;
+        }
+        else
+        {
+            StopLoadingAnimation();
+            GoForwardAFlashcardBtn.IsEnabled = true;
+            GoBackAFlashcardBtn.IsEnabled = true;
+            PreviewKeyDown += UserControl_PreviewKeyDown;
+            usersAnswerTextBox.IsReadOnly = false;
+        }
     }
 
     private void HighlightText_Click(object sender, RoutedEventArgs e)

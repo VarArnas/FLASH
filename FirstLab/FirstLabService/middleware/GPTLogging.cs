@@ -1,16 +1,5 @@
-﻿using Castle.DynamicProxy;
-using Castle.Windsor;
-using FirstLabService;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using OpenAI_API;
-using OpenAI_API.Completions;
-using System;
-using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 public class GPTLogging
 {
@@ -60,7 +49,7 @@ public class GPTLogging
 
     private void SaveLogToFile(string logMessage)
     {
-        string logFilePath = "log.txt";
+        string logFilePath = "logging/log.txt";
 
         try
         {

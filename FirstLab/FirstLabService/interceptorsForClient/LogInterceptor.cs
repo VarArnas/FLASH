@@ -1,10 +1,10 @@
 ﻿using Castle.DynamicProxy;
 
-namespace FirstLabService
+namespace FirstLabService.interceptorsForClient
 {
     public class LogInterceptor : IInterceptor
     {
-        private readonly string logFilePath = "log.txt";
+        private readonly string logFilePath = "logging/log.txt";
 
         public void Intercept(IInvocation invocation)
         {
@@ -17,7 +17,7 @@ namespace FirstLabService
             catch (Exception ex)
             {
                 Log($"Exception in {invocation.Method.Name}: {ex.Message} at {DateTime.Now}");
-                throw; 
+                throw;
             }
         }
 

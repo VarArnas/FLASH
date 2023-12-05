@@ -1,4 +1,4 @@
-﻿namespace FirstLabService
+﻿namespace FirstLabService.logging
 {
     public interface ILogService
     {
