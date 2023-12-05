@@ -7,6 +7,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<OpenAI_API.OpenAIAPI>();
+//builder.Services.AddScoped<IMyService, MyService>();
+//builder.Services.AddScoped<GPTLogging>();
 
 var app = builder.Build();
 
@@ -15,17 +17,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.GPTLogging();
-
-var proxyGenerator = new ProxyGenerator();
-
-IMyService myService = new MyService();
-
-IMyService proxy = proxyGenerator.CreateInterfaceProxyWithTarget(myService, new TempInterceptor());
-
-// Call the method on the proxy (interception will occur)
-proxy.MyMethod();
 
 app.UseHttpsRedirection();
 
@@ -36,5 +27,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.GPTLogging();
+
+var proxyGenerator = new ProxyGenerator();
+ILogService logService = new LogService();
+ILogService proxy = proxyGenerator.CreateInterfaceProxyWithTarget(logService, new LogInterceptor());
+
+proxy.LogTime();
 
 app.Run();

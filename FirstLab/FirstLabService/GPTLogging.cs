@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using Castle.Windsor;
+using FirstLabService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using OpenAI_API;

@@ -1,10 +1,8 @@
 ﻿using Castle.DynamicProxy;
-using System;
-using System.IO;
 
 namespace FirstLabService
 {
-    public class TempInterceptor : IInterceptor
+    public class LogInterceptor : IInterceptor
     {
         private readonly string logFilePath = "log.txt";
 
@@ -12,11 +10,9 @@ namespace FirstLabService
         {
             try
             {
-                Log($"Before {invocation.Method.Name} at {DateTime.Now}");
+                Log($"Time before interception in {invocation.Method.Name} at {DateTime.Now}");
 
                 invocation.Proceed();
-
-                Log($"After {invocation.Method.Name} at {DateTime.Now}");
             }
             catch (Exception ex)
             {
