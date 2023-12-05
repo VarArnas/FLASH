@@ -11,6 +11,7 @@ using System;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using FirstLab.src.interceptors;
 
 namespace FirstLab;
 
@@ -25,6 +26,22 @@ public partial class App : Application
         AppHost = Host.CreateDefaultBuilder()
             .ConfigureServices((hostContext, services) =>
             {
+                var proxyGenerator = new Castle.DynamicProxy.ProxyGenerator();
+                var interceptor = new LoggingInterceptor();
+
+
+                services.AddSingleton(provider =>
+                {
+                    var actualService = new FlashcardCustomizationService(
+                        provider.GetRequiredService<IFactoryContainer>(),
+                        provider.GetRequiredService<IFlashcardSetMapper>(),
+                        provider.GetRequiredService<IDatabaseRepository>());
+
+                    return proxyGenerator.CreateInterfaceProxyWithTarget<IFlashcardCustomizationService>(actualService, interceptor);
+                });
+
+
+
                 services.AddSingleton<MenuWindow>();
                 services.AddSingleton<HomeView>();
                 services.AddSingleton<LogsView>();
@@ -33,7 +50,6 @@ public partial class App : Application
                 services.AddSingleton<IPlayWindowService, PlayWindowService>();
                 services.AddSingleton<IFlashcardOptionsService, FlashcardOptionsService>();
                 services.AddSingleton<ILogsViewService, LogsViewService>();
-                services.AddSingleton<IFlashcardCustomizationService, FlashcardCustomizationService>();
                 services.AddTransient<DataContext>();
                 services.AddSingleton<IFlashcardSetLogMapper,FlashcardSetLogMapper>();
                 services.AddSingleton<IFlashcardSetMapper,FlashcardSetMapper>();
