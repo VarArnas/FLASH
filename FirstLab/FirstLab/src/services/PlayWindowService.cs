@@ -4,8 +4,11 @@ using FirstLab.src.models;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Metrics;
+using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -206,6 +209,10 @@ public class PlayWindowService : IPlayWindowService
     public double FindNewTextSize(bool increaseSize, FlashcardDesign flashcardDesign, double presentFontSize)
     {
         double sizeChange = increaseSize ? flashcardDesign.IncreaseTextSize : -flashcardDesign.DecreaseTextSize;
+        if (presentFontSize + sizeChange <= 5 && sizeChange < 0)
+            return presentFontSize;
+        else if (presentFontSize > 50 && sizeChange > 0)
+            return presentFontSize;
         return presentFontSize += sizeChange; 
     }
 
@@ -223,5 +230,71 @@ public class PlayWindowService : IPlayWindowService
     public bool IsFirstOrZeroIndex(int index)
     {
         return !(index != 0);
+    }
+
+    public string CreateQuery(Flashcard currentFlashcard, string userAnswer)
+    {
+        return new string("You are a teacher evaluating a student's answer. Question: " + currentFlashcard.FlashcardQuestion + ". Correct answer: " + currentFlashcard.FlashcardAnswer + ". Student's answer: " + userAnswer + ". Evaluate the correctness based on content, ensuring all criteria specified in the question are met (the criteria will start after the word \"required\" after the question itself). Score '1' if the student's answer fully meets all criteria. Score '0.5' if it's partially correct or lacks some required information. Score '0' if incorrect. Note: Consider synonyms or equivalent terms as correct, but only if they meet the question's criteria. Provide your response as a single number: '1', '0.5', or '0', and with no additional text or symbols.");
+    }
+
+    public async Task<string> CallOpenAIController(string query)
+    {
+        try
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string apiUrl = "https://localhost:7124/api/OpenAI/UseChatGPT";
+
+                string fullUrl = $"{apiUrl}?query={query}";
+
+                //MessageBox.Show(fullUrl);
+
+                var response = await httpClient.GetAsync(fullUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    return result;
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return "Error communicating with the API";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception: {ex.Message}");
+            return "An error occurred";
+        }
+    }
+
+    public double ExtractNumber(string result)
+    {
+        Match match = Regex.Match(result, @"-?\d+(\.\d+)?");
+
+        double firstNumber = 5;
+        if (match.Success)
+        {
+            firstNumber = double.Parse(match.Value, CultureInfo.InvariantCulture);
+        }
+
+        return firstNumber;
+    }
+
+    public SolidColorBrush? GetAnswerColor(double result)
+    {
+        switch (result)
+        {
+            case 1:
+                return new SolidColorBrush(Colors.Green);
+            case 0.5:
+                return new SolidColorBrush(Colors.Yellow);
+            case 0:
+                return new SolidColorBrush(Colors.Red);
+            default:
+                return null;
+        }
     }
 }

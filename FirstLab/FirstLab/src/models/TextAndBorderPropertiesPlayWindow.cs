@@ -11,7 +11,7 @@ public record TextAndBorderPropertiesPlayWindow
 
     public string? QuestionAnswerText {  get; init; }
     
-    public SolidColorBrush? BorderColor { get; init; }
+    public SolidColorBrush? BorderColor { get; set; }
 
     public Visibility QuestionBorderVisibility { get; init; }
 
@@ -21,7 +21,7 @@ public record TextAndBorderPropertiesPlayWindow
     {
         this.FlashcardNumberText = FlashcardNumberText;
         this.QuestionAnswerText = QuestionAnswerText;
-        this.BorderColor = BorderColor;
+        this.BorderColor = BorderColor; 
         this.QuestionBorderVisibility = QuestionBorderVisibility;
         this.AnswerBorderVisibility = AnswerBorderVisibility;
     }

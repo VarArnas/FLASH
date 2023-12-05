@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:FirstLab.src.utilities"
+             xmlns:controllers="clr-namespace:FirstLab.src.controllers"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="636"
              Background="Transparent">
@@ -22,54 +23,58 @@
 
             <!-- ^^Create the layout for the view^^-->
 
-            <Grid Grid.Row="0"
+            <Grid Name="UpperBoarder"  Grid.Row="0"
                   Background="#FFC7891B">
-                <TextBox Name="searchBox" Padding="10,0,0,0" HorizontalAlignment="Left" Margin="75,0,0,0" FontFamily="Fonts/#Dosis" TextWrapping="Wrap"
-                         Text="search..." VerticalAlignment="Center" Cursor="Hand"
+
+                <Image Source="images/ChatGPTLogo.png" Height="50" Width="50" Margin="493,-5,93,-5"
+                       MouseLeftButtonDown="StateButton_Click"
+                       Cursor="Hand"/>
+                <TextBox x:Name="searchBox" Padding="10,0,0,0" HorizontalAlignment="Left" Margin="75,0,0,0" FontFamily="Fonts/#Dosis" TextWrapping="Wrap"
+                         VerticalAlignment="Center" Cursor="Hand"
                          VerticalContentAlignment="Center" Width="210" Height="30"
-                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" FontSize="14">
+                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" FontSize="14" TextChanged="FilterFlashcardSets">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Name="Border" Background="{TemplateBinding Background}"
-                                                BorderBrush="#FFC7891B"
+                                                BorderBrush="Transparent"
                                                 BorderThickness="2"
                                                 CornerRadius="10, 10, 10, 10">
-                                                <Grid>
-                                                    <ScrollViewer x:Name="PART_ContentHost" />
-                                                </Grid>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsFocused" Value="True">
-                                                    <Setter Property="Foreground" Value="Black"/>
-                                                    <Setter Property="FontWeight" Value="DemiBold"/>
-                                                </Trigger>
-                                                <Trigger Property="IsFocused" Value="False">
-                                                    <Setter Property="Foreground" Value="Gray"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
+                                            <Grid>
+                                                <ScrollViewer x:Name="PART_ContentHost" />
+                                            </Grid>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsFocused" Value="True">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="FontWeight" Value="DemiBold"/>
+                                            </Trigger>
+                                            <Trigger Property="IsFocused" Value="False">
+                                                <Setter Property="Foreground" Value="Gray"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
             </Grid>
 
-            <ListBox Grid.Row="1" Background="White" x:Name="flashcardSetsControl" ItemsSource="{Binding FlashcardSets}"
+            <ListBox Grid.Row="1" Background="White" x:Name="flashcardSetsControl" ItemsSource="{Binding filteredFlashcardSets}"
                       ScrollViewer.VerticalScrollBarVisibility="Hidden">
                 <!-- This is where we put the flashcardSets to be displayed, using ItemsControl because it
                     doesnt have any hovering effects and lets the item fill out the entire space it is given-->
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Name="Border" Background="White" BorderBrush="#FFC7891B">
+                        <Border Name="Border" Background="White"  BorderBrush="{Binding FlashcardSetsBorderBrush, RelativeSource={RelativeSource AncestorType={x:Type controllers:FlashcardOptions}}}">
                             <Border.BorderThickness>
                                 <Thickness Top="0" Bottom="2" Left="0" Right="0" />
                             </Border.BorderThickness>
                             <StackPanel Orientation="Horizontal" Height="50">
-                             
+
                                 <TextBlock Padding="10, 0, 0, 0" VerticalAlignment="center"
                                                    HorizontalAlignment="Left" Text="{Binding FlashcardSetName}"
                                                    FontSize="12" FontWeight="Medium" FontFamily="Fonts/#Dosis"
@@ -177,7 +182,7 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
 
-            <Border Background="#FFC7891B"
+            <Border Name="LowerBorder" Background="#FFC7891B"
                     Grid.Row="2"
                     CornerRadius="0, 0, 20, 0" Margin="0,0,0,0">
             </Border>

@@ -39,8 +39,7 @@
                         FontWeight="DemiBold"
                         Foreground="White"
                         Background="#FF249C99"
-                        Margin="20, 0, 0, 0"
-                        Click="Evaluator_Clicked" Cursor="Hand">
+                        Margin="20, 0, 0, 0" Cursor="Hand">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Name="Border" Background="{TemplateBinding Background}"
@@ -48,7 +47,8 @@
                                     BorderThickness="2"                            
                                     CornerRadius="20">
                                 <ContentControl Width="179" Height="179">
-                                    <TextBlock Text="Answer evaluator"
+                                    <TextBlock Text="More Coming
+                                               Soon"
                                                 TextWrapping="Wrap"
                                                 TextAlignment="Center"
                                                 VerticalAlignment="Center"/>

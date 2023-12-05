@@ -9,27 +9,19 @@ public partial class HomeView : UserControl
 
     public FlashcardOptions flashcardOptionsView;
 
-    public FlashcardEvaluator flashcardEvaluatorView;
-
-    public HomeView(FlashcardOptions flashcardOptionsView, FlashcardEvaluator flashcardEvaluatorView)
+    public HomeView(FlashcardOptions flashcardOptionsView)
     {
         InitializeComponent();
-        InitializeHomeFields(flashcardOptionsView, flashcardEvaluatorView);
+        InitializeHomeFields(flashcardOptionsView);
     }
 
-    private void InitializeHomeFields(FlashcardOptions flashcardOptionsView, FlashcardEvaluator flashcardEvaluatorView)
+    private void InitializeHomeFields(FlashcardOptions flashcardOptionsView)
     {
         this.flashcardOptionsView = flashcardOptionsView;
-        this.flashcardEvaluatorView = flashcardEvaluatorView;
     }
 
     private void Flashcards_Clicked(object sender, RoutedEventArgs e)
     {
         ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsView);
-    }
-
-    private void Evaluator_Clicked(object sender, RoutedEventArgs e)
-    {
-        ViewsUtils.ChangeWindow("Answer evaluator", flashcardEvaluatorView);
     }
 }

@@ -22,7 +22,7 @@ namespace FirstLab.src.utilities
                         difficulty = "Very easy";
                         break;
 
-                    case "Green":
+                    case "Pink":
                         difficulty = "Easy";
                         break;
 

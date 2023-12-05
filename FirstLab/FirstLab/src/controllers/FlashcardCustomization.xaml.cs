@@ -60,6 +60,12 @@ public partial class FlashcardCustomization : UserControl
         IsQestionOrAnswer(true, false);
     }
 
+    private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (!(e.OriginalSource is TextBox))
+            FocusManager.SetFocusedElement(this, this);
+    }
+
     private void ListBoxFlashcards_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
        IsQestionOrAnswer(true, false);
@@ -117,26 +123,35 @@ public partial class FlashcardCustomization : UserControl
 
     private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        switch (e.Key)
+        if (Keyboard.Modifiers == ModifierKeys.Control)
         {
-            case Key.Left:
-                IsQestionOrAnswer(true, false);
-                break;
-            case Key.Right:
-                IsQestionOrAnswer(false, true);
-                break;
-            case Key.Up:
-                NavigateFlashcards(-1);
-                break;
-            case Key.Down:
-                NavigateFlashcards(1);
-                break;
-            case Key.Enter:
-                SaveFlashcardSet_Click();
-                break;
-            case Key.Escape:
-                ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
-                break;
+            switch (e.Key)
+            {
+                case Key.OemComma:
+                    IsQestionOrAnswer(true, false);
+                    break;
+                case Key.OemPeriod:
+                    IsQestionOrAnswer(false, true);
+                    break;
+                case Key.Enter:
+                    SaveFlashcardSet_Click();
+                    break;
+            }
+        }
+        else
+        {
+            switch (e.Key)
+            {
+                case Key.Up:
+                    NavigateFlashcards(-1);
+                    break;
+                case Key.Down:
+                    NavigateFlashcards(1);
+                    break;
+                case Key.Escape:
+                    ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
+                    break;
+            }
         }
     }
 
@@ -145,7 +160,7 @@ public partial class FlashcardCustomization : UserControl
         if (sender is ListBoxItem listBoxItem)
         {
             listBoxItem.IsSelected = !listBoxItem.IsSelected;
-            e.Handled = true; // Prevents the default selection behavior
+            e.Handled = true;
         }
     }
 
