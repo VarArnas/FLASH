@@ -39,9 +39,13 @@ public class FactoryContainer : IFactoryContainer
         return ActivatorUtilities.CreateInstance<FlashcardDesign>(serviceProvider, isItalic, isHighlighted, increaseTextSize, decreaseTextSize);
     }
 
-    public CustomizationErrors CreateErrorHandling(TextBox errorTextBox, string? nameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards)
+    public CustomizationErrors CreateErrorHandling(string? nameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards, TextBox? errorTextBox = null)
     {
-        return ActivatorUtilities.CreateInstance<CustomizationErrors>(serviceProvider, errorTextBox, nameOfFlashcardSet!, flashcardSet, SetsOfFlashcards);
+        if(errorTextBox == null)
+        {
+            return ActivatorUtilities.CreateInstance<CustomizationErrors>(serviceProvider, nameOfFlashcardSet!, flashcardSet, SetsOfFlashcards);
+        }
+        return ActivatorUtilities.CreateInstance<CustomizationErrors>(serviceProvider, nameOfFlashcardSet!, flashcardSet, SetsOfFlashcards, errorTextBox);
     }
 
     public T CreateObject<T>() where T : class, new()

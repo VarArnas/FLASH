@@ -1,8 +1,6 @@
 ﻿using FirstLab.src.interfaces;
-using FirstLab.src.controllers;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace FirstLab.src.controllers;

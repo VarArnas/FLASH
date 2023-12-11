@@ -17,7 +17,7 @@ public interface IFactoryContainer
 
     FlashcardDesign CreateDesign(bool isItalic, bool isHighlighted, int increaseTextSize, int decreaseTextSize);
 
-    CustomizationErrors CreateErrorHandling(TextBox errorTextBox, string? nameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards);
+    CustomizationErrors CreateErrorHandling(string? nameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards, TextBox? errorTextBox = null);
 
     T CreateObject<T>() where T : class, new();
 

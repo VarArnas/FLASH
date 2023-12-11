@@ -5,23 +5,14 @@ namespace FirstLab.src.exceptions
 {
     public class CustomNullException : Exception
     {
-
         public string defaultTime;
 
         public string defaultColor;
-
-        public CustomNullException()
-        {
-        }
 
         public CustomNullException(string message) : base(message)
         {
             defaultTime = "System.Windows.Controls.ListBoxItem: 5 seconds";
             defaultColor = "Green";
-        }
-
-        public CustomNullException(string message, Exception innerException) : base(message, innerException)
-        {
         }
 
         public override string Message

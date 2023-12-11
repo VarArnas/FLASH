@@ -35,4 +35,10 @@ public interface IFlashcardCustomizationService
     FlashcardOptions flashcardOptions);
 
     bool CheckIfEditingAndRemoveTheOldFlashcardSet(FlashcardSet? flashcardSet, FlashcardOptions flashcardOptionsReference, string? NameOfSet);
+
+    Task<FlashcardSet?> ReadExcelFile(string filePath);
+
+    string IsValidColor(string colorName);
+
+    Task SaveExcelFile(string filePath, FlashcardSet flashcardSet);
 }

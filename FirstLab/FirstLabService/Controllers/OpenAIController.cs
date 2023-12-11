@@ -17,8 +17,10 @@ namespace ChatGPT_App.Controllers
             ChatRequest chatRequest = new ChatRequest();
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.Content = query;
-            chatRequest.Messages = new List<ChatMessage>();
-            chatRequest.Messages.Add(chatMessage);
+            chatRequest.Messages = new List<ChatMessage>
+            {
+                chatMessage
+            };
             chatRequest.MaxTokens = 2048;
             chatRequest.Model = "gpt-3.5-turbo-16k";
 

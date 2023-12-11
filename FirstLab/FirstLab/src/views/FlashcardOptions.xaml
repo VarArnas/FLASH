@@ -10,6 +10,17 @@
              Background="Transparent">
     <UserControl.Resources>
         <local:DifficultyToColorConverter x:Key="FromDifficultyConverter"/>
+        <Storyboard x:Key="RotateImageIn">
+            <DoubleAnimation Storyboard.TargetName="gptLogo"
+                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                         To="120" Duration="0:0:0.2"/>
+        </Storyboard>
+        <Storyboard x:Key="RotateImageOut">
+            <DoubleAnimation Storyboard.TargetName="gptLogo"
+                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                         To="0" Duration="0:0:0.2"/>
+        </Storyboard>
+
     </UserControl.Resources>
 
     <Border Background="white"
@@ -25,10 +36,7 @@
 
             <Grid Name="UpperBoarder"  Grid.Row="0"
                   Background="#FFC7891B">
-
-                <Image Source="images/ChatGPTLogo.png" Height="50" Width="50" Margin="493,-5,93,-5"
-                       MouseLeftButtonDown="StateButton_Click"
-                       Cursor="Hand"/>
+                
                 <TextBox x:Name="searchBox" Padding="10,0,0,0" HorizontalAlignment="Left" Margin="75,0,0,0" FontFamily="Fonts/#Dosis" TextWrapping="Wrap"
                          VerticalAlignment="Center" Cursor="Hand"
                          VerticalContentAlignment="Center" Width="210" Height="30"
@@ -41,7 +49,7 @@
                                             <Border Name="Border" Background="{TemplateBinding Background}"
                                                 BorderBrush="Transparent"
                                                 BorderThickness="2"
-                                                CornerRadius="10, 10, 10, 10">
+                                                CornerRadius="10, 0, 0, 10">
                                             <Grid>
                                                 <ScrollViewer x:Name="PART_ContentHost" />
                                             </Grid>
@@ -61,6 +69,11 @@
                         </Style>
                     </TextBox.Style>
                 </TextBox>
+
+                <Border  PreviewMouseLeftButtonDown="SearchLogo_Click" Cursor="Hand" Background="#FFA09B9B" Margin="283, 7, 326, 7" CornerRadius="0, 10, 10, 0">
+                    <Image Source="images/searchLogo.png" Width="15" Height="15"/>
+                </Border>
+
             </Grid>
 
             <ListBox Grid.Row="1" Background="White" x:Name="flashcardSetsControl" ItemsSource="{Binding filteredFlashcardSets}"
@@ -209,6 +222,35 @@
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Button.Template>
+            </Button>
+
+            <Button Name="gptButton" Grid.Row="2" MouseEnter="AnimatedButton_MouseEnter" MouseLeave="AnimatedButton_MouseLeave"
+                    Margin="0,0,570,0" FontSize="13" Click="StateButton_Click" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" Background="#FF3B9687" BorderThickness="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{Binding Background.Color, ElementName=Border}" />
+                            </Border.BorderBrush>
+                            <Border.CornerRadius>
+                                <CornerRadius TopLeft="0" TopRight="0" BottomRight="0" BottomLeft="0"/>
+                            </Border.CornerRadius>
+                            <Grid Margin="0, 0, 0, 0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF27695E" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <Image x:Name="gptLogo" Source="images/ChatGPTLogo.png" Height="50" Width="50" RenderTransformOrigin="0.5 0.5">
+                    <Image.RenderTransform>
+                        <RotateTransform Angle="0"/>
+                    </Image.RenderTransform>
+                </Image>
             </Button>
         </Grid>
     </Border>

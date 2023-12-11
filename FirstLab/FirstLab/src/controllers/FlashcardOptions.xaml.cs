@@ -1,15 +1,15 @@
 ﻿using FirstLab.src.interfaces;
 using FirstLab.src.models;
-using FirstLab.src.services;
 using FirstLab.src.utilities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace FirstLab.src.controllers;
 
@@ -128,6 +128,11 @@ public partial class FlashcardOptions : UserControl
             UpperBoarder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#74AA9C"));
             LowerBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#74AA9C"));
             FlashcardSetsBorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#74AA9C"));
+            var border = gptButton.Template.FindName("Border", gptButton) as Border;
+            if (border != null)
+            {
+                border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF9236BF"));
+            }
             flashcardSetsControl.Items.Refresh();
 
         }
@@ -136,8 +141,30 @@ public partial class FlashcardOptions : UserControl
             UpperBoarder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC7891B"));
             LowerBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC7891B"));
             FlashcardSetsBorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFC7891B"));
+            var border = gptButton.Template.FindName("Border", gptButton) as Border;
+            if (border != null)
+            {
+                border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF3B9687"));
+            }
             flashcardSetsControl.Items.Refresh();
 
         }
+    }
+
+    private void SearchLogo_Click(object sender, RoutedEventArgs e)
+    {
+        searchBox.Focus();
+    }
+
+    private void AnimatedButton_MouseEnter(object sender, MouseEventArgs e)
+    {
+        Storyboard storyboard = (Storyboard)this.Resources["RotateImageIn"];
+        storyboard.Begin(gptLogo);
+    }
+
+    private void AnimatedButton_MouseLeave(object sender, MouseEventArgs e)
+    {
+        Storyboard storyboard = (Storyboard)this.Resources["RotateImageOut"];
+        storyboard.Begin(gptLogo);
     }
 }

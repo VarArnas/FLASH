@@ -1,6 +1,4 @@
-﻿
-
-using System.Windows;
+﻿using System.Windows;
 
 namespace FirstLab.src.models;
 

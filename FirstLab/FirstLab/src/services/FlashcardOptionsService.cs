@@ -6,7 +6,6 @@ using FirstLab.src.controllers;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
 using System.Linq;
 
 namespace FirstLab.src.services;

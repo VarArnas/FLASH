@@ -1,11 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using FirstLab.src.utilities;
-using FirstLab.src.controllers;
+using System.Linq;
 
 namespace FirstLab.src.controllers;
 
@@ -49,6 +48,7 @@ public partial class FlashcardCustomization : UserControl
         else
         {
             ListBoxFlashcards.SelectedIndex = flashcardSet!.Flashcards!.Count - 1;
+            NameOfSet = flashcardSet.FlashcardSetName;
         }
     }
 
@@ -180,4 +180,45 @@ public partial class FlashcardCustomization : UserControl
         (question ? QuestionTextBox : AnswerTextBox).Focus();
     }
 
+
+    private async void Import_Click(object sender, RoutedEventArgs e)
+    {
+        Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
+        {
+            Filter = "Excel Files|*.xls;*.xlsx"
+        };
+
+        if (openFileDialog.ShowDialog() == true)
+        {
+            var flashcardSet = await _flashcardCustomizationService.ReadExcelFile(openFileDialog.FileName);
+            if (flashcardSet == null)
+            {
+                MessageBox.Show("The provided excel structure for the flashcardSet is incorrect");
+                return;
+            }
+
+            this.flashcardSet = flashcardSet;
+            DataContext = this.flashcardSet;
+            NameOfSet = flashcardSet.FlashcardSetName;
+            if (flashcardSet.Flashcards!.Count() > 0)
+            {
+                ListBoxFlashcards.SelectedIndex = this.flashcardSet!.Flashcards!.Count - 1;
+            }
+        }
+    }
+
+    private async void Export_Click(object sender, RoutedEventArgs e)
+    {
+        Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog
+        {
+            Filter = "Excel Files|*.xlsx",
+            DefaultExt = "xlsx",
+            FileName = "ExportedFlashcards"
+        };
+
+        if (saveFileDialog.ShowDialog() == true)
+        {
+            await _flashcardCustomizationService.SaveExcelFile(saveFileDialog.FileName, flashcardSet);
+        }
+    }
 }

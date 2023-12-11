@@ -20,7 +20,7 @@ public class CustomizationErrors
 
     public List<ErrorCode> ErrorCodes { get; private set; }
 
-    public CustomizationErrors(TextBox errorTextBox, string? nameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards) 
+    public CustomizationErrors(string? nameOfFlashcardSet, FlashcardSet flashcardSet, ObservableCollection<FlashcardSet> SetsOfFlashcards, TextBox? errorTextBox = null) 
     {
         this.errorTextBox = errorTextBox;
         this.nameOfFlashcardSet = nameOfFlashcardSet;
@@ -29,7 +29,7 @@ public class CustomizationErrors
         ErrorCodes = new List<ErrorCode>();
     }
 
-    private void CheckForErrors()
+    public void CheckForErrors()
     {
         ErrorCodes.Clear();
 
@@ -38,7 +38,7 @@ public class CustomizationErrors
             ErrorCodes.Add(ErrorCode.NameIsEmpty);
         }
 
-        if (nameOfFlashcardSet != null && Regex.IsMatch(nameOfFlashcardSet, @"[\W_]+"))
+        if (nameOfFlashcardSet != null && Regex.IsMatch(nameOfFlashcardSet, @"[^\w\s]+"))
         {
             ErrorCodes.Add(ErrorCode.NotAllowedSymbolsInName);
         }

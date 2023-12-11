@@ -1,6 +1,4 @@
-﻿
-
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace FirstLab.src.models;

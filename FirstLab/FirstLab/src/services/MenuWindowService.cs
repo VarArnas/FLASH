@@ -4,7 +4,6 @@ using FirstLab.src.controllers;
 using System;
 using System.Windows;
 using System.Windows.Media.Animation;
-using FirstLab.src.interfaces;
 
 namespace FirstLab.src.services;
 

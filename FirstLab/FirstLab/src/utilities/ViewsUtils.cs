@@ -1,5 +1,4 @@
-﻿
-using FirstLab.src.controllers;
+﻿using FirstLab.src.controllers;
 
 namespace FirstLab.src.utilities;
 

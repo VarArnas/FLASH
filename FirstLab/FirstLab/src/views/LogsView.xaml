@@ -55,8 +55,8 @@
             </ItemsControl>
             </ScrollViewer>
 
-            <Border Margin="0, 0, -0.5, -0.5" Grid.Row="1" Background="#FF5E4682" CornerRadius="0, 0, 20, 0"
-                    BorderThickness="0" BorderBrush="#FF5E4682"/>
+            <Border Margin="0, 0, -0.5, -0.5" Grid.Row="1" Background="#FF482F82" CornerRadius="0, 0, 20, 0"
+                    BorderThickness="0" BorderBrush="#FF482F82"/>
 
             <Button Grid.Row="1" Content="Clear" FontFamily="Fonts/#Dosis" FontWeight="Medium"
                     Foreground="White" Width="101" Margin="536,0,0,0" FontSize="13"

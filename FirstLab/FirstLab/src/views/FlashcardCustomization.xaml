@@ -217,35 +217,35 @@
 
             <Grid Grid.Row="0" Grid.Column="1">
 
-                <Border Margin="30,12,30,48" Name="QuestionBorder" Visibility="Visible"                      
+                <Border Margin="30,12,30,48" Name="QuestionBorder" Visibility="Collapsed"                      
                         BorderBrush="DarkBlue" BorderThickness="1"
                         Background="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards, Converter={StaticResource ColorConverter}}"
                         CornerRadius="10">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
                     </Border.Effect>
-                    <TextBox Name="QuestionTextBox" Background="Transparent" BorderThickness="0"
+                    <TextBox Cursor="Hand" Name="QuestionTextBox" Background="Transparent" BorderThickness="0"
                              VerticalContentAlignment="Center" HorizontalAlignment="center"
                              FontFamily="Fonts/#Dosis" FontSize="12" FontWeight="Medium"
-                             IsEnabled="True" TextWrapping="Wrap" Margin="30, 30, 30, 30"
+                             IsEnabled="True" TextWrapping="Wrap" Height="280" Width="370"
                              AcceptsReturn="true" Foreground="#FF232323"
-                             TextAlignment="Center"
+                             TextAlignment="Center" IsHitTestVisible="True"
                              Text="{Binding SelectedItem.FlashcardQuestion, ElementName=ListBoxFlashcards}"/>
                     <!-- Bind the selected items (which is a flashcard) question property to the textBox to 
                     display it-->
                 </Border>
-                <Border Margin="30,12,30,48" Name="AnswerBorder" Visibility="Collapsed"
+                <Border Margin="30,12,30,48" Name="AnswerBorder" Visibility="Visible"
                         Background="{Binding SelectedItem.FlashcardColor, ElementName=ListBoxFlashcards, Converter={StaticResource ColorConverter}}"
                         BorderBrush="DarkGreen" BorderThickness="1" 
                         CornerRadius="10">
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="2" BlurRadius="7" Opacity="0.7" Direction="0"/>
                     </Border.Effect>
-                    <TextBox Name="AnswerTextBox" Background="Transparent" BorderThickness="0"
-                             Padding="5" VerticalContentAlignment="Center" HorizontalAlignment="center"
+                    <TextBox Cursor="Hand" Name="AnswerTextBox" Background="Transparent" BorderThickness="0"
+                             VerticalContentAlignment="Center" HorizontalAlignment="center"
                              FontFamily="Fonts/#Dosis" FontSize="12" FontWeight="Medium"
-                             IsEnabled="True"
-                             TextWrapping="Wrap" Margin="30, 30, 30, 30"
+                             IsEnabled="True" IsHitTestVisible="True"
+                             TextWrapping="Wrap" Height="280" Width="370" TextAlignment="Center"
                              AcceptsReturn="true" Foreground="#FF232323"
                              Text="{Binding SelectedItem.FlashcardAnswer, ElementName=ListBoxFlashcards}"/>
                     <!-- Bind the selected items (which is a flashcard) answer property to the textBox to 
@@ -261,6 +261,48 @@
             <RadioButton Cursor="Hand" GroupName="Question/Answer" Name="AnswerRadioButton" Height="20" Margin="8,211,2,129" Grid.Row="0"
                          Grid.Column="2" Content="Answer" Click="QuestionAnswerRadioButton_Click" FontFamily="Fonts/#Dosis"
                          FontWeight="DemiBold" FontSize="14"/>
+
+            <Button Cursor="Hand" Grid.Row="0" Grid.Column="2" Background="Transparent" Margin="-1, 0, 50, 310" Click="Import_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" Background="Transparent" BorderThickness="1">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{Binding Background.Color, ElementName=Border}" />
+                            </Border.BorderBrush>
+                            <Grid Margin="0, 0, 0, 0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFA07323" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <Image Source="images/importLogo.png" Width="20" Height="20"/>
+            </Button>
+
+            <Button Cursor="Hand" Grid.Row="0" Grid.Column="2" Background="Transparent" Margin="50, 0, 0, 310" Click="Export_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" Background="Transparent" BorderThickness="1">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{Binding Background.Color, ElementName=Border}" />
+                            </Border.BorderBrush>
+                            <Grid Margin="0, 0, 0, 0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFA07323" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <Image Source="images/exportLogo.png" Width="20" Height="20"/>
+            </Button>
 
 
             <Button Cursor="Hand" Click="SaveFlashcardSet_Click"

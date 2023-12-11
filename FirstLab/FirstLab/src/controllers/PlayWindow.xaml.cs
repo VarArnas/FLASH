@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Threading;
 using FirstLab.src.interfaces;
 using FirstLab.src.models;
 using System.Windows.Input;
@@ -7,15 +6,9 @@ using System.Windows.Media.Animation;
 using FirstLab.src.utilities;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Linq;
 using System.Windows.Media;
 using System;
 using System.Windows.Controls;
-using System.Net.Http;
-using System.Threading.Tasks;
-using OpenAI_API.Moderation;
-using System.Text.RegularExpressions;
-using System.Globalization;
 
 namespace FirstLab.src.controllers;
 
@@ -73,6 +66,7 @@ public partial class PlayWindow : Window
             usersAnswerBorder.Visibility = Visibility.Visible;
             questionTextBox.PreviewMouseLeftButtonDown -= DisplayAnswer_Click;
             checkUsersAnswer.Visibility = Visibility.Visible;
+            PreviewKeyDown += EnterKeyHandler;
         }
         else
         {
@@ -142,6 +136,7 @@ public partial class PlayWindow : Window
         if (currentFlashcard != null && isUsersAnswerChecked == false && usersAnswerTextBox.Text != null && usersAnswerTextBox.Text != "")
         {
             countdownTimer!.Stop();
+            FocusManager.SetFocusedElement(this, this);
             var query = _playWindowService.CreateQuery(currentFlashcard, usersAnswerTextBox.Text);
             ChangePropertiesForGPTCall(true);
             var gptResponse = await _playWindowService.CallOpenAIController(query);
@@ -171,6 +166,7 @@ public partial class PlayWindow : Window
         if (isGptInProccessOfCalling)
         {
             StartLoadingAnimation();
+            exitButton.IsEnabled = false;
             GoForwardAFlashcardBtn.IsEnabled = false;
             GoBackAFlashcardBtn.IsEnabled = false;
             PreviewKeyDown -= UserControl_PreviewKeyDown;
@@ -179,6 +175,7 @@ public partial class PlayWindow : Window
         else
         {
             StopLoadingAnimation();
+            exitButton.IsEnabled = true;
             GoForwardAFlashcardBtn.IsEnabled = true;
             GoBackAFlashcardBtn.IsEnabled = true;
             PreviewKeyDown += UserControl_PreviewKeyDown;
@@ -232,10 +229,22 @@ public partial class PlayWindow : Window
             case Key.Space:
                 DisplayAnswer_Click();
                 break;
+            case Key.Q:
+                usersAnswerTextBox.Focus();
+                e.Handled = true;
+                break;
         }
     }
 
-    private void CloseCommand()
+    private void EnterKeyHandler(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter && _isChatGptSelected)
+        {
+            CallGpt_Click();
+        }
+    }
+
+    private void CloseCommand(object? sender = null, RoutedEventArgs? e = null)
     {
         StopAndResetTimer();
         ViewsUtils.menuWindowReference!.ReturnToHomeView_Click(this);
