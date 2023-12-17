@@ -19,3 +19,12 @@ The Language Vocabulary flashcardSet had these colors selected: Orange, Orange, 
 The Famous Artworks and Artists flashcardSet had these colors selected: Pink, Yellow, Orange, IndianRed, Pink.
 The World Capitals flashcardSet had these colors selected: Yellow, Orange, RoyalBlue, Pink, IndianRed.
 The Language Vocabulary flashcardSet had these colors selected: Orange, Orange, Orange, Orange, Orange.
+The Language Vocabulary flashcardSet had these colors selected: Orange, Orange, Orange, IndianRed, Orange.
+The World Capitals flashcardSet had these colors selected: Yellow, Orange, IndianRed, Pink, IndianRed.
+The Basic Programming Concepts flashcardSet had these colors selected: Yellow, Pink, IndianRed, Pink, RoyalBlue.
+The Basic Programming Concepts flashcardSet had these colors selected: Yellow, Pink, IndianRed, Pink, Orange.
+The Historical Events Timeline flashcardSet had these colors selected: Pink, Orange, IndianRed, IndianRed, Pink.
+The Historical Events Timeline flashcardSet had these colors selected: Pink, Orange, IndianRed, IndianRed, Pink.
+The Historical Events Timeline flashcardSet had these colors selected: Pink, RoyalBlue, IndianRed, IndianRed, Pink.
+The World Capitals flashcardSet had these colors selected: Yellow, Orange, IndianRed, Pink, IndianRed.
+The World Capitals flashcardSet had these colors selected: Yellow, Orange, IndianRed, Pink, IndianRed.

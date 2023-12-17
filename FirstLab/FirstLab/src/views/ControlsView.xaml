@@ -24,7 +24,7 @@
                     <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,65,0,0" TextWrapping="Wrap" Text="Ctrl + > - Change the Flashcard to its Answer" VerticalAlignment="Top"/>
                     <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,85,0,0" TextWrapping="Wrap" Text="Ctrl + &lt; - Change the Flashcard to its Question" VerticalAlignment="Top"/>
                     <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,105,0,0" TextWrapping="Wrap" Text="Up (Arrow Key) - Go to the Flashcard Above the Present One" VerticalAlignment="Top"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,125,0,0" TextWrapping="Wrap" Text="Up (Arrow Key) - Go to the Flashcard Below the Present One" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,125,0,0" TextWrapping="Wrap" Text="Down (Arrow Key) - Go to the Flashcard Below the Present One" VerticalAlignment="Top"/>
                     <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,145,0,0" TextWrapping="Wrap" Text="Enter - Save the Flaschard Set" VerticalAlignment="Top"/>
                     <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,165,0,0" TextWrapping="Wrap" Text="Esc - Exit the Customization Window and Delete the Flaschard Set" VerticalAlignment="Top"/>
 
