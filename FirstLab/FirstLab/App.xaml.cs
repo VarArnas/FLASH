@@ -43,6 +43,7 @@ public partial class App : Application
                 services.AddSingleton<MenuWindow>();
                 services.AddSingleton<HomeView>();
                 services.AddSingleton<LogsView>();
+                services.AddSingleton<ControlsView>();
                 services.AddSingleton<FlashcardOptions>();
                 services.AddSingleton<IFactoryContainer, FactoryContainer>();
                 services.AddSingleton<IPlayWindowService, PlayWindowService>();

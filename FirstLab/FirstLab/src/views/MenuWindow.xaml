@@ -121,7 +121,7 @@
                 </Button>
                 <StackPanel Height="240" />
                 <StackPanel VerticalAlignment="Bottom">
-                    <Button Content="About" 
+                    <Button Content="Controls" Click="Controls_Click" 
                  Foreground="white" Cursor="Hand"
                  FontWeight="Light"
                  FontFamily="Fonts/#Dosis"

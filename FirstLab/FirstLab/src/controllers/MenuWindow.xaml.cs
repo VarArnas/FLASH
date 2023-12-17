@@ -1,4 +1,5 @@
 ﻿using FirstLab.src.interfaces;
+using FirstLab.src.utilities;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shapes;
@@ -11,22 +12,25 @@ public partial class MenuWindow : Window
 
     private LogsView logsView;
 
+    private ControlsView controlsView;
+
     private IMenuWindowService _menuWindowService;
 
-    public MenuWindow(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer, IMenuWindowService menuWindowService)
+    public MenuWindow(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer, IMenuWindowService menuWindowService, ControlsView controlsView)
     {
         InitializeComponent();
-        InitializeMenuFields(homeView,logsView, factoryContainer, menuWindowService);
+        InitializeMenuFields(homeView,logsView, factoryContainer, menuWindowService, controlsView);
         InitializeAnimation();
     }
 
     private void InitializeMenuFields(HomeView homeView, LogsView logsView, IFactoryContainer factoryContainer,
-        IMenuWindowService menuWindowService)
+        IMenuWindowService menuWindowService, ControlsView controlsView)
     {
         this.homeView = homeView;
         _menuWindowService = menuWindowService;
         contentControl.Content = homeView;
         this.logsView = logsView;
+        this.controlsView = controlsView;
         _menuWindowService.InitializeViewsUtils(this);
     }
 
@@ -54,5 +58,10 @@ public partial class MenuWindow : Window
     private void AccessLogs_Click(object sender, RoutedEventArgs e)
     {
         _menuWindowService.CheckSenderOfTheButtonAndChangeView(sender, logsView, homeView, "Logs");
+    }
+
+    private void Controls_Click(object sender, RoutedEventArgs e)
+    {
+        ViewsUtils.ChangeWindow("Controls", controlsView);
     }
 }

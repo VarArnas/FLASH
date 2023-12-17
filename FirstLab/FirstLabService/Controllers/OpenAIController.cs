@@ -13,7 +13,7 @@ namespace ChatGPT_App.Controllers
         public async Task<IActionResult> UseChatGPT(string query)
         {
             string outputResult = "";
-            var openai = new OpenAIAPI("YOUR_KEY");
+            var openai = new OpenAIAPI("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");
             ChatRequest chatRequest = new ChatRequest();
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.Content = query;

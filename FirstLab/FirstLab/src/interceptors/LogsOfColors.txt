@@ -1,12 +1,21 @@
 The TESTWITHFIVE flashcardSet had these colors selected: IndianRed, Pink, Yellow, RoyalBlue, Orange.
-The TESTWITHFIVE flashcardSet had these colors selected: IndianRed, Pink, Yellow, RoyalBlue, Orange.
-The dad dasd flashcardSet had these colors selected: IndianRed, RoyalBlue, Pink.
-The dwads wdasd flashcardSet had these colors selected: IndianRed, RoyalBlue, Pink.
-The dasd_dwdasd flashcardSet had these colors selected: IndianRed, RoyalBlue, Pink.
-The WDASDwdasdasda flashcardSet had these colors selected.
-The WDASDWDASDASDA flashcardSet had these colors selected.
-The HELLO_JUST CHECKING AAAAA flashcardSet had these colors selected.
-The mjgb flashcardSet had these colors selected.
-The TESTWITHFIVE flashcardSet had these colors selected: IndianRed, Pink, Yellow, RoyalBlue, Orange.
-The TESTWITHFIVE_worked flashcardSet had these colors selected: IndianRed, Pink, Yellow, RoyalBlue, Orange.
-The TestForCapacityOfSymbols flashcardSet had these colors selected: Pink.
+The World Capitals flashcardSet had these colors selected.
+The Historical Events Timeline flashcardSet had these colors selected: IndianRed, IndianRed, Pink, Yellow, Orange.
+The Basic Programming Concepts flashcardSet had these colors selected: IndianRed, Pink, Yellow, RoyalBlue, Orange.
+The Mathematical Formulas flashcardSet had these colors selected: IndianRed, Pink, Yellow, RoyalBlue, Orange.
+The Language Vocabulary flashcardSet had these colors selected: Yellow, IndianRed.
+The Famous Artworks and Artists flashcardSet had these colors selected: Pink.
+The Anatomy and Physiology flashcardSet had these colors selected: Yellow.
+The Astronomy and Space Exploration flashcardSet had these colors selected: Orange, Pink, IndianRed.
+The Environmental Science Terms flashcardSet had these colors selected: IndianRed.
+The Musical Instruments and Composers flashcardSet had these colors selected: IndianRed.
+The World Cuisine flashcardSet had these colors selected.
+The Famous Literary Works and Authors flashcardSet had these colors selected.
+The Checmical Elements and Compounds flashcardSet had these colors selected: Pink.
+The World Capitals flashcardSet had these colors selected: Yellow, Orange, RoyalBlue, Pink, IndianRed.
+The Historical Events Timeline flashcardSet had these colors selected: Pink, Orange, IndianRed, IndianRed, IndianRed.
+The Basic Programming Concepts flashcardSet had these colors selected: Yellow, Pink, IndianRed, Pink, Yellow.
+The Language Vocabulary flashcardSet had these colors selected: Orange, Orange, Orange, Orange, Orange.
+The Famous Artworks and Artists flashcardSet had these colors selected: Pink, Yellow, Orange, IndianRed, Pink.
+The World Capitals flashcardSet had these colors selected: Yellow, Orange, RoyalBlue, Pink, IndianRed.
+The Language Vocabulary flashcardSet had these colors selected: Orange, Orange, Orange, Orange, Orange.

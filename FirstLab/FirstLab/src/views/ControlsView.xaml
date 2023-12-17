@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="FirstLab.src.controllers.ControlsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="636"
+             Background="Transparent">
+    <Border Background="#FF412A63" CornerRadius="0, 0, 20, 0">
+        <Grid>
+
+
+            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left"
+                               Margin="24,29,0,0" TextWrapping="Wrap"
+                               Text="Customization Controls"
+                               Foreground="White"
+                               FontFamily="Fonts/#Dosis"
+                               FontWeight="Bold"
+                                VerticalAlignment="Top"/>
+
+                    <Border Background="White" Width="500" Height="1" Margin="24,48,112,468"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,65,0,0" TextWrapping="Wrap" Text="Ctrl + > - Change the Flashcard to its Answer" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,85,0,0" TextWrapping="Wrap" Text="Ctrl + &lt; - Change the Flashcard to its Question" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,105,0,0" TextWrapping="Wrap" Text="Up (Arrow Key) - Go to the Flashcard Above the Present One" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,125,0,0" TextWrapping="Wrap" Text="Up (Arrow Key) - Go to the Flashcard Below the Present One" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,145,0,0" TextWrapping="Wrap" Text="Enter - Save the Flaschard Set" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,165,0,0" TextWrapping="Wrap" Text="Esc - Exit the Customization Window and Delete the Flaschard Set" VerticalAlignment="Top"/>
+
+
+                    <TextBlock HorizontalAlignment="Left"
+                               Margin="24,220,0,0" TextWrapping="Wrap"
+                               Text="Play Window (Vanilla) Controls"
+                               Foreground="White"
+                               FontFamily="Fonts/#Dosis"
+                               FontWeight="Bold"
+                                VerticalAlignment="Top"/>
+                    <Border Background="White" Width="500" Height="1" Margin="24,239,112,277"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,256,0,0" TextWrapping="Wrap" Text="A - Go Back to the Previous Flashcard" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,276,0,0" TextWrapping="Wrap" Text="D - Go to the Next Flashcard" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,296,0,0" TextWrapping="Wrap" Text="Space - Display the Flashcard's Answer" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,316,0,0" TextWrapping="Wrap" Text="Esc - Exit the Play Window" VerticalAlignment="Top"/>
+
+
+                    <TextBlock HorizontalAlignment="Left"
+                               Margin="24,371,0,0" TextWrapping="Wrap"
+                               Text="Play Window (with GPT) Controls"
+                               Foreground="White"
+                               FontFamily="Fonts/#Dosis"
+                               FontWeight="Bold"
+                                VerticalAlignment="Top"/>
+                    <Border Background="White" Width="500" Height="1" Margin="24,390,112,126"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41, 407 ,0,0" TextWrapping="Wrap" Text="Q - to Start Typing the Answer" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41, 427 ,0,0" TextWrapping="Wrap" Text="Enter - to Check the Answer" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,447,0,0" TextWrapping="Wrap" Text="A - Go Back to the Previous Flashcard" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,467,0,0" TextWrapping="Wrap" Text="D - Go to the Next Flashcard" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,487,0,0" TextWrapping="Wrap" Text="Esc - Exit the Play Window" VerticalAlignment="Top"/>
+
+                    <Border Background="Transparent" Width="636" Height="30" Margin="41,487,0,0"/>
+
+
+
+
+                </Grid>
+            </ScrollViewer>
+
+        </Grid>
+    </Border>
+</UserControl>

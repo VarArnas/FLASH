@@ -15,8 +15,14 @@
     <Compile Update="src\controllers\LogsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="src\controllers\ControlsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="src\views\ControlsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="src\views\FlashcardCustomization.xaml">
       <SubType>Designer</SubType>
     </Page>
