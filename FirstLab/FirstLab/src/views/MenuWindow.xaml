@@ -122,10 +122,10 @@
                 <StackPanel Height="240" />
                 <StackPanel VerticalAlignment="Bottom">
                     <Button Content="Controls" Click="Controls_Click" 
-                 Foreground="white" Cursor="Hand"
-                 FontWeight="Light"
-                 FontFamily="Fonts/#Dosis"
-                 Height="40" FontSize="15">
+                             Foreground="white" Cursor="Hand"
+                             FontWeight="Light"
+                             FontFamily="Fonts/#Dosis"
+                             Height="40" FontSize="15">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border Name="Border" Background="#FF5E4682" BorderThickness="1">
@@ -135,7 +135,7 @@
                                     <Border.CornerRadius>
                                         <CornerRadius TopLeft="0" TopRight="0" BottomRight="0" BottomLeft="0" />
                                     </Border.CornerRadius>
-                                    <Grid Margin="0, 0, 85, 0">
+                                    <Grid Margin="0, 0, 70, 0">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Border>

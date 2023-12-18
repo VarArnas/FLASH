@@ -20,44 +20,48 @@
                                FontWeight="Bold"
                                 VerticalAlignment="Top"/>
 
-                    <Border Background="White" Width="500" Height="1" Margin="24,48,112,468"/>
+                    <Border Background="White" Width="500" Height="1" Margin="24,48,112,548"/>
                     <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,65,0,0" TextWrapping="Wrap" Text="Ctrl + > - Change the Flashcard to its Answer" VerticalAlignment="Top"/>
                     <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,85,0,0" TextWrapping="Wrap" Text="Ctrl + &lt; - Change the Flashcard to its Question" VerticalAlignment="Top"/>
                     <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,105,0,0" TextWrapping="Wrap" Text="Up (Arrow Key) - Go to the Flashcard Above the Present One" VerticalAlignment="Top"/>
                     <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,125,0,0" TextWrapping="Wrap" Text="Down (Arrow Key) - Go to the Flashcard Below the Present One" VerticalAlignment="Top"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,145,0,0" TextWrapping="Wrap" Text="Enter - Save the Flaschard Set" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,145,0,0" TextWrapping="Wrap" Text="Ctrl + Enter - Save the Flaschard Set" VerticalAlignment="Top"/>
                     <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,165,0,0" TextWrapping="Wrap" Text="Esc - Exit the Customization Window and Delete the Flaschard Set" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,185,0,0" TextWrapping="Wrap" Text="Ctrl + X - Focus the Name of the Flashcard Set" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,205,0,0" TextWrapping="Wrap" Text="Ctrl + F - Focus the Question/Answer of the Selected Flashcard" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,225,0,0" TextWrapping="Wrap" Text="Ctrl + D - Add a Flashcard" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,245,0,0" TextWrapping="Wrap" Text="Ctrl + S - Remove a Flashcard" VerticalAlignment="Top"/>
 
 
                     <TextBlock HorizontalAlignment="Left"
-                               Margin="24,220,0,0" TextWrapping="Wrap"
+                               Margin="24,300,0,0" TextWrapping="Wrap"
                                Text="Play Window (Vanilla) Controls"
                                Foreground="White"
                                FontFamily="Fonts/#Dosis"
                                FontWeight="Bold"
                                 VerticalAlignment="Top"/>
-                    <Border Background="White" Width="500" Height="1" Margin="24,239,112,277"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,256,0,0" TextWrapping="Wrap" Text="A - Go Back to the Previous Flashcard" VerticalAlignment="Top"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,276,0,0" TextWrapping="Wrap" Text="D - Go to the Next Flashcard" VerticalAlignment="Top"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,296,0,0" TextWrapping="Wrap" Text="Space - Display the Flashcard's Answer" VerticalAlignment="Top"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,316,0,0" TextWrapping="Wrap" Text="Esc - Exit the Play Window" VerticalAlignment="Top"/>
+                    <Border Background="White" Width="500" Height="1" Margin="24,319,112,277"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,336,0,0" TextWrapping="Wrap" Text="A - Go Back to the Previous Flashcard" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,356,0,0" TextWrapping="Wrap" Text="D - Go to the Next Flashcard" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,376,0,0" TextWrapping="Wrap" Text="Space - Display the Flashcard's Answer" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,396,0,0" TextWrapping="Wrap" Text="Esc - Exit the Play Window" VerticalAlignment="Top"/>
 
 
                     <TextBlock HorizontalAlignment="Left"
-                               Margin="24,371,0,0" TextWrapping="Wrap"
+                               Margin="24,451,0,0" TextWrapping="Wrap"
                                Text="Play Window (with GPT) Controls"
                                Foreground="White"
                                FontFamily="Fonts/#Dosis"
                                FontWeight="Bold"
                                 VerticalAlignment="Top"/>
-                    <Border Background="White" Width="500" Height="1" Margin="24,390,112,126"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41, 407 ,0,0" TextWrapping="Wrap" Text="Q - to Start Typing the Answer" VerticalAlignment="Top"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41, 427 ,0,0" TextWrapping="Wrap" Text="Enter - to Check the Answer" VerticalAlignment="Top"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,447,0,0" TextWrapping="Wrap" Text="A - Go Back to the Previous Flashcard" VerticalAlignment="Top"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,467,0,0" TextWrapping="Wrap" Text="D - Go to the Next Flashcard" VerticalAlignment="Top"/>
-                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,487,0,0" TextWrapping="Wrap" Text="Esc - Exit the Play Window" VerticalAlignment="Top"/>
+                    <Border Background="White" Width="500" Height="1" Margin="24,470,112,126"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41, 487 ,0,0" TextWrapping="Wrap" Text="Q - to Start Typing the Answer" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41, 507 ,0,0" TextWrapping="Wrap" Text="Enter - to Check the Answer" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,527,0,0" TextWrapping="Wrap" Text="A - Go Back to the Previous Flashcard" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,547,0,0" TextWrapping="Wrap" Text="D - Go to the Next Flashcard" VerticalAlignment="Top"/>
+                    <TextBlock FontWeight="Medium" FontFamily="Fonts/#Dosis" HorizontalAlignment="Left" Foreground="White" Margin="41,567,0,0" TextWrapping="Wrap" Text="Esc - Exit the Play Window" VerticalAlignment="Top"/>
 
-                    <Border Background="Transparent" Width="636" Height="30" Margin="41,487,0,0"/>
+                    <Border Background="Transparent" Width="636" Height="30" Margin="41,567,0,0"/>
 
 
 

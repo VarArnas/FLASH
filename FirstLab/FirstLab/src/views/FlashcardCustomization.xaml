@@ -229,8 +229,8 @@
                              FontFamily="Fonts/#Dosis" FontSize="12" FontWeight="Medium"
                              IsEnabled="True" TextWrapping="Wrap" Height="280" Width="370"
                              AcceptsReturn="true" Foreground="#FF232323"
-                             TextAlignment="Center" IsHitTestVisible="True"
-                             Text="{Binding SelectedItem.FlashcardQuestion, ElementName=ListBoxFlashcards}"/>
+                             TextAlignment="Center" IsHitTestVisible="True" 
+                             Text="{Binding SelectedItem.FlashcardQuestion, ElementName=ListBoxFlashcards, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <!-- Bind the selected items (which is a flashcard) question property to the textBox to 
                     display it-->
                 </Border>
@@ -247,7 +247,7 @@
                              IsEnabled="True" IsHitTestVisible="True"
                              TextWrapping="Wrap" Height="280" Width="370" TextAlignment="Center"
                              AcceptsReturn="true" Foreground="#FF232323"
-                             Text="{Binding SelectedItem.FlashcardAnswer, ElementName=ListBoxFlashcards}"/>
+                             Text="{Binding SelectedItem.FlashcardAnswer, ElementName=ListBoxFlashcards, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <!-- Bind the selected items (which is a flashcard) answer property to the textBox to 
                          display it-->
                 </Border>
@@ -255,12 +255,12 @@
 
 
             <RadioButton Cursor="Hand" GroupName="Question/Answer" Name="QuestionRadioButton" Height="20" Margin="8,133,2,207"
-                         Grid.Row="0" Grid.Column="2" Content="Question"
+                         Grid.Row="0" Grid.Column="2" Content="Question" 
                          Click="QuestionAnswerRadioButton_Click" IsChecked="True" FontFamily="Fonts/#Dosis"
                          FontWeight="DemiBold" FontSize="14"/>
             <RadioButton Cursor="Hand" GroupName="Question/Answer" Name="AnswerRadioButton" Height="20" Margin="8,211,2,129" Grid.Row="0"
                          Grid.Column="2" Content="Answer" Click="QuestionAnswerRadioButton_Click" FontFamily="Fonts/#Dosis"
-                         FontWeight="DemiBold" FontSize="14"/>
+                         FontWeight="DemiBold" FontSize="14" />
 
             <Button Cursor="Hand" Grid.Row="0" Grid.Column="2" Background="Transparent" Margin="-1, 0, 50, 310" Click="Import_Click">
                 <Button.Template>

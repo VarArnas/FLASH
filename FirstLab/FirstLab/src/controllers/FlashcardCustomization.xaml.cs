@@ -71,7 +71,7 @@ public partial class FlashcardCustomization : UserControl
        IsQestionOrAnswer(true, false);
     }
 
-    private void DeleteFlashcard_Click(object sender, RoutedEventArgs e)    
+    private void DeleteFlashcard_Click(object? sender = null, RoutedEventArgs? e = null)    
     {
         int oldIndex = _flashcardCustomizationService.DeleteFlashcard(ListBoxFlashcards.SelectedIndex, flashcardSet);
         ListBoxFlashcards.Items.Refresh();
@@ -136,6 +136,22 @@ public partial class FlashcardCustomization : UserControl
                 case Key.Enter:
                     SaveFlashcardSet_Click();
                     break;
+                case Key.S:
+                    DeleteFlashcard_Click();
+                    break;
+                case Key.X:
+                    FlashcardSetNameBox.Focus();
+                    break;
+                case Key.F:
+                    if (QuestionRadioButton.IsChecked == true)
+                        QuestionTextBox.Focus();
+                    else
+                        AnswerTextBox.Focus();
+                    break;
+                case Key.D:
+                    AddFlashcard_Click();
+                    break;
+
             }
         }
         else
@@ -151,6 +167,7 @@ public partial class FlashcardCustomization : UserControl
                 case Key.Escape:
                     ViewsUtils.ChangeWindow("Flashcards", flashcardOptionsReference);
                     break;
+
             }
         }
     }

@@ -28,3 +28,5 @@ The Historical Events Timeline flashcardSet had these colors selected: Pink, Ora
 The Historical Events Timeline flashcardSet had these colors selected: Pink, RoyalBlue, IndianRed, IndianRed, Pink.
 The World Capitals flashcardSet had these colors selected: Yellow, Orange, IndianRed, Pink, IndianRed.
 The World Capitals flashcardSet had these colors selected: Yellow, Orange, IndianRed, Pink, IndianRed.
+The adsdasd flashcardSet had these colors selected.
+The testNow way it works flashcardSet had these colors selected: Pink, IndianRed.
