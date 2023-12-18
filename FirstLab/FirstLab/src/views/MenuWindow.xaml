@@ -63,7 +63,7 @@
             </Border>
 
             <StackPanel Grid.Row="1">
-                <Button  Name="HomeButton" Content="Home"
+                <Button  Name="HomeButton"
                          Foreground="white" Cursor="Hand"
                          FontWeight="Light"
                          FontFamily="Fonts/#Dosis"
@@ -90,9 +90,13 @@
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="images/homeLogo2.jpg" Width="17" Height="17" Margin="5,0,5,0"/>
+                        <TextBlock Padding="10" Text="Home" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </Button>
-                <Button  Content="Logs"
-                         Foreground="white"
+                
+                <Button                          Foreground="white"
                          FontWeight="Light" Cursor="Hand"
                          FontFamily="Fonts/#Dosis"
                          Height="40" FontSize="15"
@@ -118,10 +122,14 @@
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="images/logsLogo.png" Width="20" Height="20" Margin="3.5,0,5,0"/>
+                        <TextBlock Padding="10" Text="Logs" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </Button>
                 <StackPanel Height="240" />
                 <StackPanel VerticalAlignment="Bottom">
-                    <Button Content="Controls" Click="Controls_Click" 
+                    <Button Click="Controls_Click" 
                              Foreground="white" Cursor="Hand"
                              FontWeight="Light"
                              FontFamily="Fonts/#Dosis"
@@ -146,8 +154,12 @@
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/controlLogo2.png" Width="19" Height="19" Margin="5,0,5,0"/>
+                            <TextBlock Padding="10" Text="Controls" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
-                    <Button Content="Exit" 
+                    <Button 
                  Foreground="white"
                  FontWeight="Light"
                  FontFamily="Fonts/#Dosis"
@@ -173,6 +185,10 @@
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/exitLogoWhite.png" Width="18" Height="18" Margin="5,0,5,0"/>
+                            <TextBlock Padding="10" Text="Exit" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
                 </StackPanel>
             </StackPanel>

@@ -18,16 +18,23 @@
     <None Remove="src\views\Images\BoldLogo.png" />
     <None Remove="src\views\Images\ChatGPTLogo.png" />
     <None Remove="src\views\Images\colorLogo.png" />
+    <None Remove="src\views\Images\controlLogo2.png" />
+    <None Remove="src\views\Images\controlsLogo.png" />
+    <None Remove="src\views\Images\controlsLogo22.png" />
     <None Remove="src\views\Images\DecreaseLogo.png" />
     <None Remove="src\views\Images\deleteBtn2.png" />
     <None Remove="src\views\Images\deleteSet_Button.png" />
     <None Remove="src\views\Images\editBtn5.png" />
     <None Remove="src\views\Images\exitLogo.png" />
+    <None Remove="src\views\Images\exitLogoWhite.png" />
     <None Remove="src\views\Images\exitPlayWindowLogo.png" />
     <None Remove="src\views\Images\exportLogo.png" />
+    <None Remove="src\views\Images\homeLogo.png" />
+    <None Remove="src\views\Images\homeLogo2.jpg" />
     <None Remove="src\views\Images\importLogo.png" />
     <None Remove="src\views\Images\IncreaseLogo.png" />
     <None Remove="src\views\Images\ItalicLogo.png" />
+    <None Remove="src\views\Images\logsLogo.png" />
     <None Remove="src\views\Images\nextLogo.png" />
     <None Remove="src\views\Images\playBtn6.png" />
     <None Remove="src\views\Images\PlayButtonLogo.png" />
@@ -47,6 +54,15 @@
     <Content Include="src\views\Images\colorLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="src\views\Images\controlLogo2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\views\Images\controlsLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\views\Images\controlsLogo22.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="src\views\Images\DecreaseLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -62,10 +78,19 @@
     <Content Include="src\views\Images\exitLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="src\views\Images\exitLogoWhite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="src\views\Images\exitPlayWindowLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\views\Images\exportLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\views\Images\homeLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\views\Images\homeLogo2.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\views\Images\importLogo.png">
@@ -75,6 +100,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\views\Images\ItalicLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\views\Images\logsLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\views\Images\nextLogo.png">
