@@ -30,3 +30,19 @@ The World Capitals flashcardSet had these colors selected: Yellow, Orange, India
 The World Capitals flashcardSet had these colors selected: Yellow, Orange, IndianRed, Pink, IndianRed.
 The adsdasd flashcardSet had these colors selected.
 The testNow way it works flashcardSet had these colors selected: Pink, IndianRed.
+The  flashcardSet had these colors selected: IndianRed, Pink, Yellow, RoyalBlue, Orange.
+The WORLD CAPITALS TEST 2 flashcardSet had these colors selected: IndianRed, Pink, Yellow, RoyalBlue, Orange.
+The Historical Events Timeline flashcardSet had these colors selected.
+The Historical Events Timeline flashcardSet had these colors selected.
+The Famous artworks flashcardSet had these colors selected.
+The Grammar flashcardSet had these colors selected.
+The Programming concepts flashcardSet had these colors selected.
+The PC Parts flashcardSet had these colors selected.
+The Chemistry elements flashcardSet had these colors selected.
+The Musical Composers flashcardSet had these colors selected.
+The Famous artworks flashcardSet had these colors selected: IndianRed.
+The Grammar flashcardSet had these colors selected: Pink.
+The Programming concepts flashcardSet had these colors selected: Pink.
+The PC Parts flashcardSet had these colors selected: Orange.
+The Chemistry elements flashcardSet had these colors selected: RoyalBlue.
+The Musical Composers flashcardSet had these colors selected: Yellow.

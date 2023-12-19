@@ -353,7 +353,7 @@
                      Padding="10,5,0,0"
                      FontFamily="Fonts/#Dosis" TextWrapping="Wrap"
                      GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" FontSize="13"
-                     Text="{Binding FlashcardSetName, Mode=TwoWay}">
+                     Text="{Binding FlashcardSetName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="Template">
